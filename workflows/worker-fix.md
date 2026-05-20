@@ -8,8 +8,8 @@ on:
       APP_PRIVATE_KEY:
         description: "Private key for the ch-oracles bot GitHub App; mints installation tokens for safe-output writes."
         required: true
-      ANTHROPIC_API_KEY:
-        description: "API key for engine: claude inference calls."
+      COPILOT_GITHUB_TOKEN:
+        description: "Fine-grained PAT with Copilot Requests: Read; backs engine: copilot inference calls."
         required: true
   roles: all
 
@@ -18,7 +18,7 @@ permissions:
   issues: read
   pull-requests: read
 
-engine: claude
+engine: copilot
 inlined-imports: true
 strict: false
 

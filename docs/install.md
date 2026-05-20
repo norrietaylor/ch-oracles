@@ -51,16 +51,18 @@ The consumer repo needs:
 
 | Secret | Used by | How to provision |
 |---|---|---|
-| `APP_PRIVATE_KEY` | All chores (safe-output writes) | GitHub App private key (PEM) |
-| `COPILOT_GITHUB_TOKEN` | Audit + lint + dep-bump chores | Fine-grained PAT with `Copilot Requests: Read` |
-| `ANTHROPIC_API_KEY` | Workers only (`--with-workers`) | Anthropic API key |
+| `APP_PRIVATE_KEY` | All workflows (safe-output writes) | GitHub App private key (PEM) |
+| `COPILOT_GITHUB_TOKEN` | All workflows (chores + workers) | Fine-grained PAT with `Copilot Requests: Read` |
+
+Every workflow in the suite runs on `engine: copilot`; a single inference
+secret backs the entire suite. See
+[ADR 0008](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0008-single-engine-copilot.md).
 
 Set via repository or organization secrets:
 
 ```bash
 gh secret set APP_PRIVATE_KEY --body @path/to/private-key.pem
 gh secret set COPILOT_GITHUB_TOKEN --body "$(read -s tok && echo "$tok")"
-gh secret set ANTHROPIC_API_KEY --body "$(read -s key && echo "$key")"
 ```
 
 ## Required variables

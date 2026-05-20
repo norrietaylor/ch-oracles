@@ -31,12 +31,14 @@ flowchart LR
 | `worker-fix` | Draft PR fixing one `agent:*` issue | Daily + reactive |
 | `worker-iterate` | Push follow-up commits to worker PRs on review feedback | Reactive |
 
-## Engines
+## Engine
 
-- Chores (audit, lint, dep-bump) run on **Copilot**.
-- Workers run on **Claude**.
+The whole suite — chores and workers — runs on `engine: copilot`. A single
+inference secret (`COPILOT_GITHUB_TOKEN`) backs every workflow.
 
-See [ADR 0006](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0006-engine-split.md) for the rationale.
+See [ADR 0008](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0008-single-engine-copilot.md)
+for the rationale (and [ADR 0006](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0006-engine-split.md)
+for the prior two-engine arrangement it supersedes).
 
 ## Get started
 

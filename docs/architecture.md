@@ -137,7 +137,7 @@ with consumer `AGENTS.md` overrides taking precedence.
 sequenceDiagram
     participant trigger as push/cron/PR sync
     participant detect as detect job
-    participant agent as agent job (Claude)
+    participant agent as agent job (Copilot)
     participant gh as GitHub API
 
     trigger->>detect: invoke

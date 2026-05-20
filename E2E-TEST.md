@@ -14,7 +14,7 @@ You are testing 14 workflows in 4 groups:
 - **Lint** (engine: copilot, `mode: report|autofix`): `chore-style-rust`, `chore-style-python`, `chore-style-go`, `chore-style-toml`, `chore-style-ncl`
 - **Audit** (engine: copilot): `docs-patrol`, `test-coverage-detector`, `dependency-review`
 - **Auto-fix** (engine: copilot): `trivial-dep-bump-rust`, `trivial-dep-bump-python`, `trivial-dep-bump-go`
-- **Workers** (engine: claude): `worker-fix`, `worker-iterate`, `pr-conflict-resolver`
+- **Workers** (engine: copilot): `worker-fix`, `worker-iterate`, `pr-conflict-resolver`
 
 Throughout the run, track every workflow run URL, issue number, and PR number you create — the final reporting step requires them.
 
@@ -90,8 +90,7 @@ The suite reads these secrets from the consumer repo:
 | Name | Purpose |
 | --- | --- |
 | `APP_PRIVATE_KEY` | PEM private key for the GitHub App in P4 |
-| `COPILOT_GITHUB_TOKEN` | PAT or App-issued token with Copilot API scope (chores) |
-| `ANTHROPIC_API_KEY` | API key for `worker-*` workflows |
+| `COPILOT_GITHUB_TOKEN` | PAT or App-issued token with Copilot API scope (every workflow in the suite) |
 
 Check which are already set:
 
@@ -105,7 +104,6 @@ Set any that are missing. If the operator has not provided values, stop and emit
 # Examples — supply real values:
 gh secret set APP_PRIVATE_KEY     -R "$REPO" < /path/to/app-key.pem
 gh secret set COPILOT_GITHUB_TOKEN -R "$REPO" --body "<token>"
-gh secret set ANTHROPIC_API_KEY    -R "$REPO" --body "<key>"
 ```
 
 ### P6. Required vars
@@ -843,9 +841,9 @@ Fix: in the GitHub UI, navigate to the App's installation settings (`https://git
 gh api "repos/$REPO/installation" --jq '.app_slug'   # must return a slug
 ```
 
-### F3. Chore times out or 0-tokens from Copilot/Claude
+### F3. Chore times out or 0-tokens from Copilot
 
-Symptom: run conclusion `failure`, logs contain `429 rate limit`, `quota exceeded`, `0 tokens remaining`, or no Copilot/Anthropic response after timeout.
+Symptom: run conclusion `failure`, logs contain `429 rate limit`, `quota exceeded`, `0 tokens remaining`, or no Copilot response after timeout.
 
 Triage:
 - Re-run once: `gh run rerun <RUN_ID> --repo "$REPO"`. Transient API blips are common.
