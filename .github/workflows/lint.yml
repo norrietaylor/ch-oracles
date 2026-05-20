@@ -80,3 +80,15 @@ jobs:
         run: pip install pyyaml
       - name: Audit safe-output allowlists against prose
         run: python scripts/test-safe-output-allowlists.py
+
+  chore-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PyYAML
+        run: pip install pyyaml
+      - name: Verify chore artifact consistency
+        run: python scripts/test-chore-consistency.py
