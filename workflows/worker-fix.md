@@ -28,7 +28,7 @@ strict: false
 # `vars.CH_ORACLES_LANGUAGE` (the worker reads it and restricts bash command
 # invocation accordingly). See ADR 0005.
 network:
-  allowed: [defaults, rust, python, go, nickel]
+  allowed: [defaults, rust, python, go]
 
 env:
   WORKER_PR_PREFIX: '[worker:'

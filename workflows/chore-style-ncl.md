@@ -22,7 +22,7 @@ inlined-imports: true
 strict: false
 
 network:
-  allowed: [defaults, nickel]
+  allowed: [defaults]
 
 imports:
   - norrietaylor/ch-oracles/shared/principles.md@main

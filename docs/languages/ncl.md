@@ -27,13 +27,10 @@ nickel typecheck **/*.ncl
 
 ## Network egress
 
-`network.allowed: [defaults, nickel]` unions in `nickel-lang.org` and the
-release host on `github.com/tweag/nickel`.
-
-If your Nickel files use `import` directives to fetch external contracts,
-the host serving those contracts must be added to the consumer's network
-allowlist via repository configuration (open an issue if you need this
-codified into the lock file).
+`network.allowed: [defaults]` is sufficient for fetching the Nickel binary
+release from GitHub. If your Nickel files use `import` directives to fetch
+external contracts (e.g., from `nickel-lang.org`), add the host as an
+explicit domain entry in the consumer-side configuration.
 
 ## Limitations
 

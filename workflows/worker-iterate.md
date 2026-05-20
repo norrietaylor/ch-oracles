@@ -23,7 +23,7 @@ inlined-imports: true
 strict: false
 
 network:
-  allowed: [defaults, rust, python, go, nickel]
+  allowed: [defaults, rust, python, go]
 
 env:
   WORKER_PR_PREFIX: '[worker:'

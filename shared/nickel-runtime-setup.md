@@ -19,11 +19,19 @@ This workflow's lock file MUST declare:
 
 ```yaml
 network:
-  allowed: [defaults, nickel]
+  allowed: [defaults]
 ```
 
-The `nickel` ecosystem id covers `nickel-lang.org` and the release host on
-`github.com/tweag/nickel`.
+`defaults` covers the GitHub release host on `github.com/tweag/nickel`,
+which is sufficient to install the binary. The Nickel language does not
+have a dedicated gh-aw ecosystem identifier. If your Nickel files import
+contracts from `nickel-lang.org` or another host, add the host as an
+explicit domain entry:
+
+```yaml
+network:
+  allowed: [defaults, "nickel-lang.org"]
+```
 
 ### Tool checks
 
