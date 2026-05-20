@@ -1,0 +1,119 @@
+name: install-smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/quick-setup.sh'
+      - 'scripts/quick-setup.sh.sha256'
+      - 'scripts/lib/**'
+      - 'wrappers/**'
+      - 'templates/**'
+      - 'shared/safe-output-create-issue.md'
+      - '.github/workflows/install-smoke.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/quick-setup.sh'
+      - 'scripts/quick-setup.sh.sha256'
+      - 'scripts/lib/**'
+      - 'wrappers/**'
+      - 'templates/**'
+      - 'shared/safe-output-create-issue.md'
+      - '.github/workflows/install-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quick-setup-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Assert quick-setup.sh checksum matches recorded SHA256
+        run: |
+          set -euo pipefail
+          actual="$(sha256sum scripts/quick-setup.sh | awk '{print $1}')"
+          recorded="$(awk '{print $1}' scripts/quick-setup.sh.sha256)"
+          if [ "${actual}" != "${recorded}" ]; then
+            echo "::error file=scripts/quick-setup.sh.sha256::Recorded SHA256 (${recorded}) does not match actual SHA256 (${actual}). Run 'sha256sum scripts/quick-setup.sh > scripts/quick-setup.sh.sha256' and commit." >&2
+            exit 1
+          fi
+          echo "checksum ok: ${actual}"
+
+      - name: Run installer against a fixture consumer repo
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/consumer"
+          bash scripts/quick-setup.sh \
+            --dry-run \
+            --suite oracles \
+            --languages rust,python,go,toml,ncl \
+            --with-workers \
+            --target "${RUNNER_TEMP}/consumer"
+
+      - name: Assert every wrapper was copied into the fixture
+        run: |
+          set -euo pipefail
+          missing=0
+          for src in wrappers/*.yml; do
+            name="$(basename "${src}")"
+            dst="${RUNNER_TEMP}/consumer/.github/workflows/${name}"
+            if [ ! -f "${dst}" ]; then
+              echo "::error file=${src}::wrapper not copied into fixture: ${dst}" >&2
+              missing=1
+            fi
+          done
+          if [ "${missing}" -ne 0 ]; then
+            exit 1
+          fi
+          src_count="$(find wrappers -maxdepth 1 -name '*.yml' -type f | wc -l)"
+          dst_count="$(find "${RUNNER_TEMP}/consumer/.github/workflows" -maxdepth 1 -name '*.yml' -type f | wc -l)"
+          echo "wrappers: ${src_count} in source, ${dst_count} in fixture"
+          if [ "${src_count}" -ne "${dst_count}" ]; then
+            echo "::error::wrapper count mismatch: source=${src_count} fixture=${dst_count}" >&2
+            exit 1
+          fi
+
+      - name: Assert labels.yml exists in fixture and parses as YAML
+        run: |
+          set -euo pipefail
+          dst="${RUNNER_TEMP}/consumer/.github/labels.yml"
+          test -f "${dst}" || { echo "::error::missing ${dst}" >&2; exit 1; }
+          python -c "import sys, yaml; data = yaml.safe_load(open('${dst}')); assert isinstance(data, list) and len(data) > 0, 'labels.yml must be a non-empty list'; print(f'labels.yml: {len(data)} entries')"
+
+      - name: Assert AGENTS.md exists in fixture and tokens were substituted
+        run: |
+          set -euo pipefail
+          dst="${RUNNER_TEMP}/consumer/.github/AGENTS.md"
+          test -f "${dst}" || { echo "::error::missing ${dst}" >&2; exit 1; }
+          for token in '{{REPO_NAME}}' '{{LANGUAGE}}' '{{SOURCE_REF}}'; do
+            if grep -qF "${token}" "${dst}"; then
+              echo "::error file=${dst}::un-substituted token remains: ${token}" >&2
+              exit 1
+            fi
+          done
+          echo "AGENTS.md tokens substituted cleanly"
+
+      - name: Assert issue templates + copilot-instructions copied
+        run: |
+          set -euo pipefail
+          for rel in \
+            .github/copilot-instructions.md \
+            .github/ISSUE_TEMPLATE/bug.md \
+            .github/ISSUE_TEMPLATE/feature.md \
+            .github/ISSUE_TEMPLATE/chore.md
+          do
+            dst="${RUNNER_TEMP}/consumer/${rel}"
+            test -f "${dst}" || { echo "::error::missing ${dst}" >&2; exit 1; }
+          done
+          echo "all auxiliary templates present"
