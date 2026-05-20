@@ -1,0 +1,56 @@
+name: gh-aw-validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - 'workflows/**'
+      - 'shared/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gh + gh-aw
+        run: |
+          gh extension install githubnext/gh-aw
+
+      - name: Compile every workflow
+        run: |
+          set -e
+          for src in workflows/*.md; do
+            name="$(basename "${src}" .md)"
+            echo "::group::compile ${name}"
+            gh aw compile "${src}"
+            echo "::endgroup::"
+          done
+
+      - name: Assert lock files are current
+        run: |
+          if ! git diff --quiet -- .github/workflows; then
+            echo "::error::Compiled lock files are stale. Run 'gh aw compile workflows/*.md' locally and commit." >&2
+            git --no-pager diff -- .github/workflows
+            exit 1
+          fi
+          echo "All lock files are current."
+
+  wrapper-permission-cap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PyYAML
+        run: pip install pyyaml
+      - name: Audit wrapper permissions
+        run: python scripts/audit-wrapper-permissions.py wrappers/*.yml

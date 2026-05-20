@@ -1,0 +1,33 @@
+# wrappers/docs-patrol.yml — consumer-installable thin wrapper around the
+# hosted docs-patrol chore. Install to .github/workflows/docs-patrol.yml.
+
+name: docs-patrol
+
+on:
+  schedule:
+    - cron: '0 13 * * 1'  # Weekly Monday 13:00 UTC
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'lib/**'
+      - 'cmd/**'
+      - 'pkg/**'
+      - 'AGENTS.md'
+      - 'README.md'
+      - '*.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/docs-patrol.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

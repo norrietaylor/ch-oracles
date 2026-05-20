@@ -1,0 +1,26 @@
+# wrappers/trivial-dep-bump-go.yml — thin consumer wrapper.
+# Install to .github/workflows/trivial-dep-bump-go.yml.
+
+name: trivial-dep-bump-go
+
+on:
+  schedule:
+    - cron: '30 6 * * *'  # Daily 06:30 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  issues: read
+  pull-requests: write
+
+concurrency:
+  group: trivial-dep-bump-go-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/trivial-dep-bump-go.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

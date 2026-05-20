@@ -1,0 +1,79 @@
+# .github/labels.yml — managed by norrietaylor/ch-oracles.
+# Merged into the consumer repo by quick-setup.sh; new labels are added,
+# existing labels of the same name are left alone.
+
+# ch-oracles agent labels — chore output (issues filed by audit chores)
+- name: "agent:lint:rust"
+  color: "dea584"
+  description: "Filed by chore-style-rust (rustfmt/clippy finding)"
+
+- name: "agent:lint:python"
+  color: "3572A5"
+  description: "Filed by chore-style-python (ruff/mypy finding)"
+
+- name: "agent:lint:go"
+  color: "00ADD8"
+  description: "Filed by chore-style-go (gofmt/staticcheck finding)"
+
+- name: "agent:lint:toml"
+  color: "9c4221"
+  description: "Filed by chore-style-toml (taplo finding)"
+
+- name: "agent:lint:ncl"
+  color: "9ce4ff"
+  description: "Filed by chore-style-ncl (nickel format/typecheck finding)"
+
+- name: "agent:doc-drift"
+  color: "0075ca"
+  description: "Filed by docs-patrol (documentation drift)"
+
+- name: "agent:coverage"
+  color: "e4e669"
+  description: "Filed by test-coverage-detector (high-complexity untested function)"
+
+- name: "agent:dep-drift"
+  color: "d73a4a"
+  description: "Filed by dependency-review (advisory or major drift)"
+
+# ch-oracles PR-output labels
+- name: "agent:auto-merge"
+  color: "0e8a16"
+  description: "Informational; gh-aw runtime enables auto-merge declaratively"
+
+- name: "agent:autofix"
+  color: "5319e7"
+  description: "Auto-applied lint/format fixes from chore-style-* in autofix mode"
+
+- name: "agent:conflict"
+  color: "fbca04"
+  description: "Rebased by pr-conflict-resolver"
+
+# Hand-off labels (cross-suite; shared with spectacles when co-installed)
+- name: "needs-human"
+  color: "b60205"
+  description: "Chore-to-operator hand-off: chore will not re-process until label is removed"
+
+- name: "agent:worker-tuning"
+  color: "e99695"
+  description: "Worker exhausted iteration cap; meta-feedback for prompt tuning"
+
+# Standard triage labels (added only if not already present)
+- name: "bug"
+  color: "d73a4a"
+  description: "Something is not working"
+
+- name: "feature"
+  color: "a2eeef"
+  description: "New feature or enhancement request"
+
+- name: "chore"
+  color: "e4e669"
+  description: "Maintenance task or internal improvement"
+
+- name: "good first issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention is needed"

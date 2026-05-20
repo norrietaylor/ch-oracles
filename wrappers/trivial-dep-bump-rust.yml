@@ -1,0 +1,26 @@
+# wrappers/trivial-dep-bump-rust.yml — thin consumer wrapper.
+# Install to .github/workflows/trivial-dep-bump-rust.yml.
+
+name: trivial-dep-bump-rust
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  issues: read
+  pull-requests: write
+
+concurrency:
+  group: trivial-dep-bump-rust-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/trivial-dep-bump-rust.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

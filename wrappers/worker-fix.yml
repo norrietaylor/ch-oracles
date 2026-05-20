@@ -1,0 +1,33 @@
+# wrappers/worker-fix.yml — thin consumer wrapper for the chore-issue worker.
+# Install to .github/workflows/worker-fix.yml.
+
+name: worker-fix
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Daily backstop 12:00 UTC
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  issues: write
+  pull-requests: write
+
+# Serialize agent:* runs per repo. Non-agent label events get a throwaway
+# group so they do not cancel a pending agent:* run.
+concurrency:
+  group: ${{ (github.event_name == 'issues' && !startsWith(github.event.label.name, 'agent:')) && format('worker-fix-skip-{0}', github.run_id) || format('worker-fix-{0}', github.repository) }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    # Pre-activation guard: skip non-agent: label events without spinning up
+    # the agent. ~95% of label events are kind:*, priority:*, or operator tags.
+    if: github.event_name != 'issues' || startsWith(github.event.label.name, 'agent:')
+    uses: norrietaylor/ch-oracles/.github/workflows/worker-fix.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

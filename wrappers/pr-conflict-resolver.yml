@@ -1,0 +1,73 @@
+# wrappers/pr-conflict-resolver.yml — thin consumer wrapper.
+# Install to .github/workflows/pr-conflict-resolver.yml.
+
+name: pr-conflict-resolver
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [synchronize, opened, reopened]
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6h backstop
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: pr-conflict-resolver-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  # Cheap non-LLM detect job: scans for open worker PRs in conflict state.
+  # Only fires the expensive agent job when a conflicting PR exists.
+  detect:
+    if: >
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      has_work: ${{ steps.scan.outputs.has_work }}
+    steps:
+      - name: Scan for actionable conflicting worker PRs
+        id: scan
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const open = await github.paginate(github.rest.pulls.list, {
+              owner, repo, state: 'open', per_page: 100,
+            });
+            // Worker PRs only: ch-oracles bot author + `[worker:` title prefix.
+            const workers = open.filter(p =>
+              p.user && p.user.login === 'ch-oracles-bot[bot]' &&
+              p.title.startsWith('[worker:')
+            );
+            let hasWork = false;
+            for (const pr of workers) {
+              // `needs-human` is a one-way off-switch.
+              if (pr.labels.some(l => l.name === 'needs-human')) continue;
+              // `pulls.list` may return mergeable: null; `pulls.get` forces the
+              // computed value.
+              const { data: full } = await github.rest.pulls.get({
+                owner, repo, pull_number: pr.number,
+              });
+              if (full.mergeable === false) { hasWork = true; break; }
+            }
+            core.info(`actionable conflicting worker PRs: ${hasWork}`);
+            core.setOutput('has_work', hasWork ? 'true' : 'false');
+
+  run:
+    needs: detect
+    if: needs.detect.outputs.has_work == 'true'
+    uses: norrietaylor/ch-oracles/.github/workflows/pr-conflict-resolver.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

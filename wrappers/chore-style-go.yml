@@ -1,0 +1,35 @@
+# wrappers/chore-style-go.yml — thin consumer wrapper.
+# Install to .github/workflows/chore-style-go.yml.
+
+name: chore-style-go
+
+on:
+  schedule:
+    - cron: '30 5 * * 1'  # Weekly Monday 05:30 UTC
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'report | autofix'
+        required: false
+        default: 'report'
+        type: choice
+        options: [report, autofix]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: chore-style-go-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/chore-style-go.lock.yml@{{SOURCE_REF}}
+    with:
+      mode: ${{ inputs.mode || 'report' }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

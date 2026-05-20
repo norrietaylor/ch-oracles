@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 512" width="1024" height="512">
+  <title>ch-oracles</title>
+  <desc>ch-oracles logo mark — light theme.</desc>
+  <rect width="1024" height="512" fill="#ffffff"/>
+  <g transform="translate(512 256)"><g transform="scale(4.5)">
+        <circle cx="0" cy="0" r="30" fill="none" stroke="#1a1a1a" stroke-width="8"/>
+        <circle cx="0" cy="0" r="6" fill="#6b21a8"/>
+    </g></g>
+</svg>

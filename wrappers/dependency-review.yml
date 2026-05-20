@@ -1,0 +1,22 @@
+# wrappers/dependency-review.yml — thin consumer wrapper.
+# Install to .github/workflows/dependency-review.yml.
+
+name: dependency-review
+
+on:
+  schedule:
+    - cron: '0 14 * * 2,5'  # Twice-weekly Tue/Fri 14:00 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/dependency-review.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

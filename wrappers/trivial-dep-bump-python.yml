@@ -1,0 +1,26 @@
+# wrappers/trivial-dep-bump-python.yml — thin consumer wrapper.
+# Install to .github/workflows/trivial-dep-bump-python.yml.
+
+name: trivial-dep-bump-python
+
+on:
+  schedule:
+    - cron: '15 6 * * *'  # Daily 06:15 UTC (offset from rust to avoid simultaneous runs)
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  issues: read
+  pull-requests: write
+
+concurrency:
+  group: trivial-dep-bump-python-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/trivial-dep-bump-python.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

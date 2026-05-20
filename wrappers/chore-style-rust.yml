@@ -1,0 +1,35 @@
+# wrappers/chore-style-rust.yml — thin consumer wrapper for the Rust lint chore.
+# Install to .github/workflows/chore-style-rust.yml.
+
+name: chore-style-rust
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'  # Weekly Monday 05:00 UTC (report mode)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'report | autofix'
+        required: false
+        default: 'report'
+        type: choice
+        options: [report, autofix]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: chore-style-rust-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/chore-style-rust.lock.yml@{{SOURCE_REF}}
+    with:
+      mode: ${{ inputs.mode || 'report' }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

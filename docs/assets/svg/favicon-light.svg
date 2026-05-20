@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>ch-oracles favicon</title>
+  <desc>ch-oracles mark, favicon scale — light theme.</desc>
+  <g transform="translate(32 32)"><g transform="scale(0.9)">
+        <circle cx="0" cy="0" r="30" fill="none" stroke="#1a1a1a" stroke-width="8"/>
+        <circle cx="0" cy="0" r="6" fill="#6b21a8"/>
+    </g></g>
+</svg>

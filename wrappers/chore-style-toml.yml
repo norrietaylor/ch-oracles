@@ -1,0 +1,35 @@
+# wrappers/chore-style-toml.yml — thin consumer wrapper.
+# Install to .github/workflows/chore-style-toml.yml.
+
+name: chore-style-toml
+
+on:
+  schedule:
+    - cron: '45 5 * * 1'  # Weekly Monday 05:45 UTC
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'report | autofix'
+        required: false
+        default: 'report'
+        type: choice
+        options: [report, autofix]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: chore-style-toml-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/chore-style-toml.lock.yml@{{SOURCE_REF}}
+    with:
+      mode: ${{ inputs.mode || 'report' }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

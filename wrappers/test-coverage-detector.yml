@@ -1,0 +1,22 @@
+# wrappers/test-coverage-detector.yml — thin consumer wrapper.
+# Install to .github/workflows/test-coverage-detector.yml.
+
+name: test-coverage-detector
+
+on:
+  schedule:
+    - cron: '0 14 * * 2'  # Weekly Tuesday 14:00 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  run:
+    uses: norrietaylor/ch-oracles/.github/workflows/test-coverage-detector.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

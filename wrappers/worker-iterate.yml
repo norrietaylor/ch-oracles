@@ -1,0 +1,33 @@
+# wrappers/worker-iterate.yml — thin consumer wrapper for the worker iterator.
+# Install to .github/workflows/worker-iterate.yml.
+
+name: worker-iterate
+
+on:
+  pull_request_review:
+    types: [submitted]
+  pull_request_review_comment:
+    types: [created]
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: worker-iterate-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    # Activation gate: only worker-authored PRs.
+    if: >
+      github.event.pull_request != null &&
+      startsWith(github.event.pull_request.title, '[worker:') &&
+      github.event.sender.type != 'Bot'
+    uses: norrietaylor/ch-oracles/.github/workflows/worker-iterate.lock.yml@{{SOURCE_REF}}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

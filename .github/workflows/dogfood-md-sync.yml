@@ -1,0 +1,38 @@
+name: dogfood-md-sync
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'workflows/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify every workflows/*.md is mirrored in .github/workflows/
+        run: |
+          set -e
+          fail=0
+          for src in workflows/*.md; do
+            name="$(basename "${src}" .md)"
+            mirror=".github/workflows/${name}.md"
+            if [ ! -f "${mirror}" ]; then
+              echo "::error file=${mirror}::missing dogfood mirror for ${src}"
+              fail=1
+              continue
+            fi
+            if ! diff -q "${src}" "${mirror}" > /dev/null; then
+              echo "::error file=${mirror}::content drift vs ${src}"
+              diff "${src}" "${mirror}" || true
+              fail=1
+            fi
+          done
+          exit "${fail}"

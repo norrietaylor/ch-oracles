@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <title>ch-oracles wordmark lockup</title>
+  <desc>ch-oracles logo with wordmark and tagline — light theme.</desc>
+  <rect width="800" height="400" fill="#ffffff"/>
+  <g transform="translate(400 150)"><g transform="scale(1.6)">
+        <circle cx="0" cy="0" r="30" fill="none" stroke="#1a1a1a" stroke-width="8"/>
+        <circle cx="0" cy="0" r="6" fill="#6b21a8"/>
+    </g></g>
+  <text x="400" y="285" text-anchor="middle"
+        font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="56" font-weight="600" fill="#1a1a1a"
+        letter-spacing="-1.5">ch-oracles</text>
+  <text x="400" y="325" text-anchor="middle"
+        font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="14" font-weight="400" fill="#666666"
+        letter-spacing="0.5">chore agents · github actions</text>
+</svg>
