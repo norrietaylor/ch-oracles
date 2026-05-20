@@ -30,7 +30,8 @@ maintenance work, then file issues or open PRs to address it:
   issues, build and verify the repo in any supported language, and open or
   iterate fix PRs.
 
-Audit and lint chores run on Copilot. Workers run on Claude.
+Every workflow in the suite — chores and workers — runs on
+`engine: copilot`. See [ADR 0008](./decisions/0008-single-engine-copilot.md).
 
 ## Install
 

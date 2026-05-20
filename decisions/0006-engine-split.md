@@ -1,6 +1,6 @@
 # 0006 — Engine split: Copilot for chores, Claude for workers
 
-Status: Accepted
+Status: Superseded by [ADR 0008](0008-single-engine-copilot.md)
 Date: 2026-05-19
 
 ## Context

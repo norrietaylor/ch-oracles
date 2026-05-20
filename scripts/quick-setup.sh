@@ -223,6 +223,6 @@ fi
 log "install complete."
 log "next steps:"
 log "  1. Review the new files under .github/ and commit them."
-log "  2. Configure repository secrets: APP_PRIVATE_KEY, COPILOT_GITHUB_TOKEN, ANTHROPIC_API_KEY (workers only)."
+log "  2. Configure repository secrets: APP_PRIVATE_KEY, COPILOT_GITHUB_TOKEN."
 log "  3. Configure repository variables: APP_ID, CH_ORACLES_LANGUAGE (optional)."
 log "  4. Sync labels: gh label sync -f .github/labels.yml"

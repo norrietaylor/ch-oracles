@@ -17,6 +17,11 @@ calls a hosted, self-contained `.lock.yml` from
 `norrietaylor/ch-oracles/.github/workflows/`. Upgrades pull a newer release
 tag via the same script.
 
+Every workflow in the suite — both audit/lint chores and the worker tier —
+runs on `engine: copilot`. A single billing surface (`COPILOT_GITHUB_TOKEN`)
+backs every inference call; see
+[ADR 0008](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0008-single-engine-copilot.md).
+
 | Workflow | Output | Trigger | Applies to |
 |---|---|---|---|
 | `docs-patrol` | One issue per drift, label `agent:doc-drift` | Weekly Mon + push to main on doc paths | all |

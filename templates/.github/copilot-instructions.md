@@ -1,7 +1,8 @@
 # Copilot instructions for {{REPO_NAME}}
 
 This file is installed by ch-oracles and provides guidance to GitHub Copilot
-(used as the `engine: copilot` backend for chore workflows).
+(the single inference backend for the entire suite: chores and workers both
+run on `engine: copilot`).
 
 ## Doc surface
 
