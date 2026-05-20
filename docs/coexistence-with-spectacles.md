@@ -5,8 +5,8 @@ spec-driven-development pipeline suite (sdd-spec → sdd-triage → sdd-execute
 → sdd-validate → sdd-review). ch-oracles is the chore suite. Both can be
 installed in the same consumer repo without collision.
 
-See [ADR 0003](../decisions/0003-spectacles-coexistence.md) for the full
-contract.
+See [ADR 0003](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0003-spectacles-coexistence.md)
+for the full contract.
 
 ## Filename namespaces
 

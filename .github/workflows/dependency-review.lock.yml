@@ -1,5 +1,5 @@
-# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"c4d4f4f8dd46bc842138000e3e6a525604c0c2a133b3e72147938d68bb5dc0a0","compiler_version":"v0.74.3","agent_id":"copilot"}
-# gh-aw-manifest: {"version":1,"secrets":["APP_PRIVATE_KEY","COPILOT_GITHUB_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/create-github-app-token","sha":"bcd2ba49218906704ab6c1aa796996da409d3eb1","version":"v3.2.0"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"8a9a52673cb8f97ebb43b344618af2d6f2c9ac7f","version":"v0.74.3"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.46"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.9","digest":"sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.3.9@sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388"},{"image":"ghcr.io/github/github-mcp-server:v1.0.4"},{"image":"node:lts-alpine","digest":"sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f","pinned_image":"node:lts-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f"}]}
+# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"7c04c689b1d0804a507e09ce4d89c7c92c522e4fb1b33862fff7070602412da7","compiler_version":"v0.74.3","agent_id":"copilot"}
+# gh-aw-manifest: {"version":1,"secrets":["APP_PRIVATE_KEY","COPILOT_GITHUB_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/checkout","sha":"v4","version":"v4"},{"repo":"actions/create-github-app-token","sha":"bcd2ba49218906704ab6c1aa796996da409d3eb1","version":"v3.2.0"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"8a9a52673cb8f97ebb43b344618af2d6f2c9ac7f","version":"v0.74.3"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.46"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.9","digest":"sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.3.9@sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388"},{"image":"ghcr.io/github/github-mcp-server:v1.0.4"},{"image":"node:lts-alpine","digest":"sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f","pinned_image":"node:lts-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f"}]}
 #    ___                   _   _      
 #   / _ \                 | | (_)     
 #  | |_| | __ _  ___ _ __ | |_ _  ___ 
@@ -34,6 +34,12 @@
 #
 # inlined-imports: true
 #
+# Frontmatter env variables:
+#   - GHSA_DB_HINT: (main workflow)
+#   - SEVERITY_MAJOR: (main workflow)
+#   - SEVERITY_MINOR: (main workflow)
+#   - SEVERITY_PATCH: (main workflow)
+#
 # Secrets used:
 #   - APP_PRIVATE_KEY
 #   - COPILOT_GITHUB_TOKEN
@@ -43,6 +49,7 @@
 #
 # Custom actions used:
 #   - actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+#   - actions/checkout@v4
 #   - actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
 #   - actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 #   - actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
@@ -59,7 +66,7 @@
 #   - ghcr.io/github/github-mcp-server:v1.0.4
 #   - node:lts-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f
 
-name: "Coverage-gap chore"
+name: "Dependency-review chore"
 on:
   workflow_call:
     inputs:
@@ -90,7 +97,13 @@ permissions: {}
 concurrency:
   group: "gh-aw-${{ github.workflow }}"
 
-run-name: "Coverage-gap chore"
+run-name: "Dependency-review chore"
+
+env:
+  GHSA_DB_HINT: https://github.com/advisories
+  SEVERITY_MAJOR: HIGH
+  SEVERITY_MINOR: MEDIUM
+  SEVERITY_PATCH: LOW
 
 jobs:
   activation:
@@ -122,8 +135,8 @@ jobs:
           trace-id: ${{ needs.pre_activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.pre_activation.outputs.setup-parent-span-id || needs.pre_activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Coverage-gap chore"
-          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/test-coverage-detector.lock.yml@${{ github.ref }}
+          GH_AW_SETUP_WORKFLOW_NAME: "Dependency-review chore"
+          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/dependency-review.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.48"
           GH_AW_SETUP_AW_CONTEXT: ${{ inputs.aw_context }}
       - name: Compute artifact prefix
@@ -140,7 +153,7 @@ jobs:
           GH_AW_INFO_VERSION: "1.0.48"
           GH_AW_INFO_AGENT_VERSION: "1.0.48"
           GH_AW_INFO_CLI_VERSION: "v0.74.3"
-          GH_AW_INFO_WORKFLOW_NAME: "Coverage-gap chore"
+          GH_AW_INFO_WORKFLOW_NAME: "Dependency-review chore"
           GH_AW_INFO_EXPERIMENTAL: "false"
           GH_AW_INFO_SUPPORTS_TOOLS_ALLOWLIST: "true"
           GH_AW_INFO_STAGED: "false"
@@ -187,7 +200,7 @@ jobs:
         id: check-lock-file
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
-          GH_AW_WORKFLOW_FILE: "test-coverage-detector.lock.yml"
+          GH_AW_WORKFLOW_FILE: "dependency-review.lock.yml"
           GH_AW_CONTEXT_WORKFLOW_REF: "${{ github.workflow_ref }}"
         with:
           script: |
@@ -221,20 +234,20 @@ jobs:
         run: |
           bash "${RUNNER_TEMP}/gh-aw/actions/create_prompt_first.sh"
           {
-          cat << 'GH_AW_PROMPT_6d100a7e4f46dbc7_EOF'
+          cat << 'GH_AW_PROMPT_ac14f80db8c093ae_EOF'
           <system>
-          GH_AW_PROMPT_6d100a7e4f46dbc7_EOF
+          GH_AW_PROMPT_ac14f80db8c093ae_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/xpia.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/temp_folder_prompt.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/markdown.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/safe_outputs_prompt.md"
-          cat << 'GH_AW_PROMPT_6d100a7e4f46dbc7_EOF'
+          cat << 'GH_AW_PROMPT_ac14f80db8c093ae_EOF'
           <safe-output-tools>
-          Tools: create_issue(max:3), update_issue(max:3), missing_tool, missing_data, noop
+          Tools: create_issue, update_issue, missing_tool, missing_data, noop
           </safe-output-tools>
-          GH_AW_PROMPT_6d100a7e4f46dbc7_EOF
+          GH_AW_PROMPT_ac14f80db8c093ae_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/mcp_cli_tools_prompt.md"
-          cat << 'GH_AW_PROMPT_6d100a7e4f46dbc7_EOF'
+          cat << 'GH_AW_PROMPT_ac14f80db8c093ae_EOF'
           <github-context>
           The following GitHub context information is available for this workflow:
           {{#if github.actor}}
@@ -263,83 +276,443 @@ jobs:
           {{/if}}
           </github-context>
           
-          GH_AW_PROMPT_6d100a7e4f46dbc7_EOF
+          GH_AW_PROMPT_ac14f80db8c093ae_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/github_mcp_tools_with_safeoutputs_prompt.md"
-          cat << 'GH_AW_PROMPT_6d100a7e4f46dbc7_EOF'
+          cat << 'GH_AW_PROMPT_ac14f80db8c093ae_EOF'
           </system>
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_principles.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_rigor.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_repo-conventions.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_safe-output-create-issue.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_runtime-setup.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_build-matrix.md}}
           
           
-          # Coverage-gap chore
+          # Core principles
           
-          You are the coverage-gap agent. Your job is to identify functions in the
-          consumer repo's implementation surface that have **cyclomatic complexity
-          above 5** and **no test coverage**, then file up to 3 issues per run, one
-          per gap.
+          Every ch-oracles agent imports this fragment. These behavioral principles
+          reduce the common failure modes of LLM coding agents. They are derived from
+          Andrej Karpathy's observations on LLM coding pitfalls, by way of
+          [andrej-karpathy-skills](https://github.com/norrietaylor/andrej-karpathy-skills).
           
-          ## Inputs
+          They bias toward caution over speed. For a trivial change, use judgment.
           
-          1. Current working tree of the default branch.
-          2. Build matrix in `shared/build-matrix.md` and any `AGENTS.md` override.
-          3. `/tmp/previous-findings.json` (open and closed `agent:coverage` issues).
+          ## 1. Think before acting
           
-          ## Coverage source per language
+          Do not assume. Do not hide confusion. Surface tradeoffs.
           
-          | Language | Coverage tool | Command |
+          - State assumptions explicitly. If uncertain, ask. In ch-oracles, asking means
+            a comment plus the `needs-human` label, never a silent guess.
+          - If multiple interpretations exist, present them; do not pick one silently.
+          - If a simpler approach exists, say so. Push back when warranted.
+          - If something is unclear, stop, name what is confusing, and ask.
+          
+          ## 2. Simplicity first
+          
+          Write the minimum that solves the problem. Nothing speculative.
+          
+          - No features, abstractions, or configurability beyond what was asked.
+          - No error handling for impossible scenarios.
+          - If 200 lines could be 50, rewrite it.
+          - Ask: would a senior engineer call this overcomplicated? If yes, simplify.
+          
+          ## 3. Surgical changes
+          
+          Touch only what you must. Clean up only your own mess.
+          
+          - Do not improve adjacent code, comments, or formatting.
+          - Do not refactor what is not broken. Match the existing style.
+          - Remove imports, variables, and functions that your own change orphaned;
+            leave pre-existing dead code alone, but mention it.
+          - The test: every changed line traces directly to the task.
+          
+          ## 4. Goal-driven execution
+          
+          Define success criteria, then loop until verified.
+          
+          - Turn a task into a verifiable goal: "add validation" becomes "write tests
+            for invalid inputs, then make them pass".
+          - For multi-step work, state a brief plan with a verify step for each step.
+          - In ch-oracles this is the verification gate: a change is not done until
+            the per-language build/test/lint commands have been executed and pass.
+          
+          Strong success criteria let an agent loop on its own; weak criteria such as
+          "make it work" force constant clarification.
+          
+          ---
+          
+          These principles are working when diffs carry fewer unnecessary changes, fewer
+          rewrites follow from overcomplication, and clarifying questions come before
+          implementation rather than after a mistake.
+          
+          
+          
+          # Evidence standards for agent findings
+          
+          Every ch-oracles agent imports this fragment. Before an agent reports a
+          finding, a problem, or a proposed change, it applies this checklist.
+          
+          ## Required before filing an issue, comment, or PR
+          
+          1. **Reproduce the finding.** Confirm the problem exists in the current state
+             of the default branch. Do not file findings that appear only in history or
+             in a stale branch.
+          2. **Rule out false positives.** Check whether a suppression, a known
+             exception, or an existing issue already accounts for the case. If so,
+             update the existing item instead of filing a new one.
+          3. **Cite evidence.** Every finding includes at least one of: a file path and
+             line number, a command and its output, or a direct quote from the
+             codebase.
+          4. **Bound the scope.** State what is affected and what is not. Do not make
+             broad claims without enumerated examples.
+          5. **One finding per issue.** Do not bundle unrelated findings. Each distinct
+             problem gets its own issue so it can be triaged and closed independently.
+          
+          ## Confidence threshold
+          
+          Do not report a finding when confidence is below 80%. An uncertain pattern is
+          raised as a note on an existing item, not as a standalone finding.
+          
+          ## Avoiding noise
+          
+          - Ignore whitespace-only differences unless the file is generated.
+          - Do not report a TODO comment as a finding unless it blocks a merge.
+          - Do not report style that the repository linter already covers; it is caught
+            automatically.
+          
+          ## Per-repo conventions
+          
+          Every ch-oracles chore imports this fragment so it can reference repo-specific
+          conventions without repeating them in every workflow prompt.
+          
+          ### Canonical doc surface
+          
+          If the repository contains an `AGENTS.md` file under `.github/`, treat its
+          content as authoritative for:
+          
+          - Build, test, and lint commands (see the `## Build Commands (ch-oracles
+            override)` section, if present).
+          - Code style and linting rules beyond what the language defaults specify.
+          - PR conventions (commit format, branch naming).
+          - Domain-specific constraints.
+          
+          Read `.github/AGENTS.md` before beginning any analysis or change. If it
+          contradicts the code, flag the discrepancy rather than silently preferring
+          one over the other.
+          
+          If no `.github/AGENTS.md` is present, fall back to `README.md` for
+          project-level conventions, then to language defaults from
+          `shared/build-matrix.md`.
+          
+          ### Branch and commit conventions
+          
+          Unless `AGENTS.md` specifies otherwise:
+          
+          - Branch names: `chore/<short-description>` for maintenance work,
+            `fix/<short-description>` for bug fixes, `worker/<label>/<issue-num>` for
+            worker-emitted fix branches.
+          - Commit messages: imperative mood, present tense, 72-character limit on the
+            subject line.
+          - PR titles: same format as commit messages, with the chore prefix where
+            applicable (e.g., `chore(deps): patch-level bumps`, `[worker:doc-drift] ...`).
+          - Do not force-push to any branch that has an open PR.
+          
+          ### Label conventions
+          
+          ch-oracles owns the following label namespaces:
+          
+          | Label | Meaning |
+          |---|---|
+          | `agent:lint:<lang>` | Lint/style finding for the named language (rust, python, go, toml, ncl). |
+          | `agent:tidy:<lang>` | Reserved for future deeper static-analysis chores. |
+          | `agent:doc-drift` | Documentation is out of sync with code. |
+          | `agent:coverage` | Test coverage gap detected. |
+          | `agent:dep-drift` | Dependency needs review or update. |
+          | `agent:auto-merge` | Informational. Applied to trivial-dep-bump PRs alongside the gh-aw declarative auto-merge. |
+          | `agent:autofix` | Applied to PRs from `chore-style-*.md` in `mode: autofix`. |
+          | `agent:conflict` | Applied by `pr-conflict-resolver` to PRs it has rebased. |
+          
+          ch-oracles honors but does not own:
+          
+          | Label | Meaning |
+          |---|---|
+          | `needs-human` | Cross-suite hand-off label. When set, ch-oracles workers decline to act on the item. Owned by `norrietaylor/spectacles` when co-installed. |
+          
+          Apply the most specific label that matches the finding. If none match, do not
+          apply an agent label.
+          
+          ### Issue and PR hygiene
+          
+          - Search for an existing open issue before creating a new one (see
+            `safe-output-create-issue.md`).
+          - Close the corresponding issue when opening a fix PR, using `Closes #<n>` in
+            the PR description.
+          - Do not assign issues or PRs to individuals unless `AGENTS.md` specifies an
+            assignment policy.
+          - Do not request reviews from individuals unless `AGENTS.md` specifies a
+            review policy.
+          
+          ### Language-specific notes
+          
+          Per-language toolchain conventions (Rust edition, Python interpreter, Go
+          version, Nickel binary version) are sourced from `shared/build-matrix.md`
+          with `AGENTS.md` overrides taking precedence. See the individual
+          `shared/<lang>-runtime-setup.md` fragments for runner provisioning details.
+          
+          ## Safe-output guardrails: create / update issue
+          
+          Apply the following caps when using the `create-issue` and `update-issue`
+          safe outputs:
+          
+          - **max: 1** — Open at most one issue per workflow run unless the chore
+            overrides it. If a matching open issue already exists for the same finding
+            identity, emit `update-issue` against it instead of `create-issue`.
+          - **max-mentions: 10** — Include at most 10 `@`-mentions across the issue
+            title and body combined.
+          - **max-links: 50** — Include at most 50 hyperlinks in the issue body.
+          - **No `close-older-issues`.** Do not set this to `true`. The gh-aw runtime
+            keys close-older only on the workflow-id marker, not on per-finding
+            identity; enabling it causes cross-finding cascades where two distinct
+            findings from the same chore mutually close each other. Per-finding dedup
+            is implemented agent-side via the idempotency contract below. This applies
+            to `close-older-key` as well: a per-workflow static value cannot replace
+            per-finding dedup.
+          
+          ### HTML tag allowlist
+          
+          Only the following HTML tags are permitted in issue bodies:
+          
+          ```text
+          <details>, <summary>, <code>, <pre>, <br>, <ul>, <ol>, <li>,
+          <strong>, <em>, <b>, <i>
+          ```
+          
+          Strip all other HTML tags before emitting the issue body.
+          
+          ### Idempotency contract (per-finding dedup)
+          
+          Every chore-emitted issue body MUST include a structured finding-identity
+          marker as the FIRST line of the body, on its own line:
+          
+          ```html
+          <!-- finding-id: <chore>::<lang>::<identity> -->
+          ```
+          
+          - `<chore>` — the chore name (e.g., `lint`, `tidy`, `doc-drift`, `coverage`,
+            `dep-drift`).
+          - `<lang>` — the language scope (`rust`, `python`, `go`, `toml`, `ncl`), or
+            `n-a` if not applicable (e.g., `doc-drift::n-a::README.md::link-404`).
+          - `<identity>` — the per-chore identity field defined in each chore's
+            Reporting section (e.g., `src/lib.rs::42::E0599` for clippy, `tokio::CVE-2024-0001`
+            for dep-drift).
+          
+          The marker is normalized lowercase, alphanumeric plus `,:_/.-`.
+          
+          Before emitting any safe-output, run this dedup procedure:
+          
+          1. Search open issues with the chore's `agent:*` label and a body containing
+             `` for the current
+             finding's identity:
+          
+             ```bash
+             gh issue list --search "in:body \"finding-id: <chore>::<lang>::<identity>\""
+             ```
+          
+          2. **If a matching open issue exists**: emit `update-issue` with
+             `issue_number=<n>` and `operation=replace`, posting the fresh body. Do
+             not call `create-issue`. Do not call `close-older-issues`-style closures;
+             mutating fixes should land via the worker chore, not this audit.
+          3. **If no matching open issue exists**: emit `create-issue` with the marker
+             as the first body line.
+          
+          This contract is the only source of dedup. The runtime no longer auto-closes
+          prior issues, so an obsolete issue (drift that has been fixed) stays open
+          until either an operator closes it or a future janitor chore reaps stale
+          entries. The trade is intentional: false-cascades are far more harmful than
+          slightly-stale-open entries an operator can close.
+          
+          ### Severity labeling
+          
+          Attach exactly one severity label from the set declared in this repo's
+          `labels.yml`. Do not create new labels at runtime.
+          
+          ## Runtime environment setup
+          
+          Apply the following setup steps at the start of any agent workflow step that
+          reads from or writes to the repository.
+          
+          ### 1. Verify checkout
+          
+          Confirm the repository has been checked out before the agent step runs:
+          
+          ```yaml
+          - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+          ```
+          
+          Use `fetch-depth: 0` for workflows that traverse commit history (doc-drift,
+          test-coverage detector). Use `fetch-depth: 1` for workflows that only need
+          the current HEAD (lint, dep-bump).
+          
+          ### 2. Set up git identity
+          
+          Configure a non-interactive git identity so the agent can commit changes
+          without prompts:
+          
+          ```bash
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          ```
+          
+          ### 3. Confirm tool availability
+          
+          Before the agent step begins, confirm the expected tools are on PATH:
+          
+          ```bash
+          command -v gh >/dev/null 2>&1 || { echo "gh CLI not found" >&2; exit 1; }
+          command -v jq >/dev/null 2>&1 || { echo "jq not found" >&2; exit 1; }
+          gh aw --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | awk -F. '
+            ($1 > 0) || ($1 == 0 && $2 > 72) || ($1 == 0 && $2 == 72 && $3 >= 0) { found=1 }
+            END { if (!found) { print "gh aw v0.72.0 or newer required" > "/dev/stderr"; exit 1 } }
+          '
+          ```
+          
+          ### 4. Export required environment variables
+          
+          Agent steps expect the following variables in their environment:
+          
+          | Variable | Source | Description |
           |---|---|---|
-          | rust | cargo-llvm-cov | `cargo llvm-cov --lcov --output-path coverage.lcov` |
-          | python | coverage.py / pytest-cov | `uv run pytest --cov --cov-report=lcov:coverage.lcov` |
-          | go | go test -cover | `go test -coverprofile=coverage.out ./... && gocov convert coverage.out > coverage.json` |
-          | toml | n/a (skip) | — |
-          | ncl | n/a (skip) | — |
+          | `GITHUB_TOKEN` | Secrets | Read/write token for GitHub API calls within the repo. |
+          | `APP_PRIVATE_KEY` | Secrets | Private key for the bot GitHub App; mints installation tokens for safe-output writes. |
+          | `COPILOT_GITHUB_TOKEN` | Secrets | Fine-grained PAT with Copilot Requests:Read; auth credential for `engine: copilot` inference calls. |
+          | `ANTHROPIC_API_KEY` | Org secret | API key for Claude-backed workflows (workers only). |
           
-          For polyglot repos, run coverage for every detected language with a coverage
-          tool and union the results. Skip languages without a coverage tool (toml, ncl).
+          Set these in the workflow frontmatter or wrapper `secrets:` block, not
+          inside the agent prompt.
           
-          ## Selection
+          ### 5. Failure behavior
           
-          1. Parse the coverage report and identify functions with 0 covered lines.
-          2. For each uncovered function, compute its cyclomatic complexity (count of
-             branching constructs: `if`, `else if`, `match`/`switch`, `for`, `while`,
-             `case`, ternary expressions, short-circuit operators in conditions).
-          3. Drop any function with complexity ≤ 5.
-          4. Rank remaining functions by complexity descending; report the top 3.
+          If any setup step fails:
+          
+          - Exit with a non-zero status code and a descriptive message to stderr.
+          - Do not attempt to run the agent step. A partially initialized environment
+            produces unreliable agent output.
+          - The workflow surfaces the failure as a failed Actions check so the
+            operator is alerted.
+          
+          ## Build matrix
+          
+          This fragment is the canonical source for default per-language verification
+          commands. Workers and lint chores import it to know how to build, test, and
+          lint a consumer repo without baking the commands into the workflow body.
+          
+          ### Resolution order
+          
+          1. **`AGENTS.md` override.** If the consumer repo's `.github/AGENTS.md` has
+             a `## Build Commands (ch-oracles override)` section, treat it as
+             authoritative. Parse its YAML-ish key:value lines.
+          2. **`vars.CH_ORACLES_LANGUAGE` repository variable.** If set, restrict the
+             language to the named value. Valid: `rust | python | go | toml | ncl | polyglot`.
+          3. **Manifest sniff.** If neither override is present, detect language(s)
+             from the repo root:
+             - `Cargo.toml` → rust
+             - `pyproject.toml` → python
+             - `go.mod` → go
+             - Presence of `*.toml` files (and no other primary language) → toml
+             - Presence of `*.ncl` files → ncl
+             - Multiple matches → polyglot
+          4. **Defaults below.** Apply the row matching the resolved language.
+          
+          ### Defaults
+          
+          | Language | build | test | lint |
+          |---|---|---|---|
+          | rust | `cargo build --workspace --all-targets` | `cargo test --workspace --all-targets` | `cargo fmt --all --check && cargo clippy --workspace --all-targets` |
+          | python | `uv sync` | `uv run pytest` | `uv run ruff format --check && uv run ruff check && uv run mypy` |
+          | go | `go build ./...` | `go test ./...` | `gofmt -l . && go vet ./... && staticcheck ./...` |
+          | toml | _(no-op)_ | _(no-op)_ | `taplo fmt --check && taplo lint` |
+          | ncl | _(no-op)_ | _(no-op)_ | `nickel format --check && nickel typecheck` |
+          
+          For `polyglot`, run the union of every matched language's commands in order
+          (rust → python → go → toml → ncl). Any non-zero exit fails the gate.
+          
+          ### AGENTS.md override schema
+          
+          ```markdown
+          ## Build Commands (ch-oracles override)
+          
+          language: rust          # rust | python | go | toml | ncl | polyglot
+          build: just verify
+          test: just test
+          lint: just lint
+          ```
+          
+          Keys are required: `language`, `build`, `test`, `lint`. Values are shell
+          commands evaluated in the repo root. The agent does not invoke a separate
+          parser — it reads the section as text and substitutes the listed commands
+          verbatim into its verification gate.
+          
+          ### Verification gate behavior
+          
+          Before opening any PR, the worker runs `build && test && lint` (resolved per
+          above) and confirms each command exits 0. Any non-zero exit means do not
+          open the PR; emit `report_incomplete` naming the failing step and stop.
+          
+          
+          
+          # Dependency-review chore
+          
+          You are the dependency-review agent. Your job is to scan the consumer repo's
+          dependency graph for **security advisories** and **major-version drift**,
+          then file one issue per run on the most severe finding.
+          
+          ## Per-language sources of truth
+          
+          | Language | Manifest | Advisory feed | Drift signal |
+          |---|---|---|---|
+          | rust | Cargo.toml + Cargo.lock | RUSTSEC, GHSA | cargo-outdated, cargo update --dry-run |
+          | python | pyproject.toml + uv.lock | pip-audit, GHSA | uv lock --upgrade --dry-run |
+          | go | go.mod + go.sum | govulncheck, GHSA | go list -u -m all |
+          
+          ## Severity mapping
+          
+          - RUSTSEC / GHSA `critical` → `HIGH` severity issue, priority `Must have`.
+          - `high` → `HIGH`, priority `Must have`.
+          - `moderate` → `MEDIUM`, priority `Should have`.
+          - `low` → `LOW`, priority `Nice to have`.
+          - Pure version drift (no advisory) → `LOW`, priority `Nice to have`.
+          
+          Report the single highest-severity finding per run. If multiple findings
+          share the top severity, pick the one with the oldest first-published date.
           
           ## Reporting
           
           Issue body MUST begin with:
           
           ```html
-          <!-- finding-id: coverage::<lang>::<file-path>::<function-name> -->
+          <!-- finding-id: dep-drift::<lang>::<package>::<advisory-id-or-version> -->
           ```
           
-          Title: `[coverage] <file-path>::<function-name>: untested (complexity <n>)`.
+          Title: `[dep-drift] <package>: <advisory-id> (<severity>)` or
+                 `[dep-drift] <package>: <from-version> → <latest-version>` (drift case).
           
           Body sections:
           
-          1. **Function** — file:line, signature.
-          2. **Complexity** — computed score, branching breakdown.
-          3. **Coverage evidence** — lcov line excerpt or coverage tool output.
-          4. **Suggested test** — one-paragraph sketch of what a test should cover.
-          5. **Priority** — `Nice to have` by default; `Should have` if the function
-             is reachable from a public API surface.
+          1. **Package** — name, current version, source manifest line.
+          2. **Advisory** — id, summary, references (link to RUSTSEC/GHSA/pip-audit).
+          3. **Affected range** — version range from advisory.
+          4. **Suggested action** — minimum upgrade path; whether it's a patch, minor,
+             or major bump.
+          5. **Severity** — one of HIGH/MEDIUM/LOW; **Priority** — Must/Should/Nice.
           
-          Apply dedup before emitting; up to 3 distinct findings per run.
+          Apply dedup before emitting.
           
           ## What you must not do
           
-          - Do not report functions with complexity ≤ 5.
-          - Do not write tests (the worker chore does that).
-          - Do not bundle multiple functions into one issue.
-          - Do not file an issue if the coverage report is malformed or empty;
-            emit `noop` with a diagnostic log line.
+          - Do not open more than one issue per run.
+          - Do not propose code changes; the worker chore handles remediation.
+          - Do not file an advisory issue that is already covered by an open
+            `agent:dep-drift` issue (dedup via finding-id).
+          - Do not report dev-only dependencies as `HIGH` severity unless the
+            advisory explicitly says runtime is affected.
           
-          GH_AW_PROMPT_6d100a7e4f46dbc7_EOF
+          GH_AW_PROMPT_ac14f80db8c093ae_EOF
           } > "$GH_AW_PROMPT"
       - name: Interpolate variables and render templates
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
@@ -431,7 +804,7 @@ jobs:
       GH_AW_ASSETS_BRANCH: ""
       GH_AW_ASSETS_MAX_SIZE_KB: 0
       GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
-      GH_AW_WORKFLOW_ID_SANITIZED: testcoveragedetector
+      GH_AW_WORKFLOW_ID_SANITIZED: dependencyreview
     outputs:
       agentic_engine_timeout: ${{ steps.detect-copilot-errors.outputs.agentic_engine_timeout || 'false' }}
       artifact_prefix: ${{ needs.activation.outputs.artifact_prefix }}
@@ -458,8 +831,8 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Coverage-gap chore"
-          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/test-coverage-detector.lock.yml@${{ github.ref }}
+          GH_AW_SETUP_WORKFLOW_NAME: "Dependency-review chore"
+          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/dependency-review.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.48"
           GH_AW_SETUP_AW_CONTEXT: ${{ inputs.aw_context }}
       - name: Set runtime paths
@@ -546,16 +919,16 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/gh-aw/safeoutputs"
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
-          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_b919ea65b6e24d28_EOF'
-          {"create_issue":{"labels":["agent:coverage"],"max":3},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"report_incomplete":{},"update_issue":{"allow_body":true,"max":3}}
-          GH_AW_SAFE_OUTPUTS_CONFIG_b919ea65b6e24d28_EOF
+          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_6fe1ec230412f705_EOF'
+          {"create_issue":{"labels":["agent:dep-drift"],"max":1},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"report_incomplete":{},"update_issue":{"allow_body":true,"max":1}}
+          GH_AW_SAFE_OUTPUTS_CONFIG_6fe1ec230412f705_EOF
       - name: Generate Safe Outputs Tools
         env:
           GH_AW_TOOLS_META_JSON: |
             {
               "description_suffixes": {
-                "create_issue": " CONSTRAINTS: Maximum 3 issue(s) can be created. Labels [\"agent:coverage\"] will be automatically added.",
-                "update_issue": " CONSTRAINTS: Maximum 3 issue(s) can be updated."
+                "create_issue": " CONSTRAINTS: Maximum 1 issue(s) can be created. Labels [\"agent:dep-drift\"] will be automatically added.",
+                "update_issue": " CONSTRAINTS: Maximum 1 issue(s) can be updated."
               },
               "repo_params": {},
               "dynamic_tools": []
@@ -811,7 +1184,7 @@ jobs:
           
           mkdir -p /home/runner/.copilot
           GH_AW_NODE=$(which node 2>/dev/null || command -v node 2>/dev/null || echo node)
-          cat << GH_AW_MCP_CONFIG_f5ecb8b797e0d508_EOF | "$GH_AW_NODE" "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.cjs"
+          cat << GH_AW_MCP_CONFIG_70243c903616de02_EOF | "$GH_AW_NODE" "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.cjs"
           {
             "mcpServers": {
               "github": {
@@ -852,7 +1225,7 @@ jobs:
               "payloadDir": "${MCP_GATEWAY_PAYLOAD_DIR}"
             }
           }
-          GH_AW_MCP_CONFIG_f5ecb8b797e0d508_EOF
+          GH_AW_MCP_CONFIG_70243c903616de02_EOF
       - name: Mount MCP servers as CLIs
         id: mount-mcp-clis
         continue-on-error: true
@@ -881,16 +1254,18 @@ jobs:
         # --allow-tool github(list_issues)
         # --allow-tool github(search_issues)
         # --allow-tool safeoutputs
-        # --allow-tool shell(cargo llvm-cov)
-        # --allow-tool shell(cargo test)
+        # --allow-tool shell(cargo metadata)
+        # --allow-tool shell(cargo tree)
+        # --allow-tool shell(cargo update --dry-run)
         # --allow-tool shell(cat /tmp/previous-findings.json)
-        # --allow-tool shell(cat coverage.json)
-        # --allow-tool shell(cat coverage.lcov)
         # --allow-tool shell(cat)
+        # --allow-tool shell(curl -fsSL https://github.com/advisories*)
+        # --allow-tool shell(curl -fsSL https://rustsec.org/advisories/*)
         # --allow-tool shell(date)
         # --allow-tool shell(echo)
         # --allow-tool shell(gh issue view)
-        # --allow-tool shell(go test -cover)
+        # --allow-tool shell(go list -m -json all)
+        # --allow-tool shell(govulncheck ./...)
         # --allow-tool shell(grep)
         # --allow-tool shell(head)
         # --allow-tool shell(ls)
@@ -900,8 +1275,9 @@ jobs:
         # --allow-tool shell(sort)
         # --allow-tool shell(tail)
         # --allow-tool shell(uniq)
-        # --allow-tool shell(uv run coverage)
-        # --allow-tool shell(uv run pytest)
+        # --allow-tool shell(uv lock --dry-run)
+        # --allow-tool shell(uv run pip-audit)
+        # --allow-tool shell(uv tree)
         # --allow-tool shell(wc)
         # --allow-tool shell(yq)
         # --allow-tool write
@@ -920,7 +1296,7 @@ jobs:
           fi
           # shellcheck disable=SC1003
           sudo -E awf --config "${RUNNER_TEMP}/gh-aw/awf-config.json" --container-workdir "${GITHUB_WORKSPACE}" --mount "${RUNNER_TEMP}/gh-aw:${RUNNER_TEMP}/gh-aw:ro" --mount "${RUNNER_TEMP}/gh-aw:/host${RUNNER_TEMP}/gh-aw:ro" ${GH_AW_DOCKER_HOST_PATH_PREFIX_ARGS} --env-all --exclude-env COPILOT_GITHUB_TOKEN --exclude-env GITHUB_MCP_SERVER_TOKEN --exclude-env MCP_GATEWAY_API_KEY --log-level info --proxy-logs-dir /tmp/gh-aw/sandbox/firewall/logs --audit-dir /tmp/gh-aw/sandbox/firewall/audit --enable-host-access --allow-host-ports 80,443,8080 --skip-pull \
-            -- /bin/bash -c 'export PATH="${RUNNER_TEMP}/gh-aw/mcp-cli/bin:$PATH" && export PATH="$(find /opt/hostedtoolcache /home/runner/work/_tool -maxdepth 5 -type d -name bin 2>/dev/null | tr '\''\n'\'' '\'':'\'')$PATH"; [ -n "$GOROOT" ] && export PATH="$GOROOT/bin:$PATH" || true && GH_AW_NODE_EXEC="${GH_AW_NODE_BIN:-}"; if [ -z "$GH_AW_NODE_EXEC" ] || [ ! -x "$GH_AW_NODE_EXEC" ]; then GH_AW_NODE_EXEC="$(command -v node 2>/dev/null || true)"; fi; if [ -z "$GH_AW_NODE_EXEC" ]; then echo "node runtime missing on this runner — check runtimes.node in workflow YAML" >&2; exit 127; fi; "$GH_AW_NODE_EXEC" ${RUNNER_TEMP}/gh-aw/actions/copilot_harness.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --no-ask-user --allow-tool '\''github(issue_read)'\'' --allow-tool '\''github(list_issues)'\'' --allow-tool '\''github(search_issues)'\'' --allow-tool safeoutputs --allow-tool '\''shell(cargo llvm-cov)'\'' --allow-tool '\''shell(cargo test)'\'' --allow-tool '\''shell(cat /tmp/previous-findings.json)'\'' --allow-tool '\''shell(cat coverage.json)'\'' --allow-tool '\''shell(cat coverage.lcov)'\'' --allow-tool '\''shell(cat)'\'' --allow-tool '\''shell(date)'\'' --allow-tool '\''shell(echo)'\'' --allow-tool '\''shell(gh issue view)'\'' --allow-tool '\''shell(go test -cover)'\'' --allow-tool '\''shell(grep)'\'' --allow-tool '\''shell(head)'\'' --allow-tool '\''shell(ls)'\'' --allow-tool '\''shell(printf)'\'' --allow-tool '\''shell(pwd)'\'' --allow-tool '\''shell(safeoutputs:*)'\'' --allow-tool '\''shell(sort)'\'' --allow-tool '\''shell(tail)'\'' --allow-tool '\''shell(uniq)'\'' --allow-tool '\''shell(uv run coverage)'\'' --allow-tool '\''shell(uv run pytest)'\'' --allow-tool '\''shell(wc)'\'' --allow-tool '\''shell(yq)'\'' --allow-tool write --allow-all-paths --add-dir "${GITHUB_WORKSPACE}" --prompt-file /tmp/gh-aw/aw-prompts/prompt.txt' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log
+            -- /bin/bash -c 'export PATH="${RUNNER_TEMP}/gh-aw/mcp-cli/bin:$PATH" && export PATH="$(find /opt/hostedtoolcache /home/runner/work/_tool -maxdepth 5 -type d -name bin 2>/dev/null | tr '\''\n'\'' '\'':'\'')$PATH"; [ -n "$GOROOT" ] && export PATH="$GOROOT/bin:$PATH" || true && GH_AW_NODE_EXEC="${GH_AW_NODE_BIN:-}"; if [ -z "$GH_AW_NODE_EXEC" ] || [ ! -x "$GH_AW_NODE_EXEC" ]; then GH_AW_NODE_EXEC="$(command -v node 2>/dev/null || true)"; fi; if [ -z "$GH_AW_NODE_EXEC" ]; then echo "node runtime missing on this runner — check runtimes.node in workflow YAML" >&2; exit 127; fi; "$GH_AW_NODE_EXEC" ${RUNNER_TEMP}/gh-aw/actions/copilot_harness.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --no-ask-user --allow-tool '\''github(issue_read)'\'' --allow-tool '\''github(list_issues)'\'' --allow-tool '\''github(search_issues)'\'' --allow-tool safeoutputs --allow-tool '\''shell(cargo metadata)'\'' --allow-tool '\''shell(cargo tree)'\'' --allow-tool '\''shell(cargo update --dry-run)'\'' --allow-tool '\''shell(cat /tmp/previous-findings.json)'\'' --allow-tool '\''shell(cat)'\'' --allow-tool '\''shell(curl -fsSL https://github.com/advisories*)'\'' --allow-tool '\''shell(curl -fsSL https://rustsec.org/advisories/*)'\'' --allow-tool '\''shell(date)'\'' --allow-tool '\''shell(echo)'\'' --allow-tool '\''shell(gh issue view)'\'' --allow-tool '\''shell(go list -m -json all)'\'' --allow-tool '\''shell(govulncheck ./...)'\'' --allow-tool '\''shell(grep)'\'' --allow-tool '\''shell(head)'\'' --allow-tool '\''shell(ls)'\'' --allow-tool '\''shell(printf)'\'' --allow-tool '\''shell(pwd)'\'' --allow-tool '\''shell(safeoutputs:*)'\'' --allow-tool '\''shell(sort)'\'' --allow-tool '\''shell(tail)'\'' --allow-tool '\''shell(uniq)'\'' --allow-tool '\''shell(uv lock --dry-run)'\'' --allow-tool '\''shell(uv run pip-audit)'\'' --allow-tool '\''shell(uv tree)'\'' --allow-tool '\''shell(wc)'\'' --allow-tool '\''shell(yq)'\'' --allow-tool write --allow-all-paths --add-dir "${GITHUB_WORKSPACE}" --prompt-file /tmp/gh-aw/aw-prompts/prompt.txt' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log
         env:
           AWF_REFLECT_ENABLED: 1
           COPILOT_AGENT_RUNNER_TYPE: STANDALONE
@@ -1119,7 +1495,7 @@ jobs:
       contents: read
       issues: write
     concurrency:
-      group: "gh-aw-conclusion-test-coverage-detector"
+      group: "gh-aw-conclusion-dependency-review"
       cancel-in-progress: false
       queue: max
     outputs:
@@ -1137,8 +1513,8 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Coverage-gap chore"
-          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/test-coverage-detector.lock.yml@${{ github.ref }}
+          GH_AW_SETUP_WORKFLOW_NAME: "Dependency-review chore"
+          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/dependency-review.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.48"
           GH_AW_SETUP_AW_CONTEXT: ${{ inputs.aw_context }}
       - name: Generate GitHub App token
@@ -1172,7 +1548,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
           GH_AW_NOOP_MAX: "1"
-          GH_AW_WORKFLOW_NAME: "Coverage-gap chore"
+          GH_AW_WORKFLOW_NAME: "Dependency-review chore"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
           GH_AW_NOOP_REPORT_AS_ISSUE: "true"
@@ -1188,7 +1564,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "Coverage-gap chore"
+          GH_AW_WORKFLOW_NAME: "Dependency-review chore"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_DETECTION_CONCLUSION: ${{ needs.detection.outputs.detection_conclusion }}
           GH_AW_DETECTION_REASON: ${{ needs.detection.outputs.detection_reason }}
@@ -1205,7 +1581,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
           GH_AW_MISSING_TOOL_CREATE_ISSUE: "true"
-          GH_AW_WORKFLOW_NAME: "Coverage-gap chore"
+          GH_AW_WORKFLOW_NAME: "Dependency-review chore"
         with:
           github-token: ${{ steps.safe-outputs-app-token.outputs.token }}
           script: |
@@ -1219,7 +1595,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
           GH_AW_REPORT_INCOMPLETE_CREATE_ISSUE: "true"
-          GH_AW_WORKFLOW_NAME: "Coverage-gap chore"
+          GH_AW_WORKFLOW_NAME: "Dependency-review chore"
         with:
           github-token: ${{ steps.safe-outputs-app-token.outputs.token }}
           script: |
@@ -1233,10 +1609,10 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           GH_AW_AGENT_OUTPUT: ${{ steps.setup-agent-output-env.outputs.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "Coverage-gap chore"
+          GH_AW_WORKFLOW_NAME: "Dependency-review chore"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
-          GH_AW_WORKFLOW_ID: "test-coverage-detector"
+          GH_AW_WORKFLOW_ID: "dependency-review"
           GH_AW_ACTION_FAILURE_ISSUE_EXPIRES_HOURS: "168"
           GH_AW_ENGINE_ID: "copilot"
           GH_AW_SECRET_VERIFICATION_RESULT: ${{ needs.activation.outputs.secret_verification_result }}
@@ -1302,8 +1678,8 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Coverage-gap chore"
-          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/test-coverage-detector.lock.yml@${{ github.ref }}
+          GH_AW_SETUP_WORKFLOW_NAME: "Dependency-review chore"
+          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/dependency-review.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.48"
           GH_AW_SETUP_AW_CONTEXT: ${{ inputs.aw_context }}
       - name: Download agent output artifact
@@ -1370,7 +1746,7 @@ jobs:
         if: always() && steps.detection_guard.outputs.run_detection == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
-          WORKFLOW_NAME: "Coverage-gap chore"
+          WORKFLOW_NAME: "Dependency-review chore"
           WORKFLOW_DESCRIPTION: "No description provided"
           HAS_PATCH: ${{ needs.agent.outputs.has_patch }}
         with:
@@ -1494,8 +1870,8 @@ jobs:
           destination: ${{ runner.temp }}/gh-aw/actions
           job-name: ${{ github.job }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Coverage-gap chore"
-          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/test-coverage-detector.lock.yml@${{ github.ref }}
+          GH_AW_SETUP_WORKFLOW_NAME: "Dependency-review chore"
+          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/dependency-review.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.48"
           GH_AW_SETUP_AW_CONTEXT: ${{ inputs.aw_context }}
       - name: Check team membership for workflow
@@ -1523,15 +1899,15 @@ jobs:
       issues: write
     timeout-minutes: 15
     env:
-      GH_AW_CALLER_WORKFLOW_ID: "${{ github.repository }}/test-coverage-detector"
+      GH_AW_CALLER_WORKFLOW_ID: "${{ github.repository }}/dependency-review"
       GH_AW_DETECTION_CONCLUSION: ${{ needs.detection.outputs.detection_conclusion }}
       GH_AW_DETECTION_REASON: ${{ needs.detection.outputs.detection_reason }}
       GH_AW_EFFECTIVE_TOKENS: ${{ needs.agent.outputs.effective_tokens }}
       GH_AW_ENGINE_ID: "copilot"
       GH_AW_ENGINE_MODEL: ${{ needs.agent.outputs.model }}
       GH_AW_ENGINE_VERSION: "1.0.48"
-      GH_AW_WORKFLOW_ID: "test-coverage-detector"
-      GH_AW_WORKFLOW_NAME: "Coverage-gap chore"
+      GH_AW_WORKFLOW_ID: "dependency-review"
+      GH_AW_WORKFLOW_NAME: "Dependency-review chore"
     outputs:
       app_token_minting_failed: ${{ steps.safe-outputs-app-token.outcome == 'failure' }}
       code_push_failure_count: ${{ steps.process_safe_outputs.outputs.code_push_failure_count }}
@@ -1552,8 +1928,8 @@ jobs:
           trace-id: ${{ needs.activation.outputs.setup-trace-id }}
           parent-span-id: ${{ needs.activation.outputs.setup-parent-span-id || needs.activation.outputs.setup-span-id }}
         env:
-          GH_AW_SETUP_WORKFLOW_NAME: "Coverage-gap chore"
-          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/test-coverage-detector.lock.yml@${{ github.ref }}
+          GH_AW_SETUP_WORKFLOW_NAME: "Dependency-review chore"
+          GH_AW_CURRENT_WORKFLOW_REF: ${{ github.repository }}/.github/workflows/dependency-review.lock.yml@${{ github.ref }}
           GH_AW_INFO_VERSION: "1.0.48"
           GH_AW_SETUP_AW_CONTEXT: ${{ inputs.aw_context }}
       - name: Download agent output artifact
@@ -1598,7 +1974,7 @@ jobs:
           GH_AW_ALLOWED_DOMAINS: "*.pythonhosted.org,anaconda.org,api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,binstar.org,bootstrap.pypa.io,conda.anaconda.org,conda.binstar.org,crates.io,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,files.pythonhosted.org,github.com,go.dev,golang.org,goproxy.io,host.docker.internal,index.crates.io,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,pip.pypa.io,pkg.go.dev,ppa.launchpad.net,proxy.golang.org,pypi.org,pypi.python.org,raw.githubusercontent.com,registry.npmjs.org,repo.anaconda.com,repo.continuum.io,s.symcb.com,s.symcd.com,security.ubuntu.com,sh.rustup.rs,static.crates.io,static.rust-lang.org,storage.googleapis.com,sum.golang.org,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com"
           GITHUB_SERVER_URL: ${{ github.server_url }}
           GITHUB_API_URL: ${{ github.api_url }}
-          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"create_issue\":{\"labels\":[\"agent:coverage\"],\"max\":3},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"true\"},\"report_incomplete\":{},\"update_issue\":{\"allow_body\":true,\"max\":3}}"
+          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"create_issue\":{\"labels\":[\"agent:dep-drift\"],\"max\":1},\"create_report_incomplete_issue\":{},\"missing_data\":{},\"missing_tool\":{},\"noop\":{\"max\":1,\"report-as-issue\":\"true\"},\"report_incomplete\":{},\"update_issue\":{\"allow_body\":true,\"max\":1}}"
         with:
           github-token: ${{ steps.safe-outputs-app-token.outputs.token }}
           script: |

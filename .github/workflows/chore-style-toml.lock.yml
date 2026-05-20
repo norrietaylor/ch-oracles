@@ -1,5 +1,5 @@
 # gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"9b4ee61782ca7a40f1574b67fd51d408d49e3c53548525f46d77ac7e7ec39511","compiler_version":"v0.74.3","agent_id":"copilot"}
-# gh-aw-manifest: {"version":1,"secrets":["APP_PRIVATE_KEY","COPILOT_GITHUB_TOKEN","GH_AW_CI_TRIGGER_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/create-github-app-token","sha":"bcd2ba49218906704ab6c1aa796996da409d3eb1","version":"v3.2.0"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"8a9a52673cb8f97ebb43b344618af2d6f2c9ac7f","version":"v0.74.3"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.46"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.9","digest":"sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.3.9@sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388"},{"image":"ghcr.io/github/github-mcp-server:v1.0.4"},{"image":"node:lts-alpine","digest":"sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f","pinned_image":"node:lts-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f"}]}
+# gh-aw-manifest: {"version":1,"secrets":["APP_PRIVATE_KEY","COPILOT_GITHUB_TOKEN","GH_AW_CI_TRIGGER_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/checkout","sha":"v4","version":"v4"},{"repo":"actions/create-github-app-token","sha":"bcd2ba49218906704ab6c1aa796996da409d3eb1","version":"v3.2.0"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"8a9a52673cb8f97ebb43b344618af2d6f2c9ac7f","version":"v0.74.3"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.46"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.9","digest":"sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.3.9@sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388"},{"image":"ghcr.io/github/github-mcp-server:v1.0.4"},{"image":"node:lts-alpine","digest":"sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f","pinned_image":"node:lts-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f"}]}
 #    ___                   _   _      
 #   / _ \                 | | (_)     
 #  | |_| | __ _  ___ _ __ | |_ _  ___ 
@@ -45,6 +45,7 @@
 #
 # Custom actions used:
 #   - actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+#   - actions/checkout@v4
 #   - actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
 #   - actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 #   - actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
@@ -281,13 +282,405 @@ jobs:
           cat "${RUNNER_TEMP}/gh-aw/prompts/github_mcp_tools_with_safeoutputs_prompt.md"
           cat << 'GH_AW_PROMPT_1f5cb404b0ad7eff_EOF'
           </system>
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_principles.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_rigor.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_repo-conventions.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_safe-output-create-issue.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_runtime-setup.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_toml-runtime-setup.md}}
-          {{#runtime-import .github/aw/imports/norrietaylor/ch-oracles/21a50ccb7b1bfa520571b12c4ebc9c66f6d6d1c2/shared_toml-build-commands.md}}
+          
+          
+          # Core principles
+          
+          Every ch-oracles agent imports this fragment. These behavioral principles
+          reduce the common failure modes of LLM coding agents. They are derived from
+          Andrej Karpathy's observations on LLM coding pitfalls, by way of
+          [andrej-karpathy-skills](https://github.com/norrietaylor/andrej-karpathy-skills).
+          
+          They bias toward caution over speed. For a trivial change, use judgment.
+          
+          ## 1. Think before acting
+          
+          Do not assume. Do not hide confusion. Surface tradeoffs.
+          
+          - State assumptions explicitly. If uncertain, ask. In ch-oracles, asking means
+            a comment plus the `needs-human` label, never a silent guess.
+          - If multiple interpretations exist, present them; do not pick one silently.
+          - If a simpler approach exists, say so. Push back when warranted.
+          - If something is unclear, stop, name what is confusing, and ask.
+          
+          ## 2. Simplicity first
+          
+          Write the minimum that solves the problem. Nothing speculative.
+          
+          - No features, abstractions, or configurability beyond what was asked.
+          - No error handling for impossible scenarios.
+          - If 200 lines could be 50, rewrite it.
+          - Ask: would a senior engineer call this overcomplicated? If yes, simplify.
+          
+          ## 3. Surgical changes
+          
+          Touch only what you must. Clean up only your own mess.
+          
+          - Do not improve adjacent code, comments, or formatting.
+          - Do not refactor what is not broken. Match the existing style.
+          - Remove imports, variables, and functions that your own change orphaned;
+            leave pre-existing dead code alone, but mention it.
+          - The test: every changed line traces directly to the task.
+          
+          ## 4. Goal-driven execution
+          
+          Define success criteria, then loop until verified.
+          
+          - Turn a task into a verifiable goal: "add validation" becomes "write tests
+            for invalid inputs, then make them pass".
+          - For multi-step work, state a brief plan with a verify step for each step.
+          - In ch-oracles this is the verification gate: a change is not done until
+            the per-language build/test/lint commands have been executed and pass.
+          
+          Strong success criteria let an agent loop on its own; weak criteria such as
+          "make it work" force constant clarification.
+          
+          ---
+          
+          These principles are working when diffs carry fewer unnecessary changes, fewer
+          rewrites follow from overcomplication, and clarifying questions come before
+          implementation rather than after a mistake.
+          
+          
+          
+          # Evidence standards for agent findings
+          
+          Every ch-oracles agent imports this fragment. Before an agent reports a
+          finding, a problem, or a proposed change, it applies this checklist.
+          
+          ## Required before filing an issue, comment, or PR
+          
+          1. **Reproduce the finding.** Confirm the problem exists in the current state
+             of the default branch. Do not file findings that appear only in history or
+             in a stale branch.
+          2. **Rule out false positives.** Check whether a suppression, a known
+             exception, or an existing issue already accounts for the case. If so,
+             update the existing item instead of filing a new one.
+          3. **Cite evidence.** Every finding includes at least one of: a file path and
+             line number, a command and its output, or a direct quote from the
+             codebase.
+          4. **Bound the scope.** State what is affected and what is not. Do not make
+             broad claims without enumerated examples.
+          5. **One finding per issue.** Do not bundle unrelated findings. Each distinct
+             problem gets its own issue so it can be triaged and closed independently.
+          
+          ## Confidence threshold
+          
+          Do not report a finding when confidence is below 80%. An uncertain pattern is
+          raised as a note on an existing item, not as a standalone finding.
+          
+          ## Avoiding noise
+          
+          - Ignore whitespace-only differences unless the file is generated.
+          - Do not report a TODO comment as a finding unless it blocks a merge.
+          - Do not report style that the repository linter already covers; it is caught
+            automatically.
+          
+          ## Per-repo conventions
+          
+          Every ch-oracles chore imports this fragment so it can reference repo-specific
+          conventions without repeating them in every workflow prompt.
+          
+          ### Canonical doc surface
+          
+          If the repository contains an `AGENTS.md` file under `.github/`, treat its
+          content as authoritative for:
+          
+          - Build, test, and lint commands (see the `## Build Commands (ch-oracles
+            override)` section, if present).
+          - Code style and linting rules beyond what the language defaults specify.
+          - PR conventions (commit format, branch naming).
+          - Domain-specific constraints.
+          
+          Read `.github/AGENTS.md` before beginning any analysis or change. If it
+          contradicts the code, flag the discrepancy rather than silently preferring
+          one over the other.
+          
+          If no `.github/AGENTS.md` is present, fall back to `README.md` for
+          project-level conventions, then to language defaults from
+          `shared/build-matrix.md`.
+          
+          ### Branch and commit conventions
+          
+          Unless `AGENTS.md` specifies otherwise:
+          
+          - Branch names: `chore/<short-description>` for maintenance work,
+            `fix/<short-description>` for bug fixes, `worker/<label>/<issue-num>` for
+            worker-emitted fix branches.
+          - Commit messages: imperative mood, present tense, 72-character limit on the
+            subject line.
+          - PR titles: same format as commit messages, with the chore prefix where
+            applicable (e.g., `chore(deps): patch-level bumps`, `[worker:doc-drift] ...`).
+          - Do not force-push to any branch that has an open PR.
+          
+          ### Label conventions
+          
+          ch-oracles owns the following label namespaces:
+          
+          | Label | Meaning |
+          |---|---|
+          | `agent:lint:<lang>` | Lint/style finding for the named language (rust, python, go, toml, ncl). |
+          | `agent:tidy:<lang>` | Reserved for future deeper static-analysis chores. |
+          | `agent:doc-drift` | Documentation is out of sync with code. |
+          | `agent:coverage` | Test coverage gap detected. |
+          | `agent:dep-drift` | Dependency needs review or update. |
+          | `agent:auto-merge` | Informational. Applied to trivial-dep-bump PRs alongside the gh-aw declarative auto-merge. |
+          | `agent:autofix` | Applied to PRs from `chore-style-*.md` in `mode: autofix`. |
+          | `agent:conflict` | Applied by `pr-conflict-resolver` to PRs it has rebased. |
+          
+          ch-oracles honors but does not own:
+          
+          | Label | Meaning |
+          |---|---|
+          | `needs-human` | Cross-suite hand-off label. When set, ch-oracles workers decline to act on the item. Owned by `norrietaylor/spectacles` when co-installed. |
+          
+          Apply the most specific label that matches the finding. If none match, do not
+          apply an agent label.
+          
+          ### Issue and PR hygiene
+          
+          - Search for an existing open issue before creating a new one (see
+            `safe-output-create-issue.md`).
+          - Close the corresponding issue when opening a fix PR, using `Closes #<n>` in
+            the PR description.
+          - Do not assign issues or PRs to individuals unless `AGENTS.md` specifies an
+            assignment policy.
+          - Do not request reviews from individuals unless `AGENTS.md` specifies a
+            review policy.
+          
+          ### Language-specific notes
+          
+          Per-language toolchain conventions (Rust edition, Python interpreter, Go
+          version, Nickel binary version) are sourced from `shared/build-matrix.md`
+          with `AGENTS.md` overrides taking precedence. See the individual
+          `shared/<lang>-runtime-setup.md` fragments for runner provisioning details.
+          
+          ## Safe-output guardrails: create / update issue
+          
+          Apply the following caps when using the `create-issue` and `update-issue`
+          safe outputs:
+          
+          - **max: 1** — Open at most one issue per workflow run unless the chore
+            overrides it. If a matching open issue already exists for the same finding
+            identity, emit `update-issue` against it instead of `create-issue`.
+          - **max-mentions: 10** — Include at most 10 `@`-mentions across the issue
+            title and body combined.
+          - **max-links: 50** — Include at most 50 hyperlinks in the issue body.
+          - **No `close-older-issues`.** Do not set this to `true`. The gh-aw runtime
+            keys close-older only on the workflow-id marker, not on per-finding
+            identity; enabling it causes cross-finding cascades where two distinct
+            findings from the same chore mutually close each other. Per-finding dedup
+            is implemented agent-side via the idempotency contract below. This applies
+            to `close-older-key` as well: a per-workflow static value cannot replace
+            per-finding dedup.
+          
+          ### HTML tag allowlist
+          
+          Only the following HTML tags are permitted in issue bodies:
+          
+          ```text
+          <details>, <summary>, <code>, <pre>, <br>, <ul>, <ol>, <li>,
+          <strong>, <em>, <b>, <i>
+          ```
+          
+          Strip all other HTML tags before emitting the issue body.
+          
+          ### Idempotency contract (per-finding dedup)
+          
+          Every chore-emitted issue body MUST include a structured finding-identity
+          marker as the FIRST line of the body, on its own line:
+          
+          ```html
+          <!-- finding-id: <chore>::<lang>::<identity> -->
+          ```
+          
+          - `<chore>` — the chore name (e.g., `lint`, `tidy`, `doc-drift`, `coverage`,
+            `dep-drift`).
+          - `<lang>` — the language scope (`rust`, `python`, `go`, `toml`, `ncl`), or
+            `n-a` if not applicable (e.g., `doc-drift::n-a::README.md::link-404`).
+          - `<identity>` — the per-chore identity field defined in each chore's
+            Reporting section (e.g., `src/lib.rs::42::E0599` for clippy, `tokio::CVE-2024-0001`
+            for dep-drift).
+          
+          The marker is normalized lowercase, alphanumeric plus `,:_/.-`.
+          
+          Before emitting any safe-output, run this dedup procedure:
+          
+          1. Search open issues with the chore's `agent:*` label and a body containing
+             `` for the current
+             finding's identity:
+          
+             ```bash
+             gh issue list --search "in:body \"finding-id: <chore>::<lang>::<identity>\""
+             ```
+          
+          2. **If a matching open issue exists**: emit `update-issue` with
+             `issue_number=<n>` and `operation=replace`, posting the fresh body. Do
+             not call `create-issue`. Do not call `close-older-issues`-style closures;
+             mutating fixes should land via the worker chore, not this audit.
+          3. **If no matching open issue exists**: emit `create-issue` with the marker
+             as the first body line.
+          
+          This contract is the only source of dedup. The runtime no longer auto-closes
+          prior issues, so an obsolete issue (drift that has been fixed) stays open
+          until either an operator closes it or a future janitor chore reaps stale
+          entries. The trade is intentional: false-cascades are far more harmful than
+          slightly-stale-open entries an operator can close.
+          
+          ### Severity labeling
+          
+          Attach exactly one severity label from the set declared in this repo's
+          `labels.yml`. Do not create new labels at runtime.
+          
+          ## Runtime environment setup
+          
+          Apply the following setup steps at the start of any agent workflow step that
+          reads from or writes to the repository.
+          
+          ### 1. Verify checkout
+          
+          Confirm the repository has been checked out before the agent step runs:
+          
+          ```yaml
+          - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+          ```
+          
+          Use `fetch-depth: 0` for workflows that traverse commit history (doc-drift,
+          test-coverage detector). Use `fetch-depth: 1` for workflows that only need
+          the current HEAD (lint, dep-bump).
+          
+          ### 2. Set up git identity
+          
+          Configure a non-interactive git identity so the agent can commit changes
+          without prompts:
+          
+          ```bash
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          ```
+          
+          ### 3. Confirm tool availability
+          
+          Before the agent step begins, confirm the expected tools are on PATH:
+          
+          ```bash
+          command -v gh >/dev/null 2>&1 || { echo "gh CLI not found" >&2; exit 1; }
+          command -v jq >/dev/null 2>&1 || { echo "jq not found" >&2; exit 1; }
+          gh aw --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | awk -F. '
+            ($1 > 0) || ($1 == 0 && $2 > 72) || ($1 == 0 && $2 == 72 && $3 >= 0) { found=1 }
+            END { if (!found) { print "gh aw v0.72.0 or newer required" > "/dev/stderr"; exit 1 } }
+          '
+          ```
+          
+          ### 4. Export required environment variables
+          
+          Agent steps expect the following variables in their environment:
+          
+          | Variable | Source | Description |
+          |---|---|---|
+          | `GITHUB_TOKEN` | Secrets | Read/write token for GitHub API calls within the repo. |
+          | `APP_PRIVATE_KEY` | Secrets | Private key for the bot GitHub App; mints installation tokens for safe-output writes. |
+          | `COPILOT_GITHUB_TOKEN` | Secrets | Fine-grained PAT with Copilot Requests:Read; auth credential for `engine: copilot` inference calls. |
+          | `ANTHROPIC_API_KEY` | Org secret | API key for Claude-backed workflows (workers only). |
+          
+          Set these in the workflow frontmatter or wrapper `secrets:` block, not
+          inside the agent prompt.
+          
+          ### 5. Failure behavior
+          
+          If any setup step fails:
+          
+          - Exit with a non-zero status code and a descriptive message to stderr.
+          - Do not attempt to run the agent step. A partially initialized environment
+            produces unreliable agent output.
+          - The workflow surfaces the failure as a failed Actions check so the
+            operator is alerted.
+          
+          ## TOML runtime setup
+          
+          For workflows that lint or format TOML files, install `taplo`.
+          
+          ### Install taplo
+          
+          ```yaml
+          - name: Install taplo
+            run: |
+              curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz \
+                | gunzip > /usr/local/bin/taplo
+              chmod +x /usr/local/bin/taplo
+          ```
+          
+          ### Network egress
+          
+          This workflow's lock file MUST declare:
+          
+          ```yaml
+          network:
+            allowed: [defaults]
+          ```
+          
+          `defaults` is sufficient: taplo itself does not fetch dependencies. The
+          release binary download host (`github.com/tamasfe/taplo`) is included in
+          `defaults`.
+          
+          ### Tool checks
+          
+          ```bash
+          command -v taplo >/dev/null 2>&1 || { echo "taplo not found" >&2; exit 1; }
+          taplo --version
+          ```
+          
+          ### Optional: `.taplo.toml` configuration
+          
+          If the consumer repo has `.taplo.toml` at the root, taplo honors it.
+          Otherwise the default schema and rules apply.
+          
+          ## TOML build commands
+          
+          Default lint commands for TOML files. There is no "build" or "test" step for
+          TOML on its own — the language has no execution model — so these reduce to
+          lint.
+          
+          ### Verification gate
+          
+          ```bash
+          taplo fmt --check
+          taplo lint
+          ```
+          
+          `taplo fmt --check` exits non-zero if any file needs reformatting.
+          `taplo lint` validates schema and key conventions.
+          
+          ### Lint commands
+          
+          `mode: report`:
+          
+          ```bash
+          taplo fmt --check
+          taplo lint
+          ```
+          
+          `mode: autofix`:
+          
+          ```bash
+          taplo fmt              # rewrites files in place
+          taplo lint             # lint findings stay reported, never auto-applied.
+          ```
+          
+          ### Scope
+          
+          ch-oracles' TOML chore covers every `*.toml` file under the repo root,
+          excluding `target/`, `node_modules/`, and any path in `.gitignore`.
+          
+          Note: `Cargo.toml` files in a Rust workspace are also covered by
+          `chore-style-rust.md` via `cargo fmt`. The two chores produce overlapping
+          findings when both are installed. Prefer `chore-style-rust.md` for Rust
+          repos and skip `chore-style-toml.md` there; install `chore-style-toml.md`
+          only when the repo uses TOML outside a Cargo context (config files, Hugo,
+          etc.).
+          
           
           
           # Style chore: TOML

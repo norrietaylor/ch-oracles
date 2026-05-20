@@ -8,6 +8,16 @@ Built on [gh-aw](https://github.com/githubnext/gh-aw). Sibling to
 [norrietaylor/spectacles](https://github.com/norrietaylor/spectacles); stands
 alone or co-installs with it.
 
+```mermaid
+flowchart LR
+    A[chore audit] -->|files| B[issue<br/>agent:*]
+    B -->|worker picks| C[fix PR<br/>:worker:label:]
+    C -->|consumer CI green| M((merged))
+
+    classDef accent fill:#f5e9ff,stroke:#6b21a8,stroke-width:2px;
+    class M accent;
+```
+
 ## What's in the suite
 
 | Chore | Output | Cadence |
@@ -26,7 +36,7 @@ alone or co-installs with it.
 - Chores (audit, lint, dep-bump) run on **Copilot**.
 - Workers run on **Claude**.
 
-See [ADR 0006](../decisions/0006-engine-split.md) for the rationale.
+See [ADR 0006](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0006-engine-split.md) for the rationale.
 
 ## Get started
 
@@ -40,7 +50,7 @@ See [Install](install.md) for full options.
 ## Design principles
 
 - **Not gating.** Chore output is advisory; branch protection depends on
-  consumer CI only ([ADR 0001](../decisions/0001-not-gating.md)).
+  consumer CI only ([ADR 0001](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0001-not-gating.md)).
 - **Capped.** Audit chores file at most 1 issue per run (3 for coverage);
   fix chores open at most 1 PR per run. Per-finding dedup via finding-id
   markers prevents duplicate filings on re-runs.

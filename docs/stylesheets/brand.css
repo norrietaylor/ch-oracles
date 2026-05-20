@@ -1,0 +1,100 @@
+/* ch-oracles brand stylesheet
+ *
+ * Modern minimal. Pure geometric mark with a single jewel-tone accent.
+ * Amethyst (#6b21a8 light, #9d4ed8 dark). Per docs/assets/BRAND.md.
+ */
+
+:root {
+  --md-primary-fg-color: #1a1a1a;
+  --md-primary-fg-color--light: #2a2a2a;
+  --md-primary-fg-color--dark: #000000;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: #fafafa;
+
+  --md-accent-fg-color: #6b21a8;
+  --md-accent-fg-color--transparent: rgba(107, 33, 168, 0.1);
+  --md-accent-bg-color: #ffffff;
+  --md-accent-bg-color--light: #f5e9ff;
+
+  --md-typeset-a-color: #6b21a8;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #0e0e10;
+  --md-primary-fg-color--light: #1a1a1c;
+  --md-primary-fg-color--dark: #000000;
+  --md-primary-bg-color: #f5f5f5;
+  --md-primary-bg-color--light: #e8e8e8;
+
+  --md-accent-fg-color: #9d4ed8;
+  --md-accent-fg-color--transparent: rgba(157, 78, 216, 0.15);
+  --md-accent-bg-color: #0e0e10;
+  --md-accent-bg-color--light: #2a1a3a;
+
+  --md-typeset-a-color: #9d4ed8;
+
+  --md-default-bg-color: #0e0e10;
+  --md-default-fg-color: #f5f5f5;
+  --md-default-fg-color--light: #d4d4d4;
+  --md-default-fg-color--lighter: #a8a8a8;
+}
+
+/* Mermaid diagram styling: match the accent palette */
+.mermaid {
+  background: transparent !important;
+}
+
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon {
+  fill: var(--md-default-bg-color) !important;
+  stroke: var(--md-default-fg-color) !important;
+  stroke-width: 1.5px !important;
+}
+
+.mermaid .node text {
+  fill: var(--md-default-fg-color) !important;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.mermaid .edgeLabel {
+  background-color: var(--md-default-bg-color) !important;
+  color: var(--md-default-fg-color) !important;
+}
+
+.mermaid .edgePath .path {
+  stroke: var(--md-default-fg-color--light) !important;
+  stroke-width: 1.5px !important;
+}
+
+.mermaid .cluster rect {
+  fill: var(--md-default-bg-color--light, #fafafa) !important;
+  stroke: var(--md-default-fg-color--lighter) !important;
+  stroke-dasharray: 4 4 !important;
+}
+
+/* Accent the brass/amethyst node — use class `.accent` in mermaid via classDef */
+.mermaid .accent rect,
+.mermaid .accent circle,
+.mermaid .accent polygon {
+  fill: var(--md-accent-fg-color--transparent) !important;
+  stroke: var(--md-accent-fg-color) !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid .accent text {
+  fill: var(--md-accent-fg-color) !important;
+  font-weight: 600 !important;
+}
+
+/* Typography tweaks */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset code {
+  font-size: 0.85em;
+}

@@ -7,21 +7,33 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   logo: assets/svg/logo-light.svg
-  favicon: assets/svg/favicon.svg
+  favicon: assets/svg/favicon-light.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
   features:
     - navigation.tabs
     - navigation.sections
     - content.code.copy
     - content.action.edit
   palette:
-    - media: '(prefers-color-scheme: light)'
+    - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: black
-      accent: amber
-    - media: '(prefers-color-scheme: dark)'
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: black
-      accent: amber
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+extra_css:
+  - stylesheets/brand.css
 
 extra:
   social:
@@ -30,11 +42,17 @@ extra:
 
 markdown_extensions:
   - admonition
+  - tables
+  - attr_list
+  - md_in_html
   - pymdownx.details
-  - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
-  - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: true
 
@@ -49,11 +67,6 @@ nav:
       - TOML: languages/toml.md
       - Nickel: languages/ncl.md
   - Coexistence with spectacles: coexistence-with-spectacles.md
-  - Decisions:
-      - 0001 Not gating: ../decisions/0001-not-gating.md
-      - 0002 Style mode flag: ../decisions/0002-style-mode-flag.md
-      - 0003 Spectacles coexistence: ../decisions/0003-spectacles-coexistence.md
-      - 0004 Polyglot worker: ../decisions/0004-polyglot-worker.md
-      - 0005 Network egress: ../decisions/0005-network-egress.md
-      - 0006 Engine split: ../decisions/0006-engine-split.md
-      - 0007 Fragment sync policy: ../decisions/0007-fragment-sync-policy.md
+
+not_in_nav: |
+  assets/**
