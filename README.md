@@ -10,6 +10,8 @@ Polyglot chore agent suite for GitHub Actions. Sibling to
 [norrietaylor/spectacles](https://github.com/norrietaylor/spectacles); stands
 alone or installs alongside it.
 
+📖 **Docs: [norrietaylor.github.io/ch-oracles](https://norrietaylor.github.io/ch-oracles/)**
+
 ## What it does
 
 Hosts reusable `gh-aw` workflows that watch a repository for routine
@@ -47,13 +49,13 @@ Filter explicitly:
 ./quick-setup.sh --suite oracles --languages rust,python --with-workers
 ```
 
-See `docs/install.md` for full options.
+See the [Install guide](https://norrietaylor.github.io/ch-oracles/install/) for full options.
 
 ## Coexistence with spectacles
 
 ch-oracles can be installed in the same repository as spectacles. Their
 wrapper files, lock files, and label namespaces do not collide; `AGENTS.md`
-and `labels.yml` updates are additive. See `docs/coexistence-with-spectacles.md`.
+and `labels.yml` updates are additive. See [Coexistence with spectacles](https://norrietaylor.github.io/ch-oracles/coexistence-with-spectacles/).
 
 ## Architecture
 
@@ -63,7 +65,7 @@ Consumer repos install thin `wrappers/*.yml` files that call the hosted lock
 files via `uses:`. Shared prompt fragments live in `shared/` and are inlined
 at compile time.
 
-See `docs/architecture.md` for the full chore → issue → worker → PR loop.
+See [Architecture](https://norrietaylor.github.io/ch-oracles/architecture/) for the full chore → issue → worker → PR loop (mermaid diagrams).
 
 ## License
 
