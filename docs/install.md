@@ -68,7 +68,7 @@ gh secret set ANTHROPIC_API_KEY --body "$(read -s key && echo "$key")"
 | Variable | Used by | Description |
 |---|---|---|
 | `APP_ID` | All chores | GitHub App ID for the bot identity |
-| `CH_ORACLES_LANGUAGE` | Workers | Optional. Pin the consumer language to one of `rust|python|go|toml|ncl|polyglot`. |
+| `CH_ORACLES_LANGUAGE` | Workers | Optional. Pin the consumer language to one of `rust`, `python`, `go`, `toml`, `ncl`, or `polyglot`. |
 
 ## Sync labels
 

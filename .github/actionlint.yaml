@@ -1,0 +1,14 @@
+# actionlint config.
+#
+# gh-aw lock files (.github/workflows/*.lock.yml) are machine-generated.
+# actionlint's shellcheck integration flags style issues we cannot fix
+# without forking gh-aw; gh-aw also emits a `concurrency.queue:` key that
+# is valid for gh-aw's runtime but not part of GitHub Actions' core schema.
+# Suppress both on lock files only. Real shellcheck still runs against
+# scripts/ via the lint workflow.
+
+paths:
+  ".github/workflows/*.lock.yml":
+    ignore:
+      - "shellcheck reported issue"
+      - 'unexpected key "queue"'

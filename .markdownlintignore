@@ -2,5 +2,8 @@ node_modules/
 site/
 .github/aw/
 .github/workflows/*.lock.yml
+.github/workflows/*.md
 workflows/*.md
-templates/.github/workflows/**
+templates/**
+docs/assets/**
+E2E-TEST.md

@@ -2,6 +2,12 @@
   "default": true,
   "MD013": false,
   "MD024": { "siblings_only": true },
-  "MD033": { "allowed_elements": ["details", "summary", "br", "code", "pre"] },
-  "MD041": false
+  "MD033": {
+    "allowed_elements": [
+      "details", "summary", "br", "code", "pre",
+      "picture", "source", "img"
+    ]
+  },
+  "MD041": false,
+  "MD060": false
 }

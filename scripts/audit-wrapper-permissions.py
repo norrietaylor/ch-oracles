@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """audit-wrapper-permissions.py — CI gate that verifies each wrapper's declared
-permissions are no broader than the inner lock file's job-level permissions.
+workflow-level permissions are no broader than the *maximum* permission requested
+by any job inside the inner lock file.
 
-A wrapper that grants more permission than its callee needs is a misconfiguration
-that allows the callee to perform operations beyond its declared safe-output
-scope. The opposite — wrapper too narrow — produces a startup_failure that
-surfaces immediately, so it does not need a CI gate.
+A gh-aw lock file contains multiple jobs: activation (read-only), the agent
+(typically read-only — writes flow through safe-outputs), detect/detection
+jobs (read-only), and emitter jobs that gh-aw injects when safe-outputs is
+configured (these need issues:write, pull-requests:write, contents:write to
+perform the actual GitHub API calls). The wrapper's workflow-level
+permissions cap the union of every job's request, so the audit compares the
+wrapper's grant against the max across jobs — not against any single job.
 
 Usage:
     python scripts/audit-wrapper-permissions.py wrappers/*.yml
-    python scripts/audit-wrapper-permissions.py --workflows-dir .github/workflows --wrappers-dir wrappers
 """
 
 from __future__ import annotations
@@ -40,7 +43,22 @@ def load_yaml(path: Path) -> dict:
 def normalize_perm(value: str | None) -> int:
     if value is None:
         return 0
-    return PERMISSION_LEVELS.get(value.lower(), 0)
+    return PERMISSION_LEVELS.get(str(value).lower(), 0)
+
+
+def max_perm_per_scope(jobs: dict) -> dict[str, str]:
+    """For each scope, return the highest permission level any job in the lock requests."""
+    out: dict[str, str] = {}
+    for job in jobs.values():
+        if not isinstance(job, dict):
+            continue
+        perms = job.get("permissions") or {}
+        if not isinstance(perms, dict):
+            continue
+        for scope, declared in perms.items():
+            if normalize_perm(declared) > normalize_perm(out.get(scope)):
+                out[scope] = str(declared)
+    return out
 
 
 def check_pair(wrapper_path: Path, lock_path: Path) -> list[str]:
@@ -53,20 +71,18 @@ def check_pair(wrapper_path: Path, lock_path: Path) -> list[str]:
     if not isinstance(wrapper_perms, dict):
         return [f"{wrapper_path}: workflow-level permissions must be a mapping, not {type(wrapper_perms).__name__}"]
 
-    # Collect every job-level permission set in the lock file.
     jobs = lock.get("jobs") or {}
-    for job_name, job_def in jobs.items():
-        job_perms = (job_def or {}).get("permissions") or {}
-        if not isinstance(job_perms, dict):
-            continue
-        for scope, declared in job_perms.items():
-            wrapper_level = normalize_perm(wrapper_perms.get(scope))
-            lock_level = normalize_perm(declared)
-            if wrapper_level > lock_level:
-                violations.append(
-                    f"{wrapper_path}: scope '{scope}' grants '{wrapper_perms.get(scope)}' "
-                    f"but lock job '{job_name}' declares '{declared}' (over-permission)"
-                )
+    if not isinstance(jobs, dict):
+        return [f"{lock_path}: jobs must be a mapping"]
+
+    lock_max = max_perm_per_scope(jobs)
+
+    for scope, wrapper_value in wrapper_perms.items():
+        if normalize_perm(wrapper_value) > normalize_perm(lock_max.get(scope)):
+            violations.append(
+                f"{wrapper_path}: scope '{scope}' grants '{wrapper_value}' "
+                f"but no lock job exceeds '{lock_max.get(scope, 'none')}' (over-permission)"
+            )
     return violations
 
 
@@ -87,12 +103,14 @@ def main() -> int:
         return 2
 
     all_violations: list[str] = []
+    checked = 0
     for wrapper_path in wrappers:
         lock_path = Path(args.workflows_dir) / f"{wrapper_path.stem}.lock.yml"
         if not lock_path.exists():
             sys.stderr.write(f"warn: no lock file for {wrapper_path.name} (looked at {lock_path})\n")
             continue
         all_violations.extend(check_pair(wrapper_path, lock_path))
+        checked += 1
 
     if all_violations:
         sys.stderr.write("wrapper-permission-cap violations:\n")
@@ -100,7 +118,7 @@ def main() -> int:
             sys.stderr.write(f"  - {v}\n")
         return 1
 
-    print(f"checked {len(wrappers)} wrappers; zero over-permission violations.")
+    print(f"checked {checked} wrappers; zero over-permission violations.")
     return 0
 
 

@@ -36,13 +36,9 @@ usage() {
 log()    { printf '[ch-oracles] %s\n' "$*"; }
 warn()   { printf '[ch-oracles] WARN: %s\n' "$*" >&2; }
 die()    { printf '[ch-oracles] ERROR: %s\n' "$*" >&2; exit 1; }
-do_or_dry() {
-  if [ "${DRY_RUN}" -eq 1 ]; then
-    printf '[ch-oracles][dry-run] %s\n' "$*"
-  else
-    eval "$@"
-  fi
-}
+# Removed do_or_dry helper (SC2294 eval misuse). Each call site below handles
+# its own dry-run check inline so the dispatched command can use a real argv
+# array rather than `eval` re-splitting a string.
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -100,7 +96,6 @@ fi
 # ---------------------------------------------------------------------------
 
 WRAPPERS_DIR=".github/workflows"
-TEMPLATES_DIR=".github"
 
 # Always-install wrappers (universal chores).
 UNIVERSAL_WRAPPERS=(

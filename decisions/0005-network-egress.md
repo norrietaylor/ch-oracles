@@ -17,10 +17,10 @@ runtime egress allowlist. Two policies were considered:
 
 ## Decision
 
-**Per-workflow declaration.** Each chore-* and trivial-dep-bump-* workflow
+**Per-workflow declaration.** Each `chore-*` and `trivial-dep-bump-*` workflow
 declares only its own language's ecosystem id. The polyglot workers
 (`worker-fix`, `worker-iterate`, `pr-conflict-resolver`) declare the union
-explicitly: `[defaults, rust, python, go, nickel]`.
+explicitly: `[defaults, rust, python, go]`.
 
 A single `shared/network-egress.md` fragment exists as documentation only,
 not as a compile-time import. It describes the per-language allowlist

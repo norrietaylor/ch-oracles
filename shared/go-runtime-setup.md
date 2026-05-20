@@ -42,5 +42,6 @@ go install honnef.co/go/tools/cmd/staticcheck@latest
 go install golang.org/x/vuln/cmd/govulncheck@latest
 ```
 
-Cache `${{ runner.go-build-cache }}` and `~/go/pkg/mod` to avoid reinstalling
-on every run.
+Cache the Go build cache (typically `~/.cache/go-build` on Linux) and
+`~/go/pkg/mod` to avoid reinstalling on every run. Use `actions/cache@v4`
+with a key derived from `hashFiles('go.sum')`.
