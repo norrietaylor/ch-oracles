@@ -48,6 +48,12 @@ safe-outputs:
       - agent:doc-drift
   update-issue:
     max: 1
+    # target: '*' lets the agent pass an explicit issue_number from its dedup
+    # search. Default target: 'triggering' only works when the workflow itself
+    # is in an issue-event context; docs-patrol runs on schedule + manual
+    # dispatch, so the runtime rejects update_issue with "not running in issue
+    # context". Per ch-oracles#31.
+    target: '*'
 
 tools:
   github:
@@ -125,11 +131,24 @@ For each candidate, anchor the finding to:
 
 ## Reporting
 
-Issue body MUST begin with:
+The finding-id marker is the dedup primary key. It MUST be the FIRST line of
+the issue body, on its own line, in this exact format:
 
 ```html
 <!-- finding-id: doc-drift::n-a::<doc-path>::<concise-identity> -->
 ```
+
+- `<doc-path>` is the relative path of the drifted document, lowercase,
+  e.g. `readme.md`, `docs/architecture.md`, `.github/agents.md`.
+- `<concise-identity>` is a stable per-finding slug derived from the drift
+  itself — for missing-file claims use `missing-file::<claimed-path>`; for
+  wrong-symbol claims use `wrong-symbol::<symbol>`; for stale-command
+  claims use `stale-command::<command-slug>`. Lowercase, alphanumeric plus
+  `,:_/.-`. The slug MUST NOT include run-scoped data (timestamps, run ids,
+  SHAs).
+
+Two re-runs over the same working tree must produce a byte-identical marker
+for the same finding. If they do not, the dedup contract is broken.
 
 Title format: `[doc-drift] <doc-path>: <one-line summary>`.
 
@@ -140,7 +159,28 @@ Body sections:
 3. **Suggested correction** — minimal edit to the doc.
 4. **Confidence** — `high` (≥95%) or `medium` (80-95%).
 
-Apply the dedup procedure from `safe-output-create-issue.md` before emitting.
+### Dedup procedure (required before every emit)
+
+You MUST run this dedup search BEFORE calling `create-issue`. Build the
+marker string first, then:
+
+1. Search open `agent:doc-drift` issues for the literal marker string.
+   Use the `search_issues` GitHub MCP tool (already in the allowlist) with
+   query `is:issue is:open label:agent:doc-drift "finding-id: doc-drift::n-a::<doc-path>::<identity>" in:body`.
+
+2. **If exactly one matching open issue exists**: emit `update-issue` with
+   `issue_number=<n>` (the matched number — REQUIRED, the runtime is not in
+   an issue-event context and will reject omitted-number calls per
+   ch-oracles#31) and `operation=replace`. Do NOT call `create-issue`.
+3. **If no matching open issue exists**: emit `create-issue` with the
+   marker as the first body line.
+4. **If more than one matching open issue exists** (operator created a
+   duplicate, or a prior run with a buggy marker filed extras): pick the
+   lowest-numbered open issue, emit `update-issue` against it, and log the
+   numbers of the other duplicates so an operator can close them.
+
+See `safe-output-create-issue.md` for the cross-chore idempotency contract
+this implements.
 
 ## What you must not do
 
