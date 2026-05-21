@@ -29,7 +29,7 @@ safe-output runtime — never raw GitHub API calls from the agent.
 
 ```mermaid
 flowchart TB
-    subgraph SOT["norrietaylor/ch-oracles (source of truth)"]
+    subgraph SOT["gominimal/ch-oracles (source of truth)"]
         S1[workflows/&lt;chore&gt;.md<br/>source]
         S2[shared/*.md<br/>fragments]
         S3[wrappers/&lt;chore&gt;.yml<br/>thin caller]
@@ -60,7 +60,7 @@ tag.
   safe-output caps, and tool allowlists are baked into the lock at compile
   time.
 - **Runtime:** wrappers in consumer repos invoke
-  `uses: norrietaylor/ch-oracles/.github/workflows/<name>.lock.yml@<ref>`.
+  `uses: gominimal/ch-oracles/.github/workflows/<name>.lock.yml@<ref>`.
   The lock file's pre-activation guards (role check, label-namespace gate)
   evaluate the consumer's event context. The agent step runs in a sandbox
   with the baked allowlists.
@@ -128,7 +128,7 @@ flowchart TD
 ```
 
 Verification commands per language come from
-[`shared/build-matrix.md`](https://github.com/norrietaylor/ch-oracles/blob/main/shared/build-matrix.md),
+[`shared/build-matrix.md`](https://github.com/gominimal/ch-oracles/blob/main/shared/build-matrix.md),
 with consumer `AGENTS.md` overrides taking precedence.
 
 ## pr-conflict-resolver detect job

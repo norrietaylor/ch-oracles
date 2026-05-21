@@ -1,4 +1,4 @@
-<!-- Source: norrietaylor/spectacles/shared/rigor.md@main at bootstrap (2026-05-19). Not auto-synced. -->
+<!-- Source: gominimal/spectacles/shared/rigor.md@main at bootstrap (2026-05-19). Not auto-synced. -->
 
 # Evidence standards for agent findings
 

@@ -2,7 +2,7 @@
 # Distributed as a reusable workflow per the gh-aw sharing pattern. Consumer
 # repos install a thin wrapper from `wrappers/docs-patrol.yml` that declares
 # the actual triggers (schedule, push, workflow_dispatch) and calls into this
-# lock via `uses: norrietaylor/ch-oracles/.github/workflows/docs-patrol.lock.yml@<tag>`.
+# lock via `uses: gominimal/ch-oracles/.github/workflows/docs-patrol.lock.yml@<tag>`.
 # The triggers belong on the wrapper; only `workflow_call` belongs here.
 on:
   workflow_call:
@@ -30,11 +30,11 @@ network:
   allowed: [defaults]
 
 imports:
-  - norrietaylor/ch-oracles/shared/principles.md@main
-  - norrietaylor/ch-oracles/shared/rigor.md@main
-  - norrietaylor/ch-oracles/shared/repo-conventions.md@main
-  - norrietaylor/ch-oracles/shared/safe-output-create-issue.md@main
-  - norrietaylor/ch-oracles/shared/runtime-setup.md@main
+  - gominimal/ch-oracles/shared/principles.md@main
+  - gominimal/ch-oracles/shared/rigor.md@main
+  - gominimal/ch-oracles/shared/repo-conventions.md@main
+  - gominimal/ch-oracles/shared/safe-output-create-issue.md@main
+  - gominimal/ch-oracles/shared/runtime-setup.md@main
 
 safe-outputs:
   github-app:

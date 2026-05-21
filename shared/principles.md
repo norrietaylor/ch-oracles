@@ -1,4 +1,4 @@
-<!-- Source: norrietaylor/spectacles/shared/principles.md@main at bootstrap (2026-05-19). Not auto-synced. -->
+<!-- Source: gominimal/spectacles/shared/principles.md@main at bootstrap (2026-05-19). Not auto-synced. -->
 
 # Core principles
 

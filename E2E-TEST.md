@@ -6,8 +6,8 @@ Verify the entire `ch-oracles` agentic-workflow suite end-to-end against a real 
 
 Target consumer repo: **`gominimal/spectables_test`** (the operator wrote this literally; treat it as canonical until Step 0 confirms or corrects it).
 
-Upstream suite repo: `norrietaylor/ch-oracles` at https://github.com/norrietaylor/ch-oracles.
-Docs site: https://norrietaylor.github.io/ch-oracles/.
+Upstream suite repo: `gominimal/ch-oracles` at https://github.com/gominimal/ch-oracles.
+Docs site: https://gominimal.github.io/ch-oracles/.
 
 You are testing 14 workflows in 4 groups:
 
@@ -64,7 +64,7 @@ Expect: `{"admin": true, ...}` or at minimum `"maintain": true`. Without this yo
 ### P3. Upstream suite is reachable
 
 ```bash
-gh repo view norrietaylor/ch-oracles --json visibility,defaultBranchRef
+gh repo view gominimal/ch-oracles --json visibility,defaultBranchRef
 ```
 
 Expect: `"visibility":"PUBLIC"` and a default branch (usually `main`). Record the default branch as `$REF` (used in wrapper `uses:` lines).
@@ -134,7 +134,7 @@ cd "$WORK"
 
 ## Stage A — Install
 
-Goal: run `scripts/quick-setup.sh` from `norrietaylor/ch-oracles` against `$REPO`, verify every artifact lands, and open the install PR.
+Goal: run `scripts/quick-setup.sh` from `gominimal/ch-oracles` against `$REPO`, verify every artifact lands, and open the install PR.
 
 ### A1. Clone test repo
 
@@ -149,7 +149,7 @@ git checkout -b e2e/ch-oracles-install
 Fetch the installer from upstream and execute in dry-run mode. This must touch nothing on disk.
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/norrietaylor/ch-oracles/$REF/scripts/quick-setup.sh" \
+curl -fsSL "https://raw.githubusercontent.com/gominimal/ch-oracles/$REF/scripts/quick-setup.sh" \
   -o /tmp/ch-oracles-quick-setup.sh
 chmod +x /tmp/ch-oracles-quick-setup.sh
 
@@ -207,17 +207,17 @@ Every wrapper must call the hosted `.lock.yml` at the correct ref.
 ```bash
 for f in .github/workflows/*.yml; do
   echo "=== $f ==="
-  grep -E 'uses:\s*norrietaylor/ch-oracles/.github/workflows/.*\.lock\.yml@' "$f" \
+  grep -E 'uses:\s*gominimal/ch-oracles/.github/workflows/.*\.lock\.yml@' "$f" \
     || echo "MISSING lock.yml uses: in $f"
 done
 ```
 
-**Success criteria:** every workflow file matches `uses: norrietaylor/ch-oracles/.github/workflows/<chore>.lock.yml@<REF>`. Any `MISSING` line is a failure — check Failure-Mode F4.
+**Success criteria:** every workflow file matches `uses: gominimal/ch-oracles/.github/workflows/<chore>.lock.yml@<REF>`. Any `MISSING` line is a failure — check Failure-Mode F4.
 
 ### A5. Sync labels
 
 ```bash
-gh label clone norrietaylor/ch-oracles -R "$REPO" --force 2>&1 | tail -20
+gh label clone gominimal/ch-oracles -R "$REPO" --force 2>&1 | tail -20
 # OR if you have a label-sync action: rely on labels.yml in the PR
 ```
 
@@ -731,12 +731,12 @@ gh run view "$RUN_ID" --repo "$REPO" --log 2>&1 | grep -E 'needs-human|skipped|o
 
 ## Stage I — Coexistence (optional)
 
-Run only if the operator wants `norrietaylor/spectacles` installed alongside ch-oracles in the same repo. Skip otherwise.
+Run only if the operator wants `gominimal/spectacles` installed alongside ch-oracles in the same repo. Skip otherwise.
 
 ### I1. Install spectacles
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/norrietaylor/spectacles/main/scripts/quick-setup.sh" \
+curl -fsSL "https://raw.githubusercontent.com/gominimal/spectacles/main/scripts/quick-setup.sh" \
   -o /tmp/spectacles-setup.sh
 chmod +x /tmp/spectacles-setup.sh
 cd "$WORK/repo"
@@ -854,7 +854,7 @@ Triage:
 
 Symptom: workflow refuses to start; log shows `unable to find reusable workflow ... at ref <ref>`.
 
-Cause: the `@<ref>` pinned in the wrapper doesn't exist on `norrietaylor/ch-oracles`.
+Cause: the `@<ref>` pinned in the wrapper doesn't exist on `gominimal/ch-oracles`.
 
 Fix: either re-run quick-setup with `--ref <known-good-tag>`, or hand-edit each wrapper to pin to `@main` or a published tag:
 
@@ -923,4 +923,4 @@ Use `status` values: `pass`, `fail`, `skipped`, `partial`. Populate `escalations
 
 ## End of runbook
 
-Once the report is emitted, the run is complete. Do not commit anything else to `$REPO` or push to `norrietaylor/ch-oracles`. If any stage emitted `fail` or `partial`, surface it prominently in the report's top line so the operator sees it before scanning the table.
+Once the report is emitted, the run is complete. Do not commit anything else to `$REPO` or push to `gominimal/ch-oracles`. If any stage emitted `fail` or `partial`, surface it prominently in the report's top line so the operator sees it before scanning the table.
