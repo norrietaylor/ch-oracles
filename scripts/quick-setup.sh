@@ -15,7 +15,9 @@
 #   --update                     Refresh existing install; preserve user-edited sections.
 #   --target <dir>               Install into <dir> instead of the current working directory.
 #                                Implies the target need not be a git repo.
-#   --dry-run                    Smoke mode: source files from the local ch-oracles checkout
+#   --dry-run                    Preview mode: print every file that WOULD be written, then exit.
+#                                No writes occur on disk. Safe to run via curl|bash.
+#   --ci-smoke                   CI smoke mode: source files from the local ch-oracles checkout
 #                                (the directory containing this script) instead of curl, skip
 #                                the post-install operator message. Side effects on the target
 #                                directory still occur so install assertions can run; the source
@@ -32,25 +34,25 @@ WITH_WORKERS=0
 NO_TEMPLATES=0
 UPDATE=0
 DRY_RUN=0
+CI_SMOKE=0
 REPO_ROOT="$(pwd)"
 TARGET_OVERRIDE=""
 
 # Resolve the local ch-oracles checkout root (parent of scripts/). Used in
-# dry-run mode as the source-of-truth for wrapper and template files.
+# --ci-smoke mode as the source-of-truth for wrapper and template files.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOCAL_SOURCE_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 usage() {
-  sed -n '2,22p' "$0"
+  sed -n '2,24p' "$0"
   exit 0
 }
 
 log()    { printf '[ch-oracles] %s\n' "$*"; }
 warn()   { printf '[ch-oracles] WARN: %s\n' "$*" >&2; }
 die()    { printf '[ch-oracles] ERROR: %s\n' "$*" >&2; exit 1; }
-# Removed do_or_dry helper (SC2294 eval misuse). Each call site below handles
-# its own dry-run check inline so the dispatched command can use a real argv
-# array rather than `eval` re-splitting a string.
+# --dry-run: print what would happen, never mutate disk.
+plan()   { printf '[ch-oracles] would write: %s\n' "$*"; }
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -66,6 +68,7 @@ while [ $# -gt 0 ]; do
       shift 2
       ;;
     --dry-run) DRY_RUN=1; shift ;;
+    --ci-smoke) CI_SMOKE=1; shift ;;
     -h|--help) usage ;;
     *) die "unknown flag: $1 (use --help)" ;;
   esac
@@ -73,15 +76,25 @@ done
 
 [ "${SUITE}" = "oracles" ] || die "unsupported suite: ${SUITE} (only 'oracles' is supported)"
 
-if [ -n "${TARGET_OVERRIDE}" ]; then
-  mkdir -p "${TARGET_OVERRIDE}"
-  REPO_ROOT="$(cd "${TARGET_OVERRIDE}" && pwd)"
+if [ "${DRY_RUN}" -eq 1 ] && [ "${CI_SMOKE}" -eq 1 ]; then
+  die "--dry-run and --ci-smoke are mutually exclusive"
 fi
 
-if [ "${DRY_RUN}" -eq 1 ] || [ -n "${TARGET_OVERRIDE}" ]; then
-  # In dry-run or with an explicit --target, we don't require the destination to
+if [ -n "${TARGET_OVERRIDE}" ]; then
+  if [ "${DRY_RUN}" -eq 0 ]; then
+    mkdir -p "${TARGET_OVERRIDE}"
+  fi
+  if [ -d "${TARGET_OVERRIDE}" ]; then
+    REPO_ROOT="$(cd "${TARGET_OVERRIDE}" && pwd)"
+  else
+    # --dry-run + non-existent target: just normalize the path for the plan output.
+    REPO_ROOT="${TARGET_OVERRIDE}"
+  fi
+fi
+
+if [ "${DRY_RUN}" -eq 1 ] || [ "${CI_SMOKE}" -eq 1 ] || [ -n "${TARGET_OVERRIDE}" ]; then
+  # In dry-run, ci-smoke, or with an explicit --target, we don't require the destination to
   # be a git repo (fixture dirs aren't; --target is documented as repo-optional).
-  # Default the language list when detection finds nothing, so the smoke is hermetic.
   :
 else
   [ -d "${REPO_ROOT}/.git" ] || die "not a git repository: ${REPO_ROOT}"
@@ -92,9 +105,12 @@ if [ -d "${REPO_ROOT}/.git" ]; then
 else
   REPO_NAME="$(basename "${REPO_ROOT}")"
 fi
+mode_label="$([ "${UPDATE}" -eq 1 ] && echo update || echo install)"
+[ "${DRY_RUN}" -eq 1 ] && mode_label="${mode_label} (dry-run)"
+[ "${CI_SMOKE}" -eq 1 ] && mode_label="${mode_label} (ci-smoke)"
 log "target repo: ${REPO_NAME} (${REPO_ROOT})"
 log "source ref:  ${SOURCE_REF}"
-log "mode:        $([ "${UPDATE}" -eq 1 ] && echo update || echo install)$([ "${DRY_RUN}" -eq 1 ] && echo ' (dry-run)' || true)"
+log "mode:        ${mode_label}"
 
 # ---------------------------------------------------------------------------
 # Language detection
@@ -117,9 +133,24 @@ detect_languages() {
 }
 
 if [ -z "${LANGUAGES}" ]; then
-  LANGUAGES="$(detect_languages)"
-  [ -z "${LANGUAGES}" ] && die "no supported languages detected; pass --languages explicitly"
-  log "detected languages: ${LANGUAGES}"
+  if [ "${DRY_RUN}" -eq 1 ] && [ ! -d "${REPO_ROOT}" ]; then
+    # Can't detect inside a non-existent target; report the situation and continue
+    # so the operator sees the wrapper plan against an unfiltered list.
+    LANGUAGES="rust,python,go,toml,ncl"
+    log "dry-run: target does not exist; assuming all languages: ${LANGUAGES}"
+  else
+    LANGUAGES="$(detect_languages)"
+    if [ -z "${LANGUAGES}" ]; then
+      if [ "${DRY_RUN}" -eq 1 ]; then
+        LANGUAGES="rust,python,go,toml,ncl"
+        log "dry-run: no languages detected; assuming all languages: ${LANGUAGES}"
+      else
+        die "no supported languages detected; pass --languages explicitly"
+      fi
+    else
+      log "detected languages: ${LANGUAGES}"
+    fi
+  fi
 else
   log "languages (explicit): ${LANGUAGES}"
 fi
@@ -162,6 +193,15 @@ install_wrapper() {
   local local_src="${LOCAL_SOURCE_ROOT}/wrappers/${name}.yml"
   local dst="${REPO_ROOT}/${WRAPPERS_DIR}/${name}.yml"
 
+  if [ "${DRY_RUN}" -eq 1 ]; then
+    if [ -f "${dst}" ] && [ "${UPDATE}" -eq 0 ]; then
+      plan "${dst} (SKIP — already exists; use --update to overwrite)"
+    else
+      plan "${dst} (from ${src_url})"
+    fi
+    return
+  fi
+
   if [ -f "${dst}" ] && [ "${UPDATE}" -eq 0 ]; then
     warn "skip ${name}.yml (already exists; use --update to overwrite)"
     return
@@ -169,8 +209,8 @@ install_wrapper() {
 
   log "install ${WRAPPERS_DIR}/${name}.yml"
   mkdir -p "$(dirname "${dst}")"
-  if [ "${DRY_RUN}" -eq 1 ]; then
-    [ -f "${local_src}" ] || die "dry-run: local wrapper missing: ${local_src}"
+  if [ "${CI_SMOKE}" -eq 1 ]; then
+    [ -f "${local_src}" ] || die "ci-smoke: local wrapper missing: ${local_src}"
     sed "s|{{SOURCE_REF}}|${SOURCE_REF}|g" < "${local_src}" > "${dst}"
     return
   fi
@@ -210,6 +250,15 @@ install_template() {
   local local_src="${LOCAL_SOURCE_ROOT}/templates/${rel_path}"
   local dst="${REPO_ROOT}/${rel_path}"
 
+  if [ "${DRY_RUN}" -eq 1 ]; then
+    if [ -f "${dst}" ] && [ "${UPDATE}" -eq 0 ]; then
+      plan "${dst} (SKIP — already exists)"
+    else
+      plan "${dst} (from ${src_url})"
+    fi
+    return
+  fi
+
   if [ -f "${dst}" ] && [ "${UPDATE}" -eq 0 ]; then
     warn "skip ${rel_path} (already exists)"
     return
@@ -220,8 +269,8 @@ install_template() {
   # Pick the primary language for {{LANGUAGE}} substitution (first detected).
   local primary_lang
   primary_lang="$(printf '%s' "${LANGUAGES}" | cut -d, -f1)"
-  if [ "${DRY_RUN}" -eq 1 ]; then
-    [ -f "${local_src}" ] || die "dry-run: local template missing: ${local_src}"
+  if [ "${CI_SMOKE}" -eq 1 ]; then
+    [ -f "${local_src}" ] || die "ci-smoke: local template missing: ${local_src}"
     sed "s|{{REPO_NAME}}|${REPO_NAME}|g; s|{{LANGUAGE}}|${primary_lang}|g; s|{{SOURCE_REF}}|${SOURCE_REF}|g" \
       < "${local_src}" > "${dst}"
     return
@@ -242,10 +291,16 @@ if [ "${NO_TEMPLATES}" -eq 0 ]; then
   LABELS_DST="${REPO_ROOT}/.github/labels.yml"
   LABELS_SRC_URL="${SOURCE_RAW}/${SOURCE_REF}/templates/.github/labels.yml"
   LABELS_LOCAL_SRC="${LOCAL_SOURCE_ROOT}/templates/.github/labels.yml"
-  if [ -f "${LABELS_DST}" ]; then
+  if [ "${DRY_RUN}" -eq 1 ]; then
+    if [ -f "${LABELS_DST}" ]; then
+      plan "${LABELS_DST} (APPEND ch-oracles labels; manual merge may be needed)"
+    else
+      plan "${LABELS_DST} (from ${LABELS_SRC_URL})"
+    fi
+  elif [ -f "${LABELS_DST}" ]; then
     log "labels.yml exists; appending ch-oracles labels (manual merge may be needed)"
-    if [ "${DRY_RUN}" -eq 1 ]; then
-      [ -f "${LABELS_LOCAL_SRC}" ] || die "dry-run: local labels.yml missing: ${LABELS_LOCAL_SRC}"
+    if [ "${CI_SMOKE}" -eq 1 ]; then
+      [ -f "${LABELS_LOCAL_SRC}" ] || die "ci-smoke: local labels.yml missing: ${LABELS_LOCAL_SRC}"
       {
         printf '\n# --- ch-oracles labels (merged %s) ---\n' "$(date -u +%Y-%m-%d)"
         cat "${LABELS_LOCAL_SRC}"
@@ -265,8 +320,13 @@ fi
 # Done
 # ---------------------------------------------------------------------------
 
+if [ "${DRY_RUN}" -eq 1 ]; then
+  log "dry-run complete (no files written)."
+  exit 0
+fi
+
 log "install complete."
-if [ "${DRY_RUN}" -eq 0 ]; then
+if [ "${CI_SMOKE}" -eq 0 ]; then
   log "next steps:"
   log "  1. Review the new files under .github/ and commit them."
   log "  2. Configure repository secrets: APP_PRIVATE_KEY, COPILOT_GITHUB_TOKEN."

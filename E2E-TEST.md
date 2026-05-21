@@ -146,7 +146,7 @@ git checkout -b e2e/ch-oracles-install
 
 ### A2. Dry run quick-setup
 
-Fetch the installer from upstream and execute in dry-run mode. This must touch nothing on disk.
+Fetch the installer from upstream and execute in dry-run mode. `--dry-run` prints every file the installer would write (sourced from upstream) and exits without touching disk. Safe to run via `curl | bash`.
 
 ```bash
 curl -fsSL "https://raw.githubusercontent.com/gominimal/ch-oracles/$REF/scripts/quick-setup.sh" \
@@ -163,7 +163,7 @@ chmod +x /tmp/ch-oracles-quick-setup.sh
 **Success criteria:**
 
 - Exit code 0.
-- Log lists every wrapper it *would* write under `.github/workflows/`.
+- Log lists every wrapper it *would* write under `.github/workflows/` (lines starting with `would write:`).
 - An auto-detect line names at least one language (`rust`, `python`, `go`, `toml`, `ncl`). Cross-check against actual repo contents:
 
 ```bash
