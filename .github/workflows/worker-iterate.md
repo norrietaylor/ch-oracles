@@ -79,7 +79,9 @@ tools:
   bash:
     - 'gh pr view *'
     - 'gh pr diff *'
+    - 'gh api repos/*/pulls/*/reviews'
     - 'gh api repos/*/pulls/*/comments'
+    - 'gh api repos/*/issues/*/comments'
     - 'cargo *'
     - 'uv *'
     - 'go *'
@@ -134,15 +136,42 @@ Identical to `worker-fix.md`: read `vars.CH_ORACLES_LANGUAGE`, then
 
 ## Procedure
 
-1. Fetch unresolved review comments on the PR via the GitHub API; write to
-   `/tmp/review-comments.json`.
-2. Classify each comment: `actionable` (concrete code change requested),
-   `clarification` (information request), `style-preference` (opinion not
-   tied to the rigor checklist), `out-of-scope` (touches files outside the
-   PR's scope).
+1. Enumerate human feedback on the PR from ALL THREE GitHub API surfaces
+   and merge them into `/tmp/review-comments.json`. A single surface is
+   never sufficient — reviewers post feedback at any of these layers and
+   missing one produces false noops:
+   - **Review summaries**: `gh api repos/<owner>/<repo>/pulls/<n>/reviews`
+     — the body of `COMMENTED` and `CHANGES_REQUESTED` reviews. This is
+     the surface that `gh pr review --comment "<body>"` writes to, and the
+     most common form of human feedback on a worker PR. `APPROVED` reviews
+     with empty bodies are not actionable and may be skipped.
+   - **Review-thread (inline) comments**: `gh api repos/<owner>/<repo>/pulls/<n>/comments`
+     — comments anchored to a specific diff hunk. These carry a
+     `pull_request_review_id` and `path`/`line` fields.
+   - **PR issue-comments**: `gh api repos/<owner>/<repo>/issues/<n>/comments`
+     — top-level conversation comments on the PR (the same surface used by
+     `gh pr comment`).
+
+   For each entry, retain at minimum: source surface, comment/review id,
+   author login, author type (`User` vs `Bot`), body, and (for inline
+   comments) `path`/`line`. Filter out entries where `user.type == "Bot"`
+   or whose login matches a known bot suffix (`[bot]`) or known automation
+   accounts (e.g. `coderabbitai`, `dependabot`, `github-actions`,
+   `gominimal-aw-bot`, the ch-oracles bot app itself). If after filtering
+   no human feedback remains, emit `noop` with a message that explicitly
+   lists how many entries each surface returned and how many survived the
+   bot filter — never claim "no human review comments" without enumerating
+   all three surfaces first.
+2. Classify each surviving comment: `actionable` (concrete code change
+   requested), `clarification` (information request), `style-preference`
+   (opinion not tied to the rigor checklist), `out-of-scope` (touches
+   files outside the PR's scope).
 3. Pick up to 3 `actionable` comments. For each:
    - Apply the requested change.
-   - Append `<!-- worker-iterate:addressed -->` to a reply comment.
+   - Append `<!-- worker-iterate:addressed -->` to a reply comment. For
+     inline review-thread comments use
+     `reply_to_pull_request_review_comment`; for review summaries and PR
+     issue-comments post a top-level PR comment.
 4. For each non-actionable comment, post a `<!-- worker-iterate:declined -->`
    reply with a one-sentence explanation.
 5. **Verification gate** (per detected language; from `build-matrix.md`).
