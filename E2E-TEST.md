@@ -193,8 +193,8 @@ ls .github/workflows/ | sort
 ls .github/
 # Expect AGENTS.md, labels.yml, copilot-instructions.md, ISSUE_TEMPLATE/
 
-cat .github/AGENTS.md | grep -E '<!-- ch-oracles:(start|end) -->' | wc -l
-# Expect: 2 (start + end markers present)
+cat .github/AGENTS.md | grep -E '<!-- ch-oracles:build-commands:(begin|end) -->' | wc -l
+# Expect: 2 (begin + end markers present)
 
 cat .github/AGENTS.md | grep -E 'build-commands' | head -3
 # Expect: a "Build commands" override section to be present
