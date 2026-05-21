@@ -36,5 +36,5 @@
         <text x="174.0" y="48" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#1a1a1a">archive</text></g>
 
   <!-- Bottom-left: URL -->
-  <text x="100" y="585" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#999999" letter-spacing="-0.2">github.com/norrietaylor/ch-oracles</text>
+  <text x="100" y="585" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#999999" letter-spacing="-0.2">github.com/gominimal/ch-oracles</text>
 </svg>

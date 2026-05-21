@@ -181,7 +181,7 @@ ACTION_PROSE_ANCHORS: dict[str, re.Pattern[str]] = {
 
 
 # Match a gh-aw `imports:` entry of the form
-# `norrietaylor/ch-oracles/shared/<name>.md@<ref>` and capture <name>.md.
+# `gominimal/ch-oracles/shared/<name>.md@<ref>` and capture <name>.md.
 IMPORT_LOCAL_SHARED_PATTERN = re.compile(
     r"^.*?/shared/([A-Za-z0-9._-]+\.md)(?:@\S+)?$"
 )

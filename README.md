@@ -7,10 +7,10 @@
 # ch-oracles
 
 Polyglot chore agent suite for GitHub Actions. Sibling to
-[norrietaylor/spectacles](https://github.com/norrietaylor/spectacles); stands
+[gominimal/spectacles](https://github.com/gominimal/spectacles); stands
 alone or installs alongside it.
 
-📖 **Docs: [norrietaylor.github.io/ch-oracles](https://norrietaylor.github.io/ch-oracles/)**
+📖 **Docs: [gominimal.github.io/ch-oracles](https://gominimal.github.io/ch-oracles/)**
 
 ## What it does
 
@@ -36,7 +36,7 @@ Every workflow in the suite — chores and workers — runs on
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/norrietaylor/ch-oracles/main/scripts/quick-setup.sh \
+curl -fsSL https://raw.githubusercontent.com/gominimal/ch-oracles/main/scripts/quick-setup.sh \
   | bash -s -- --suite oracles
 ```
 
@@ -50,13 +50,13 @@ Filter explicitly:
 ./quick-setup.sh --suite oracles --languages rust,python --with-workers
 ```
 
-See the [Install guide](https://norrietaylor.github.io/ch-oracles/install/) for full options.
+See the [Install guide](https://gominimal.github.io/ch-oracles/install/) for full options.
 
 ## Coexistence with spectacles
 
 ch-oracles can be installed in the same repository as spectacles. Their
 wrapper files, lock files, and label namespaces do not collide; `AGENTS.md`
-and `labels.yml` updates are additive. See [Coexistence with spectacles](https://norrietaylor.github.io/ch-oracles/coexistence-with-spectacles/).
+and `labels.yml` updates are additive. See [Coexistence with spectacles](https://gominimal.github.io/ch-oracles/coexistence-with-spectacles/).
 
 ## Architecture
 
@@ -66,7 +66,7 @@ Consumer repos install thin `wrappers/*.yml` files that call the hosted lock
 files via `uses:`. Shared prompt fragments live in `shared/` and are inlined
 at compile time.
 
-See [Architecture](https://norrietaylor.github.io/ch-oracles/architecture/) for the full chore → issue → worker → PR loop (mermaid diagrams).
+See [Architecture](https://gominimal.github.io/ch-oracles/architecture/) for the full chore → issue → worker → PR loop (mermaid diagrams).
 
 ## License
 

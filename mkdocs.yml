@@ -1,7 +1,7 @@
 site_name: ch-oracles
 site_description: Polyglot chore agent suite for GitHub Actions
-repo_url: https://github.com/norrietaylor/ch-oracles
-repo_name: norrietaylor/ch-oracles
+repo_url: https://github.com/gominimal/ch-oracles
+repo_name: gominimal/ch-oracles
 edit_uri: edit/main/docs/
 
 theme:
@@ -38,7 +38,7 @@ extra_css:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/norrietaylor/ch-oracles
+      link: https://github.com/gominimal/ch-oracles
 
 markdown_extensions:
   - admonition
