@@ -267,6 +267,9 @@ def iter_body_lines_with_section(body: str):
 
 
 def is_negative_section(section: str) -> bool:
+    """Return True if `section` (a lowercased Markdown heading) names a
+    do-NOT block whose contents must not contribute to the prose-writes
+    set. Matched substrings are listed in `NEGATIVE_SECTION_HEADINGS`."""
     return any(needle in section for needle in NEGATIVE_SECTION_HEADINGS)
 
 
@@ -445,6 +448,10 @@ def check_workflow(source_path: Path, shared_dir: Path) -> list[str]:
 
 
 def main() -> int:
+    """CLI entry point: parse arguments, run the audit over each workflow
+    source, print a one-line summary on success, and return an exit
+    code (0=clean, 1=violations, 2=no sources). Violations are written
+    to stderr; the success summary goes to stdout."""
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0] if __doc__ else None)
     p.add_argument("sources", nargs="*", help="workflow Markdown sources to check")
     p.add_argument(
