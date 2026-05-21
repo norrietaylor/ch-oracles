@@ -237,25 +237,43 @@ def main() -> int:
     # `add-labels.allowed` on existing PRs (e.g. `agent:conflict`), or even
     # via `create-issue.labels` for meta-feedback markers raised against the
     # source repo (e.g. `agent:worker-tuning`).
+    #
+    # `writer` may be a single glob string or a list of glob strings; a
+    # writer matches if at least one glob in the list matches it. The list
+    # form supports labels stamped by chores that share no name prefix —
+    # e.g. `agent:auto-merge` is written by both `trivial-dep-bump-*` (deps
+    # PRs) and `worker-fix` (chore-fix PRs).
     for lbl, spec in classes.items():
         if not isinstance(spec, dict) or spec.get("class") != "pr-marker":
             continue
-        glob = spec.get("writer")
-        if not glob:
+        glob_spec = spec.get("writer")
+        if not glob_spec:
             errors.append(f"{lbl}: pr-marker entry missing `writer:` field")
+            continue
+        if isinstance(glob_spec, str):
+            globs = [glob_spec]
+        elif isinstance(glob_spec, list) and all(
+            isinstance(g, str) for g in glob_spec
+        ):
+            globs = list(glob_spec)
+        else:
+            errors.append(
+                f"{lbl}: pr-marker `writer:` must be a string or list of "
+                f"strings, got {type(glob_spec).__name__}"
+            )
             continue
         all_writers = writers.get(lbl, LabelWriters()).any()
         if not all_writers:
             errors.append(
                 f"{lbl} has no writer: declared as pr-marker with "
-                f"writer=`{glob}` but no workflow writes it"
+                f"writer=`{glob_spec}` but no workflow writes it"
             )
             continue
         for w in sorted(all_writers):
-            if not fnmatch.fnmatchcase(w, glob):
+            if not any(fnmatch.fnmatchcase(w, g) for g in globs):
                 errors.append(
-                    f"{lbl}: writer `{w}` does not match configured glob "
-                    f"`{glob}`"
+                    f"{lbl}: writer `{w}` does not match any configured "
+                    f"glob in {globs}"
                 )
 
     # 5. handoff: cross-check writer + consumer sets against config.

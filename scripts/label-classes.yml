@@ -55,7 +55,12 @@ labels:
     writer: chore-style-*
   agent:auto-merge:
     class: pr-marker
-    writer: trivial-dep-bump-*
+    # `agent:auto-merge` is stamped by trivial-dep-bump-* (deps PRs) and by
+    # worker-fix (chore-fix PRs, per ch-oracles#33). The validator accepts a
+    # list of fnmatch globs; a writer matches if any glob does.
+    writer:
+      - trivial-dep-bump-*
+      - worker-fix
   agent:conflict:
     class: pr-marker
     writer: pr-conflict-resolver

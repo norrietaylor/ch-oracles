@@ -60,7 +60,11 @@ safe-outputs:
   create-pull-request:
     max: 1
     draft: ${{ false }}
+    # Auto-merge baseline: every worker PR gets `agent:auto-merge` declaratively
+    # (the gh-aw runtime keys auto-merge enablement off it). Per ch-oracles#33.
     auto-merge: true
+    labels:
+      - agent:auto-merge
     protected-files:
       policy: blocked
       exclude:
@@ -199,7 +203,28 @@ reasons in the log and exit 0.
 4. Open one PR via `create-pull-request`:
    - Title: `[worker:<label>] <short description>`.
    - Body: describes the issue and the fix; MUST include `Closes #<n>`.
-   - Auto-merge enabled declaratively.
+   - Auto-merge: enabled declaratively by the safe-output runtime (the
+     workflow declares `auto-merge: true` + the baseline `agent:auto-merge`
+     label).
+   - Labels: you MUST pass an explicit `labels` array on the
+     `create-pull-request` call that includes the candidate issue's label
+     slot. The runtime merges this with the baseline `agent:auto-merge`.
+     Determined by the switch-table row:
+
+     | Switch-table label slot | PR `labels:` payload |
+     |---|---|
+     | `agent:lint:rust` | `["agent:lint:rust"]` |
+     | `agent:lint:python` | `["agent:lint:python"]` |
+     | `agent:lint:go` | `["agent:lint:go"]` |
+     | `agent:lint:toml` | `["agent:lint:toml"]` |
+     | `agent:lint:ncl` | `["agent:lint:ncl"]` |
+     | `agent:doc-drift` | `["agent:doc-drift"]` |
+     | `agent:coverage` | `["agent:coverage"]` |
+     | `agent:dep-drift` | `["agent:dep-drift"]` |
+
+     Per ch-oracles#33: PRs that ship without the issue-slot label are
+     invisible to consumer queries like `--label agent:doc-drift` and break
+     the F3 runbook contract. Do not omit this parameter.
 
 ## Noop conditions
 
@@ -223,4 +248,9 @@ can trace what blocked the queue.
 - Touch protected files (see switch table).
 - Invent findings; work only from the candidate issue body.
 - File new issues (audit chores do that).
-- Apply `agent:auto-merge` manually (safe-outputs handles it).
+- Apply `agent:auto-merge` manually (safe-outputs handles it via the
+  declarative `labels:` + `auto-merge: true` config in the workflow).
+- Omit the issue-slot label from the `create-pull-request` call's
+  `labels:` parameter (it is the slot label that makes the PR visible to
+  consumer label-based queries; the baseline `agent:auto-merge` is not
+  sufficient on its own).
