@@ -63,6 +63,9 @@ safe-outputs:
   noop:
     max: 1
     report-as-issue: false
+  report-incomplete:
+    labels:
+      - agent:conflict
 
 tools:
   github:

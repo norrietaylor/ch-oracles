@@ -67,6 +67,9 @@ safe-outputs:
     max: 1
     labels:
       - agent:worker-tuning
+  report-incomplete:
+    labels:
+      - agent:worker-tuning
 
 tools:
   github:

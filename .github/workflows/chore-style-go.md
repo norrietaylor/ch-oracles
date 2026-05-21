@@ -52,6 +52,9 @@ safe-outputs:
     labels:
       - agent:lint:go
       - agent:autofix
+  report-incomplete:
+    labels:
+      - agent:lint:go
 
 tools:
   github:

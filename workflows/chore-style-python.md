@@ -52,6 +52,9 @@ safe-outputs:
     labels:
       - agent:lint:python
       - agent:autofix
+  report-incomplete:
+    labels:
+      - agent:lint:python
 
 tools:
   github:

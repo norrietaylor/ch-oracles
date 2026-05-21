@@ -52,6 +52,9 @@ safe-outputs:
     labels:
       - agent:lint:rust
       - agent:autofix
+  report-incomplete:
+    labels:
+      - agent:lint:rust
 
 tools:
   github:

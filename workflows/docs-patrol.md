@@ -48,6 +48,9 @@ safe-outputs:
       - agent:doc-drift
   update-issue:
     max: 1
+  report-incomplete:
+    labels:
+      - agent:doc-drift
 
 tools:
   github:

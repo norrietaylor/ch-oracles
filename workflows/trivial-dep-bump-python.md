@@ -42,6 +42,9 @@ safe-outputs:
     labels:
       - agent:auto-merge
       - agent:dep-drift
+  report-incomplete:
+    labels:
+      - agent:dep-drift
 
 tools:
   github:

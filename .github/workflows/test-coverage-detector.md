@@ -37,6 +37,9 @@ safe-outputs:
       - agent:coverage
   update-issue:
     max: 3
+  report-incomplete:
+    labels:
+      - agent:coverage
 
 tools:
   github:
