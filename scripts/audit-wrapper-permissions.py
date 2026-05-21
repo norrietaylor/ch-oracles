@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """audit-wrapper-permissions.py — CI gate that verifies each wrapper's declared
-workflow-level permissions are no broader than the *maximum* permission requested
-by any job inside the inner lock file.
+workflow-level permissions match the contract demanded by its inner lock file.
 
 A gh-aw lock file contains multiple jobs: activation (read-only), the agent
 (typically read-only — writes flow through safe-outputs), detect/detection
@@ -10,6 +9,19 @@ configured (these need issues:write, pull-requests:write, contents:write to
 perform the actual GitHub API calls). The wrapper's workflow-level
 permissions cap the union of every job's request, so the audit compares the
 wrapper's grant against the max across jobs — not against any single job.
+
+Two failure modes are gated:
+
+1. **over-grant** (wrapper > lock max): the wrapper hands out more
+   permission than any job inside the lock actually requests. This is a
+   least-privilege regression — the wrapper should be tightened to match
+   the lock's true ceiling.
+2. **under-grant** (wrapper < lock max): the wrapper grants less
+   permission than at least one job in the lock requires. GitHub rejects
+   the reusable-workflow invocation with `startup_failure` and no
+   annotation, so consumers see a silent breakage. The wrapper must be
+   widened to cover the lock's contract. This is the regression class
+   that caused issue #13.
 
 Usage:
     python scripts/audit-wrapper-permissions.py wrappers/*.yml
@@ -77,11 +89,23 @@ def check_pair(wrapper_path: Path, lock_path: Path) -> list[str]:
 
     lock_max = max_perm_per_scope(jobs)
 
+    # Over-grant: wrapper hands out more than any lock job requests.
     for scope, wrapper_value in wrapper_perms.items():
         if normalize_perm(wrapper_value) > normalize_perm(lock_max.get(scope)):
             violations.append(
                 f"{wrapper_path}: scope '{scope}' grants '{wrapper_value}' "
                 f"but no lock job exceeds '{lock_max.get(scope, 'none')}' (over-permission)"
+            )
+
+    # Under-grant: wrapper grants less than at least one lock job needs.
+    # Without this, GitHub returns `startup_failure` with no annotation when
+    # the wrapper is invoked — a silent breakage (issue #13).
+    for scope, lock_value in lock_max.items():
+        wrapper_value = wrapper_perms.get(scope)
+        if normalize_perm(wrapper_value) < normalize_perm(lock_value):
+            violations.append(
+                f"{wrapper_path}: scope '{scope}' grants '{wrapper_value or 'none'}' "
+                f"but lock requires '{lock_value}' (under-permission — will cause startup_failure)"
             )
     return violations
 
@@ -118,7 +142,7 @@ def main() -> int:
             sys.stderr.write(f"  - {v}\n")
         return 1
 
-    print(f"checked {checked} wrappers; zero over-permission violations.")
+    print(f"checked {checked} wrappers; zero permission violations.")
     return 0
 
 
