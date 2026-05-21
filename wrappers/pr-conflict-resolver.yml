@@ -4,10 +4,12 @@
 name: pr-conflict-resolver
 
 on:
+  # Per ch-oracles#19: do not run on `pull_request`. Every PR sync would spin up
+  # the detect job (and surface as a PR check) even when no worker PRs are in
+  # conflict. The main-side push + 6h scheduled backstop cover the actual
+  # signal (a default-branch advance creating new conflicts on open PRs).
   push:
     branches: [main]
-  pull_request:
-    types: [synchronize, opened, reopened]
   schedule:
     - cron: '0 */6 * * *'  # Every 6h backstop
   workflow_dispatch:
@@ -26,9 +28,6 @@ jobs:
   # Cheap non-LLM detect job: scans for open worker PRs in conflict state.
   # Only fires the expensive agent job when a conflicting PR exists.
   detect:
-    if: >
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
       contents: read
