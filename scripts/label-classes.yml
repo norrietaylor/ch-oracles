@@ -1,0 +1,96 @@
+# Label classification for ch-oracles agent labels.
+#
+# Read by `scripts/test-label-classification.py`. Every label declared in
+# `templates/.github/labels.yml` MUST appear here with exactly one `class`.
+#
+# Classes:
+#   chore-output  Label that an audit chore applies to issues it files.
+#                 Must have a single `writer` chore (the workflow basename
+#                 without `.md`). PR-side use of the same label by other
+#                 chores (e.g. `agent:dep-drift` on trivial-dep-bump PRs)
+#                 does not violate uniqueness; only issue-side writers count.
+#   pr-marker     Label that some chore applies to its own PRs. `writer`
+#                 may be an fnmatch glob (`chore-style-*`); every workflow
+#                 that writes the label via create-pull-request.labels must
+#                 match the glob.
+#   handoff       Cross-suite hand-off label. Writers listed under the
+#                 top-level `handoff_writers` set; consumers under
+#                 `handoff_consumers`.
+#   triage        Standard GitHub triage labels (bug/feature/chore/etc.);
+#                 not enforced.
+#
+# When you add a new label to `templates/.github/labels.yml`, you MUST add
+# it here in the same PR or the `label-classes` job will fail.
+
+labels:
+  # chore-output (audit chores file issues with these labels)
+  agent:lint:rust:
+    class: chore-output
+    writer: chore-style-rust
+  agent:lint:python:
+    class: chore-output
+    writer: chore-style-python
+  agent:lint:go:
+    class: chore-output
+    writer: chore-style-go
+  agent:lint:toml:
+    class: chore-output
+    writer: chore-style-toml
+  agent:lint:ncl:
+    class: chore-output
+    writer: chore-style-ncl
+  agent:doc-drift:
+    class: chore-output
+    writer: docs-patrol
+  agent:coverage:
+    class: chore-output
+    writer: test-coverage-detector
+  agent:dep-drift:
+    class: chore-output
+    writer: dependency-review
+
+  # pr-marker (label applied by a chore to its own PR)
+  agent:autofix:
+    class: pr-marker
+    writer: chore-style-*
+  agent:auto-merge:
+    class: pr-marker
+    writer: trivial-dep-bump-*
+  agent:conflict:
+    class: pr-marker
+    writer: pr-conflict-resolver
+  agent:worker-tuning:
+    class: pr-marker
+    writer: worker-iterate
+
+  # handoff (cross-suite; orthogonal to chore-output classes)
+  needs-human:
+    class: handoff
+
+  # triage (standard labels; not enforced)
+  bug:
+    class: triage
+  feature:
+    class: triage
+  chore:
+    class: triage
+  good first issue:
+    class: triage
+  help wanted:
+    class: triage
+
+# Chores that emit `needs-human`. AGENTS.md currently documents the label
+# as a cross-suite hand-off but does not enumerate emitters/consumers in a
+# machine-readable table; per the issue guidance we declare the expected
+# writer set here. The test asserts the workflow-derived writer set matches
+# this list exactly.
+handoff_writers:
+  - pr-conflict-resolver
+
+# Chores that *consume* `needs-human` (treat as "do not re-process" gate).
+# Detected by static text search of the workflow body for the literal
+# label name. Listed here so additions to either side require a config bump.
+handoff_consumers:
+  - pr-conflict-resolver
+  - worker-fix
+  - worker-iterate
