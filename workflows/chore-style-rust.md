@@ -46,6 +46,12 @@ safe-outputs:
       - agent:lint:rust
   update-issue:
     max: 1
+    # target: '*' lets the agent pass an explicit issue_number from its dedup
+    # search. Default target: 'triggering' only works when the workflow itself
+    # is in an issue-event context; chore-style-* runs on schedule + manual
+    # dispatch, so the runtime rejects update_issue with "not running in issue
+    # context". Per ch-oracles#31.
+    target: '*'
   create-pull-request:
     max: 1
     draft: ${{ false }}

@@ -89,7 +89,7 @@ ch-oracles owns the following label prefixes. Defined in
 
 | Label | Applied to | What it means |
 |---|---|---|
-| `agent:auto-merge` | PRs from `trivial-dep-bump-*` | Informational; auto-merge enabled by gh-aw runtime |
+| `agent:auto-merge` | PRs from `trivial-dep-bump-*` and `worker-fix` | Informational; auto-merge enabled by gh-aw runtime |
 | `agent:autofix` | PRs from `chore-style-*` in `mode: autofix` | Auto-applied formatter/lint fixes |
 | `agent:conflict` | PRs rebased by `pr-conflict-resolver` | Resolver successfully rebased |
 
