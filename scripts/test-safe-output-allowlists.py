@@ -3,25 +3,41 @@ r"""test-safe-output-allowlists.py — CI gate that cross-references each chore
 workflow's `safe-outputs:` allowlist against the prose instructions in its
 Markdown body.
 
-The check protects against two classes of drift between the agent prose and
+The check protects against four classes of drift between the agent prose and
 the gh-aw frontmatter that compiles into the lock file:
 
-1. **writes-but-not-allowlisted**: prose instructs the chore to apply a
-   label (e.g., `Labels: \`agent:autofix\``, `Apply \`needs-human\` label`)
-   that is missing from the `safe-outputs` allowlist. At runtime gh-aw
-   would reject the write, failing the chore silently mid-run.
-2. **allowlisted-but-not-written**: the `safe-outputs` allowlist names a
-   label that the prose never references. The allowlist entry is dead and
-   masks a future bug (a follow-up PR that removes the only prose use of a
-   label will not trip a check unless this direction is enforced).
+1. **writes-but-not-allowlisted** (label direction): prose instructs the
+   chore to apply a label (e.g., `Labels: \`agent:autofix\``,
+   `Apply \`needs-human\` label`) that is missing from the `safe-outputs`
+   allowlist. At runtime gh-aw would reject the write, failing the chore
+   silently mid-run.
+2. **allowlisted-but-not-written** (label direction): the `safe-outputs`
+   allowlist names a label that the workflow source prose never
+   references. The allowlist entry is dead and masks a future bug (a
+   follow-up PR that removes the only prose use of a label will not trip
+   a check unless this direction is enforced).
+3. **invoked-but-not-allowlisted** (action direction): prose (in the
+   source body or any imported `shared/*.md` fragment) instructs the
+   chore to emit a safe-output action (e.g., `create-issue`,
+   `add-comment`, `push-to-pull-request-branch`) that is not declared in
+   the `safe-outputs:` block. gh-aw will reject the emit at runtime.
+4. **allowlisted-but-not-invoked** (action direction): `safe-outputs:`
+   declares an action key that no prose (source body or imported
+   fragments) references. The declared action is dead.
 
 Scope:
-  - Reads `workflows/*.md` sources (frontmatter + prose body).
-  - Lock files in `.github/workflows/*.lock.yml` are derived artefacts; the
-    `safe-outputs` block on the source is the contract being audited.
+  - Reads `workflows/*.md` sources (frontmatter + prose body). The action
+    audit additionally walks the source's `imports:` list and concatenates
+    the bodies of any local `shared/*.md` fragments (gh-aw inlines these
+    at compile time, so a prose mention in a shared fragment is a real
+    prose reference from the perspective of the runtime).
+  - Missing `safe-outputs:` block in a workflow source is treated as a
+    contract violation (the gate fails CI) rather than a silent skip.
+  - Lock files in `.github/workflows/*.lock.yml` are derived artefacts;
+    the `safe-outputs` block on the source is the contract being audited.
   - `wrappers/*.yml` are out of scope: those are thin pass-through callers
-    with different semantics (see ADR 0006). They have a separate audit in
-    `scripts/audit-wrapper-permissions.py`.
+    with different semantics (see ADR 0006). They have a separate audit
+    in `scripts/audit-wrapper-permissions.py`.
 
 Usage:
     python scripts/test-safe-output-allowlists.py
@@ -65,6 +81,21 @@ DEAD_ENTRY_EXEMPTIONS: dict[str, set[str]] = {
 }
 
 
+# Per-workflow exemptions for the action dead-entry direction
+# (allowlisted-but-not-invoked). Same contract as DEAD_ENTRY_EXEMPTIONS:
+# each entry is a real current-state mismatch on `main`; widening this
+# dict requires a justifying note in the PR that introduces the exemption.
+#
+# worker-fix: declares `add-comment: max: 1` in `safe-outputs:` but the
+# prose body never instructs the chore to post a comment (the chore only
+# emits PRs and noops). Per issue #6, the worker is slated to migrate
+# engine and this allowlist entry is expected to be removed as part of
+# that work; carrying the exemption here keeps the gate green until then.
+ACTION_DEAD_EXEMPTIONS: dict[str, set[str]] = {
+    "worker-fix": {"add-comment"},
+}
+
+
 # Safe-output action keys whose label lists we audit. Each maps to the
 # YAML sub-key under which labels live in the gh-aw schema.
 LABEL_KEY_BY_ACTION: dict[str, str] = {
@@ -72,6 +103,19 @@ LABEL_KEY_BY_ACTION: dict[str, str] = {
     "create-pull-request": "labels",
     "add-labels": "allowed",
 }
+
+
+# The complete set of safe-output action keys we audit. `github-app` is
+# the credentials block, not a write action, and is excluded.
+KNOWN_ACTION_KEYS: frozenset[str] = frozenset({
+    "create-issue",
+    "update-issue",
+    "create-pull-request",
+    "push-to-pull-request-branch",
+    "add-comment",
+    "add-labels",
+    "reply-to-pull-request-review-comment",
+})
 
 
 FRONTMATTER_DELIM = "---"
@@ -96,6 +140,49 @@ APPLY_LABEL_PATTERN = re.compile(
 # "Marking `<label>`" — also a positive instruction.
 MARKING_LABEL_PATTERN = re.compile(
     r"\bMarking\s+`(agent:[a-z][a-z0-9:_-]*|needs-human)`"
+)
+
+# Backticked safe-output action token, used for action references.
+BACKTICK_ACTION_PATTERN = re.compile(
+    r"`(create-issue|update-issue|create-pull-request"
+    r"|push-to-pull-request-branch|add-comment|add-labels"
+    r"|reply-to-pull-request-review-comment)`"
+)
+
+# Natural-language anchors for actions whose prose typically avoids the
+# raw action token. Each pattern, if it fires, counts as a prose
+# invocation of the corresponding action key. Keep these narrow — false
+# positives weaken the allowlisted-but-not-invoked direction.
+ACTION_PROSE_ANCHORS: dict[str, re.Pattern[str]] = {
+    # "Post a single comment", "Add a comment". Deliberately narrow: we
+    # require the verb to land directly on `comment` (with at most an
+    # article/quantifier in between) so phrasings like "Append <marker>
+    # to a reply comment" — which describes modifying a review-comment
+    # reply, not emitting add-comment — do not match.
+    "add-comment": re.compile(
+        r"\b(?:Post|Add)\s+(?:a|the|one|single|another)?\s*"
+        r"(?:single|new)?\s*comment\b",
+        re.IGNORECASE,
+    ),
+    # "Apply `<label>` label" / "Marking `<label>`" — both already imply
+    # an add-labels emit. We also accept the literal "add labels" phrase.
+    "add-labels": re.compile(
+        r"\bApply\s+`(?:agent:[a-z][a-z0-9:_-]*|needs-human)`\s+label\b"
+        r"|\bMarking\s+`(?:agent:[a-z][a-z0-9:_-]*|needs-human)`"
+        r"|\badd\s+labels?\b",
+        re.IGNORECASE,
+    ),
+    # "Reply to comments", "reply with a one-sentence explanation".
+    "reply-to-pull-request-review-comment": re.compile(
+        r"\b[Rr]eply\s+(?:to|with)\b", re.IGNORECASE
+    ),
+}
+
+
+# Match a gh-aw `imports:` entry of the form
+# `norrietaylor/ch-oracles/shared/<name>.md@<ref>` and capture <name>.md.
+IMPORT_LOCAL_SHARED_PATTERN = re.compile(
+    r"^.*?/shared/([A-Za-z0-9._-]+\.md)(?:@\S+)?$"
 )
 
 
@@ -219,7 +306,56 @@ def extract_prose_references(body: str) -> set[str]:
     return refs
 
 
-def check_workflow(source_path: Path) -> list[str]:
+def imported_shared_bodies(frontmatter: dict, shared_dir: Path) -> str:
+    """Concatenate the bodies of every locally-resolvable `shared/*.md`
+    fragment listed in the workflow's `imports:` block.
+
+    gh-aw inlines these fragments at compile time, so prose mentions in
+    them count as workflow prose for the action audit. Imports that
+    cannot be resolved to a local file (cross-repo references, or shared
+    files that have been removed) are silently skipped — the action
+    audit then sees them as missing prose, which is the conservative
+    behaviour for the dead-entry direction.
+    """
+    imports = frontmatter.get("imports") or []
+    if not isinstance(imports, list):
+        return ""
+    chunks: list[str] = []
+    for entry in imports:
+        if not isinstance(entry, str):
+            continue
+        m = IMPORT_LOCAL_SHARED_PATTERN.match(entry)
+        if not m:
+            continue
+        target = shared_dir / m.group(1)
+        if not target.is_file():
+            continue
+        try:
+            chunks.append(target.read_text(encoding="utf-8"))
+        except OSError:
+            continue
+    return "\n".join(chunks)
+
+
+def extract_prose_actions(combined_prose: str) -> set[str]:
+    """Return the set of safe-output action keys referenced in prose.
+
+    `combined_prose` is the workflow source body concatenated with the
+    bodies of any imported shared fragments (see `imported_shared_bodies`).
+    A reference is one of:
+      - a backticked action token (`create-issue`, `add-comment`, ...)
+      - a natural-language anchor declared in `ACTION_PROSE_ANCHORS`.
+    """
+    actions: set[str] = set()
+    for token in BACKTICK_ACTION_PATTERN.findall(combined_prose):
+        actions.add(token)
+    for action, pattern in ACTION_PROSE_ANCHORS.items():
+        if pattern.search(combined_prose):
+            actions.add(action)
+    return actions
+
+
+def check_workflow(source_path: Path, shared_dir: Path) -> list[str]:
     """Return a list of one-line violation messages; empty means OK."""
     name = source_path.stem
     text = source_path.read_text(encoding="utf-8")
@@ -233,7 +369,7 @@ def check_workflow(source_path: Path) -> list[str]:
     except yaml.YAMLError as exc:
         return [f"{name}: invalid YAML frontmatter ({exc})"]
 
-    action_labels, _actions = extract_allowlist(frontmatter, name)
+    action_labels, declared_actions = extract_allowlist(frontmatter, name)
     all_allowed: set[str] = set()
     for labels in action_labels.values():
         all_allowed |= labels
@@ -241,9 +377,23 @@ def check_workflow(source_path: Path) -> list[str]:
     prose_writes = extract_prose_writes(body)
     prose_refs = extract_prose_references(body)
 
+    # Action audit uses two different scopes:
+    #   - Direction 1 (invoked-but-not-allowlisted): source body only.
+    #     A backticked action token in the workflow's own prose is a
+    #     direct, intentional signal that this chore emits that action.
+    #     Importing a shared fragment that documents `create-issue` does
+    #     NOT mean a particular chore emits it; the frontmatter decides.
+    #   - Direction 2 (allowlisted-but-not-invoked): source body plus
+    #     imported `shared/*.md` bodies. gh-aw inlines imports at compile
+    #     time, so an action mention anywhere in the inlined material
+    #     keeps the allowlist entry from being dead.
+    source_actions = extract_prose_actions(body)
+    combined_prose = body + "\n" + imported_shared_bodies(frontmatter, shared_dir)
+    combined_actions = extract_prose_actions(combined_prose)
+
     violations: list[str] = []
 
-    # Direction 1: writes-but-not-allowlisted.
+    # Label direction 1: writes-but-not-allowlisted.
     for label in sorted(prose_writes):
         if label not in all_allowed:
             violations.append(
@@ -251,16 +401,43 @@ def check_workflow(source_path: Path) -> list[str]:
                 f"(prose instructs a label write that no safe-outputs allowlist permits)"
             )
 
-    # Direction 2: allowlisted-but-not-written. Apply per-workflow
+    # Label direction 2: allowlisted-but-not-written. Apply per-workflow
     # exemptions from DEAD_ENTRY_EXEMPTIONS for known taxonomic-tag cases.
-    exempt = DEAD_ENTRY_EXEMPTIONS.get(name, set())
+    label_exempt = DEAD_ENTRY_EXEMPTIONS.get(name, set())
     for label in sorted(all_allowed):
-        if label in exempt:
+        if label in label_exempt:
             continue
         if label not in prose_refs and label not in prose_writes:
             violations.append(
                 f"{name}: allowlisted-but-not-written '{label}' "
                 f"(safe-outputs permits the label but the prose never references it)"
+            )
+
+    # Action direction 1: invoked-but-not-allowlisted. Source-body prose
+    # names an action key that the safe-outputs block does not declare;
+    # gh-aw would reject the emit at runtime.
+    for action in sorted(source_actions):
+        if action not in declared_actions:
+            violations.append(
+                f"{name}: invoked-but-not-allowlisted '{action}' "
+                f"(prose references a safe-output action not declared in safe-outputs:)"
+            )
+
+    # Action direction 2: allowlisted-but-not-invoked. safe-outputs:
+    # declares an action that neither the source body nor any imported
+    # shared fragment references. Restrict the audit to
+    # `KNOWN_ACTION_KEYS` so we do not false-flag forward-compat keys we
+    # have not yet taught the prose-action extractor about.
+    action_exempt = ACTION_DEAD_EXEMPTIONS.get(name, set())
+    for action in sorted(declared_actions):
+        if action not in KNOWN_ACTION_KEYS:
+            continue
+        if action in action_exempt:
+            continue
+        if action not in combined_actions:
+            violations.append(
+                f"{name}: allowlisted-but-not-invoked '{action}' "
+                f"(safe-outputs declares the action but no prose references it)"
             )
 
     return violations
@@ -274,6 +451,11 @@ def main() -> int:
         default="workflows",
         help="directory containing *.md workflow sources",
     )
+    p.add_argument(
+        "--shared-dir",
+        default="shared",
+        help="directory containing imported shared/*.md fragments",
+    )
     args = p.parse_args()
 
     if args.sources:
@@ -285,19 +467,28 @@ def main() -> int:
         sys.stderr.write(f"no workflow sources found in {args.workflows_dir}\n")
         return 2
 
+    shared_dir = Path(args.shared_dir)
+
     all_violations: list[str] = []
     checked = 0
     for src in sources:
         if not src.exists():
             sys.stderr.write(f"warn: {src} does not exist; skipping\n")
             continue
-        # Skip sources without a `safe-outputs:` block (none currently, but
-        # be defensive for non-chore workflow markdown that might land here).
+        # A workflow source missing the `safe-outputs:` block is treated
+        # as a contract violation rather than silently skipped: every
+        # chore in this repo emits at least one safe-output, so an
+        # accidental removal of the block (e.g., during a refactor) must
+        # fail CI rather than slip through.
         text = src.read_text(encoding="utf-8")
-        if "safe-outputs:" not in text:
-            continue
-        all_violations.extend(check_workflow(src))
         checked += 1
+        if "safe-outputs:" not in text:
+            all_violations.append(
+                f"{src.stem}: missing safe-outputs block "
+                f"(every chore workflow must declare a safe-outputs: contract)"
+            )
+            continue
+        all_violations.extend(check_workflow(src, shared_dir))
 
     if all_violations:
         sys.stderr.write("safe-output allowlist contract violations:\n")
