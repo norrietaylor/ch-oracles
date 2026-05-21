@@ -88,9 +88,10 @@ DEAD_ENTRY_EXEMPTIONS: dict[str, set[str]] = {
 #
 # worker-fix: declares `add-comment: max: 1` in `safe-outputs:` but the
 # prose body never instructs the chore to post a comment (the chore only
-# emits PRs and noops). Per issue #6, the worker is slated to migrate
-# engine and this allowlist entry is expected to be removed as part of
-# that work; carrying the exemption here keeps the gate green until then.
+# emits PRs and noops). Real dead allowlist entry on `main`; carrying
+# the exemption here keeps the gate green and isolates the cleanup to a
+# follow-up PR that drops the unused safe-output entry from
+# `workflows/worker-fix.md`.
 ACTION_DEAD_EXEMPTIONS: dict[str, set[str]] = {
     "worker-fix": {"add-comment"},
 }
