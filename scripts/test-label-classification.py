@@ -56,7 +56,6 @@ WORKFLOWS_DIR = REPO_ROOT / "workflows"
 ISSUE_OUTPUT_KEYS = ("create-issue", "update-issue", "add-labels")
 # safe-outputs sub-keys that write labels onto a *pull request*.
 PR_OUTPUT_KEYS = ("create-pull-request",)
-ALL_OUTPUT_KEYS = ISSUE_OUTPUT_KEYS + PR_OUTPUT_KEYS
 
 VALID_CLASSES = {"chore-output", "pr-marker", "handoff", "triage"}
 
@@ -280,7 +279,7 @@ def main() -> int:
                     f"{', '.join(sorted(missing))}"
                 )
             errors.append(
-                f"{lbl} writer mismatch — " + "; ".join(parts) if parts
+                (f"{lbl} writer mismatch — " + "; ".join(parts)) if parts
                 else f"{lbl} writer mismatch"
             )
 
@@ -301,7 +300,7 @@ def main() -> int:
                     f"reference `{lbl}`: {', '.join(sorted(missing))}"
                 )
             errors.append(
-                f"{lbl} consumer mismatch — " + "; ".join(parts) if parts
+                (f"{lbl} consumer mismatch — " + "; ".join(parts)) if parts
                 else f"{lbl} consumer mismatch"
             )
 
