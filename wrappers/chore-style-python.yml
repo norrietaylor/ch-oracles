@@ -27,7 +27,7 @@ concurrency:
 
 jobs:
   run:
-    uses: norrietaylor/ch-oracles/.github/workflows/chore-style-python.lock.yml@{{SOURCE_REF}}
+    uses: gominimal/ch-oracles/.github/workflows/chore-style-python.lock.yml@{{SOURCE_REF}}
     with:
       mode: ${{ inputs.mode || 'report' }}
     secrets:
