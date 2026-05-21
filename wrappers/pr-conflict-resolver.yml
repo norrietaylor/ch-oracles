@@ -67,7 +67,7 @@ jobs:
   run:
     needs: detect
     if: needs.detect.outputs.has_work == 'true'
-    uses: norrietaylor/ch-oracles/.github/workflows/pr-conflict-resolver.lock.yml@{{SOURCE_REF}}
+    uses: gominimal/ch-oracles/.github/workflows/pr-conflict-resolver.lock.yml@{{SOURCE_REF}}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

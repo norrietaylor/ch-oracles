@@ -27,7 +27,7 @@ jobs:
     # Pre-activation guard: skip non-agent: label events without spinning up
     # the agent. ~95% of label events are kind:*, priority:*, or operator tags.
     if: github.event_name != 'issues' || startsWith(github.event.label.name, 'agent:')
-    uses: norrietaylor/ch-oracles/.github/workflows/worker-fix.lock.yml@{{SOURCE_REF}}
+    uses: gominimal/ch-oracles/.github/workflows/worker-fix.lock.yml@{{SOURCE_REF}}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
