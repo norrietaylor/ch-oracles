@@ -89,21 +89,6 @@ def collect_uses_jobs(jobs: dict) -> list[tuple[str, str]]:
     return out
 
 
-def collect_secrets_blocks(jobs: dict) -> list[tuple[str, object]]:
-    """Return [(job_name, secrets_block), ...] for every job declaring `secrets:`.
-
-    The block is either the string 'inherit' or a mapping of secret keys to
-    expressions.
-    """
-    out: list[tuple[str, object]] = []
-    if not isinstance(jobs, dict):
-        return out
-    for name, job in jobs.items():
-        if isinstance(job, dict) and "secrets" in job:
-            out.append((name, job["secrets"]))
-    return out
-
-
 # ──────────────────────────────────────────────────────────────────────────
 # Set-builders for each artifact surface
 # ──────────────────────────────────────────────────────────────────────────
@@ -245,20 +230,21 @@ def required_secrets(lock_doc: dict) -> set[str]:
     return out
 
 
-def wrapper_forwarded_secrets(wrapper_doc: dict) -> tuple[set[str], bool]:
-    """Return (forwarded_keys, inherits_all).
+def wrapper_forwarded_secrets(call_job: dict) -> tuple[set[str], bool]:
+    """Return (forwarded_keys, inherits_all) for the lock-calling job only.
 
-    `secrets: inherit` on any job is treated as satisfying every required
-    secret in the corresponding lock contract.
+    Scoped to the single job whose `uses:` invokes the ch-oracles lock —
+    helper jobs (e.g. pr-conflict-resolver's `detect:` pre-job) must not
+    satisfy the contract for the call-job. `secrets: inherit` on the
+    call-job is treated as satisfying every required secret in the lock.
     """
     forwarded: set[str] = set()
     inherits_all = False
-    jobs = wrapper_doc.get("jobs") or {}
-    for _name, block in collect_secrets_blocks(jobs):
-        if isinstance(block, str) and block.strip().lower() == "inherit":
-            inherits_all = True
-        elif isinstance(block, dict):
-            forwarded.update(str(k) for k in block.keys())
+    block = call_job.get("secrets") if isinstance(call_job, dict) else None
+    if isinstance(block, str) and block.strip().lower() == "inherit":
+        inherits_all = True
+    elif isinstance(block, dict):
+        forwarded.update(str(k) for k in block.keys())
     return forwarded, inherits_all
 
 
@@ -294,7 +280,7 @@ def validate_wrapper(wrapper_path: Path) -> list[str]:
             f"{rel}: multiple jobs ({', '.join(j for j, _ in target_jobs)}) call ch-oracles locks — only one expected"
         )
 
-    _job_name, uses = target_jobs[0]
+    job_name, uses = target_jobs[0]
     parsed = parse_uses(uses)
     if parsed is None:
         findings.append(
@@ -320,7 +306,8 @@ def validate_wrapper(wrapper_path: Path) -> list[str]:
         return findings + [f"{lock_path.relative_to(REPO_ROOT)}: unparseable YAML — {e}"]
 
     required = required_secrets(lock)
-    forwarded, inherits_all = wrapper_forwarded_secrets(wrapper)
+    call_job = jobs.get(job_name) if isinstance(jobs, dict) else None
+    forwarded, inherits_all = wrapper_forwarded_secrets(call_job or {})
     if inherits_all:
         return findings
     missing = sorted(required - forwarded)
