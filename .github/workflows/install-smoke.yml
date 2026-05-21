@@ -85,11 +85,19 @@ jobs:
           fi
 
       - name: Assert labels.yml exists in fixture and parses as YAML
+        env:
+          LABELS_PATH: ${{ runner.temp }}/consumer/.github/labels.yml
         run: |
           set -euo pipefail
-          dst="${RUNNER_TEMP}/consumer/.github/labels.yml"
-          test -f "${dst}" || { echo "::error::missing ${dst}" >&2; exit 1; }
-          python -c "import sys, yaml; data = yaml.safe_load(open('${dst}')); assert isinstance(data, list) and len(data) > 0, 'labels.yml must be a non-empty list'; print(f'labels.yml: {len(data)} entries')"
+          test -f "${LABELS_PATH}" || { echo "::error::missing ${LABELS_PATH}" >&2; exit 1; }
+          python - <<'PY'
+          import os, yaml
+          path = os.environ["LABELS_PATH"]
+          with open(path, "r", encoding="utf-8") as f:
+              data = yaml.safe_load(f)
+          assert isinstance(data, list) and len(data) > 0, "labels.yml must be a non-empty list"
+          print(f"labels.yml: {len(data)} entries")
+          PY
 
       - name: Assert AGENTS.md exists in fixture and tokens were substituted
         run: |
