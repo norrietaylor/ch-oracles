@@ -21,13 +21,13 @@ env:
   PR_TITLE: 'chore(deps): patch-level Go bumps'
 
 imports:
-  - gominimal/ch-oracles/shared/principles.md@main
-  - gominimal/ch-oracles/shared/rigor.md@main
-  - gominimal/ch-oracles/shared/repo-conventions.md@main
-  - gominimal/ch-oracles/shared/safe-output-create-issue.md@main
-  - gominimal/ch-oracles/shared/runtime-setup.md@main
-  - gominimal/ch-oracles/shared/go-runtime-setup.md@main
-  - gominimal/ch-oracles/shared/go-build-commands.md@main
+  - norrietaylor/ch-oracles/shared/principles.md@main
+  - norrietaylor/ch-oracles/shared/rigor.md@main
+  - norrietaylor/ch-oracles/shared/repo-conventions.md@main
+  - norrietaylor/ch-oracles/shared/safe-output-create-issue.md@main
+  - norrietaylor/ch-oracles/shared/runtime-setup.md@main
+  - norrietaylor/ch-oracles/shared/go-runtime-setup.md@main
+  - norrietaylor/ch-oracles/shared/go-build-commands.md@main
 
 safe-outputs:
   github-app:

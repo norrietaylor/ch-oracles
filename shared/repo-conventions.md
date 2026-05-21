@@ -54,7 +54,7 @@ ch-oracles honors but does not own:
 
 | Label | Meaning |
 |---|---|
-| `needs-human` | Cross-suite hand-off label. When set, ch-oracles workers decline to act on the item. Owned by `gominimal/spectacles` when co-installed. |
+| `needs-human` | Cross-suite hand-off label. When set, ch-oracles workers decline to act on the item. Owned by `norrietaylor/spectacles` when co-installed. |
 
 Apply the most specific label that matches the finding. If none match, do not
 apply an agent label.

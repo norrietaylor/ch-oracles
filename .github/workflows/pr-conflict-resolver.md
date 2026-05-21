@@ -29,18 +29,18 @@ env:
   RESOLVER_BRANCH_PREFIX: 'conflict-resolver/'
 
 imports:
-  - gominimal/ch-oracles/shared/principles.md@main
-  - gominimal/ch-oracles/shared/rigor.md@main
-  - gominimal/ch-oracles/shared/repo-conventions.md@main
-  - gominimal/ch-oracles/shared/safe-output-create-issue.md@main
-  - gominimal/ch-oracles/shared/runtime-setup.md@main
-  - gominimal/ch-oracles/shared/rust-runtime-setup.md@main
-  - gominimal/ch-oracles/shared/rust-build-commands.md@main
-  - gominimal/ch-oracles/shared/python-runtime-setup.md@main
-  - gominimal/ch-oracles/shared/python-build-commands.md@main
-  - gominimal/ch-oracles/shared/go-runtime-setup.md@main
-  - gominimal/ch-oracles/shared/go-build-commands.md@main
-  - gominimal/ch-oracles/shared/build-matrix.md@main
+  - norrietaylor/ch-oracles/shared/principles.md@main
+  - norrietaylor/ch-oracles/shared/rigor.md@main
+  - norrietaylor/ch-oracles/shared/repo-conventions.md@main
+  - norrietaylor/ch-oracles/shared/safe-output-create-issue.md@main
+  - norrietaylor/ch-oracles/shared/runtime-setup.md@main
+  - norrietaylor/ch-oracles/shared/rust-runtime-setup.md@main
+  - norrietaylor/ch-oracles/shared/rust-build-commands.md@main
+  - norrietaylor/ch-oracles/shared/python-runtime-setup.md@main
+  - norrietaylor/ch-oracles/shared/python-build-commands.md@main
+  - norrietaylor/ch-oracles/shared/go-runtime-setup.md@main
+  - norrietaylor/ch-oracles/shared/go-build-commands.md@main
+  - norrietaylor/ch-oracles/shared/build-matrix.md@main
 
 safe-outputs:
   github-app:

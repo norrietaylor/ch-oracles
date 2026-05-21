@@ -7,20 +7,20 @@ This document defines the ch-oracles agentic-workflow contract for
 permitted to do, what labels they emit, and the constraints they honor.
 
 Primary language: **{{LANGUAGE}}**. Source-of-truth:
-[`gominimal/ch-oracles`](https://github.com/gominimal/ch-oracles).
+[`norrietaylor/ch-oracles`](https://github.com/norrietaylor/ch-oracles).
 
 ## Active chore workflows
 
 The bootstrap install runs `scripts/quick-setup.sh --suite oracles` against
 this repo, writing thin wrapper YAMLs to `.github/workflows/`. Each wrapper
 calls a hosted, self-contained `.lock.yml` from
-`gominimal/ch-oracles/.github/workflows/`. Upgrades pull a newer release
+`norrietaylor/ch-oracles/.github/workflows/`. Upgrades pull a newer release
 tag via the same script.
 
 Every workflow in the suite — both audit/lint chores and the worker tier —
 runs on `engine: copilot`. A single billing surface (`COPILOT_GITHUB_TOKEN`)
 backs every inference call; see
-[ADR 0008](https://github.com/gominimal/ch-oracles/blob/main/decisions/0008-single-engine-copilot.md).
+[ADR 0008](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0008-single-engine-copilot.md).
 
 | Workflow | Output | Trigger | Applies to |
 |---|---|---|---|
@@ -37,7 +37,7 @@ backs every inference call; see
 
 - **Not-gating.** No chore output appears in `required_status_checks`.
   Branch protection depends only on the existing CI. See
-  [ADR 0001](https://github.com/gominimal/ch-oracles/blob/main/decisions/0001-not-gating.md).
+  [ADR 0001](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0001-not-gating.md).
 - **Caps.** Audit chores cap at 1 issue per run (3 for
   `test-coverage-detector`); fix chores cap at 1 PR per run. Duplicate
   findings dedup per finding-id marker; re-detection updates the existing
@@ -63,7 +63,7 @@ backs every inference call; see
 
 If this section is removed or left empty, workers fall back to the language
 defaults in
-[`shared/build-matrix.md`](https://github.com/gominimal/ch-oracles/blob/main/shared/build-matrix.md).
+[`shared/build-matrix.md`](https://github.com/norrietaylor/ch-oracles/blob/main/shared/build-matrix.md).
 Override here for any project that uses a non-default build invocation
 (e.g., `just verify`, custom Makefile target, monorepo subpath).
 
@@ -103,7 +103,7 @@ ch-oracles owns the following label prefixes. Defined in
 ## Spectacles coexistence
 
 If this repo also installs
-[gominimal/spectacles](https://github.com/gominimal/spectacles), both
+[norrietaylor/spectacles](https://github.com/norrietaylor/spectacles), both
 suites coexist:
 
 - spectacles owns the SDD-pipeline-behaviour sections of this file (look for
@@ -115,6 +115,6 @@ suites coexist:
 ## Updating this document
 
 This file is managed by `scripts/quick-setup.sh` from
-[`gominimal/ch-oracles`](https://github.com/gominimal/ch-oracles).
+[`norrietaylor/ch-oracles`](https://github.com/norrietaylor/ch-oracles).
 Rerun the script with `--update` to refresh non-override sections; the
 build-commands override section is preserved across runs.

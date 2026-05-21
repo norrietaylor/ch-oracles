@@ -49,7 +49,7 @@ AGENTS_MD = REPO_ROOT / "templates" / ".github" / "AGENTS.md"
 # Owner/repo segment of the expected `uses:` value. Wrappers may pin to a tag,
 # SHA, or the {{SOURCE_REF}} placeholder; the ref itself is policed by the
 # fragment-sync policy (ADR 0007), so we only assert the resource path.
-USES_PREFIX = "gominimal/ch-oracles/.github/workflows/"
+USES_PREFIX = "norrietaylor/ch-oracles/.github/workflows/"
 USES_SUFFIX = ".lock.yml"
 
 
@@ -200,7 +200,7 @@ def agents_md_table_set(realised: set[str]) -> set[str]:
 def parse_uses(uses: str) -> str | None:
     """Return the `<name>` of the lock file targeted by a `uses:` value.
 
-    Expected shape: `gominimal/ch-oracles/.github/workflows/<name>.lock.yml@<ref>`.
+    Expected shape: `norrietaylor/ch-oracles/.github/workflows/<name>.lock.yml@<ref>`.
     Returns None if the shape does not match.
     """
     if not uses.startswith(USES_PREFIX):
@@ -272,7 +272,7 @@ def validate_wrapper(wrapper_path: Path) -> list[str]:
     ]
     if not target_jobs:
         findings.append(
-            f"{rel}: no job uses gominimal/ch-oracles/.github/workflows/* — wrapper does not call a ch-oracles lock"
+            f"{rel}: no job uses norrietaylor/ch-oracles/.github/workflows/* — wrapper does not call a ch-oracles lock"
         )
         return findings
     if len(target_jobs) > 1:
@@ -285,7 +285,7 @@ def validate_wrapper(wrapper_path: Path) -> list[str]:
     if parsed is None:
         findings.append(
             f"{rel}: malformed `uses:` value — expected "
-            f"`gominimal/ch-oracles/.github/workflows/<name>.lock.yml@<ref>`, got `{uses}`"
+            f"`norrietaylor/ch-oracles/.github/workflows/<name>.lock.yml@<ref>`, got `{uses}`"
         )
         return findings
     if parsed != name:

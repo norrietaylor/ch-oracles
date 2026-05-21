@@ -3,7 +3,7 @@
 ## One-liner
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/gominimal/ch-oracles/main/scripts/quick-setup.sh \
+curl -fsSL https://raw.githubusercontent.com/norrietaylor/ch-oracles/main/scripts/quick-setup.sh \
   | bash -s -- --suite oracles
 ```
 
@@ -11,7 +11,7 @@ This installs:
 
 - A wrapper YAML for every chore in
   `.github/workflows/<chore>.yml`. Each wrapper calls the corresponding
-  hosted `.lock.yml` from `gominimal/ch-oracles`.
+  hosted `.lock.yml` from `norrietaylor/ch-oracles`.
 - `.github/AGENTS.md` with the agent contract.
 - `.github/labels.yml` with the ch-oracles label taxonomy (merged with
   any existing `labels.yml`).
@@ -56,7 +56,7 @@ The consumer repo needs:
 
 Every workflow in the suite runs on `engine: copilot`; a single inference
 secret backs the entire suite. See
-[ADR 0008](https://github.com/gominimal/ch-oracles/blob/main/decisions/0008-single-engine-copilot.md).
+[ADR 0008](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0008-single-engine-copilot.md).
 
 Set via repository or organization secrets:
 
@@ -87,7 +87,7 @@ an Action-based alternative.)
 ## Upgrade
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/gominimal/ch-oracles/main/scripts/quick-setup.sh \
+curl -fsSL https://raw.githubusercontent.com/norrietaylor/ch-oracles/main/scripts/quick-setup.sh \
   | bash -s -- --suite oracles --update --source-ref v0.2.0
 ```
 
@@ -100,8 +100,8 @@ AGENTS.md is preserved across runs.
 Install spectacles first, then ch-oracles (order does not matter):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/gominimal/spectacles/main/scripts/quick-setup.sh | bash -s -- --suite sdd
-curl -fsSL https://raw.githubusercontent.com/gominimal/ch-oracles/main/scripts/quick-setup.sh | bash -s -- --suite oracles
+curl -fsSL https://raw.githubusercontent.com/norrietaylor/spectacles/main/scripts/quick-setup.sh | bash -s -- --suite sdd
+curl -fsSL https://raw.githubusercontent.com/norrietaylor/ch-oracles/main/scripts/quick-setup.sh | bash -s -- --suite oracles
 ```
 
 `AGENTS.md` and `labels.yml` updates are additive; each suite owns its own

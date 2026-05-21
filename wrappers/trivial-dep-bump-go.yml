@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   run:
-    uses: gominimal/ch-oracles/.github/workflows/trivial-dep-bump-go.lock.yml@{{SOURCE_REF}}
+    uses: norrietaylor/ch-oracles/.github/workflows/trivial-dep-bump-go.lock.yml@{{SOURCE_REF}}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}

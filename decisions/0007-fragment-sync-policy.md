@@ -8,13 +8,13 @@ Date: 2026-05-19
 `shared/principles.md` and `shared/rigor.md` describe foundational agent
 behavior (think before acting, simplicity first, evidence standards,
 confidence thresholds). Both files were authored for
-[gominimal/spectacles](https://github.com/gominimal/spectacles)
+[norrietaylor/spectacles](https://github.com/norrietaylor/spectacles)
 and are equally applicable to ch-oracles.
 
 Three approaches were considered:
 
 1. **gh-aw import at compile time.** Workflows import
-   `gominimal/spectacles/shared/principles.md@<ref>` directly.
+   `norrietaylor/spectacles/shared/principles.md@<ref>` directly.
 2. **Verbatim fork at bootstrap.** Copy the file content once into
    `shared/principles.md` in ch-oracles; no automated sync.
 3. **Periodic re-fork via CI.** A scheduled job pulls the latest from
@@ -28,7 +28,7 @@ copies of the spectacles versions captured at bootstrap. Each file carries
 a header comment recording the source SHA and date:
 
 ```html
-<!-- Source: gominimal/spectacles/shared/<file>@<sha> at bootstrap (YYYY-MM-DD). Not auto-synced. -->
+<!-- Source: norrietaylor/spectacles/shared/<file>@<sha> at bootstrap (YYYY-MM-DD). Not auto-synced. -->
 ```
 
 No automated sync. Drift between the two suites is allowed.

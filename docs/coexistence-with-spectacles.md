@@ -1,11 +1,11 @@
 # Coexistence with spectacles
 
-[gominimal/spectacles](https://github.com/gominimal/spectacles) is the
+[norrietaylor/spectacles](https://github.com/norrietaylor/spectacles) is the
 spec-driven-development pipeline suite (sdd-spec → sdd-triage → sdd-execute
 → sdd-validate → sdd-review). ch-oracles is the chore suite. Both can be
 installed in the same consumer repo without collision.
 
-See [ADR 0003](https://github.com/gominimal/ch-oracles/blob/main/decisions/0003-spectacles-coexistence.md)
+See [ADR 0003](https://github.com/norrietaylor/ch-oracles/blob/main/decisions/0003-spectacles-coexistence.md)
 for the full contract.
 
 ## Filename namespaces
@@ -72,7 +72,7 @@ version range.
 
 When a ch-oracles worker hits a conflict it cannot resolve, it applies the
 `needs-human` label and stops. spectacles' agents also honor that label
-(per spectacles' [ADR 0001](https://github.com/gominimal/spectacles/blob/main/decisions/0001-needs-human.md)).
+(per spectacles' [ADR 0001](https://github.com/norrietaylor/spectacles/blob/main/decisions/0001-needs-human.md)).
 A human clearing the label resumes both suites' agents on that item.
 
 This makes `needs-human` the canonical cross-suite "stop" signal in a

@@ -2,7 +2,7 @@
 # scripts/quick-setup.sh — install ch-oracles into a consumer repository.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/gominimal/ch-oracles/main/scripts/quick-setup.sh \
+#   curl -fsSL https://raw.githubusercontent.com/norrietaylor/ch-oracles/main/scripts/quick-setup.sh \
 #     | bash -s -- --suite oracles
 #
 # Flags:
@@ -23,7 +23,7 @@
 
 set -euo pipefail
 
-SOURCE_REPO="gominimal/ch-oracles"
+SOURCE_REPO="norrietaylor/ch-oracles"
 SOURCE_RAW="https://raw.githubusercontent.com/${SOURCE_REPO}"
 SOURCE_REF="main"
 SUITE="oracles"

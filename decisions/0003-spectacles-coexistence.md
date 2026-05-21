@@ -5,7 +5,7 @@ Date: 2026-05-19
 
 ## Context
 
-ch-oracles and [gominimal/spectacles](https://github.com/gominimal/spectacles)
+ch-oracles and [norrietaylor/spectacles](https://github.com/norrietaylor/spectacles)
 are sibling suites. spectacles is the spec-driven-development pipeline;
 ch-oracles is the chore agent suite. A consumer repo may install one, the
 other, or both.
