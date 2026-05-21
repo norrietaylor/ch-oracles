@@ -59,7 +59,7 @@ safe-outputs:
       - ${{ github.event.repository.name }}
   create-pull-request:
     max: 1
-    draft: ${{ false }}
+    draft: false
     # Auto-merge baseline: every worker PR gets `agent:auto-merge` declaratively
     # (the gh-aw runtime keys auto-merge enablement off it). Per ch-oracles#33.
     auto-merge: true

@@ -166,7 +166,7 @@ marker string first, then:
 
 1. Search open `agent:doc-drift` issues for the literal marker string.
    Use the `search_issues` GitHub MCP tool (already in the allowlist) with
-   query `is:issue is:open label:agent:doc-drift "finding-id: doc-drift::n-a::<doc-path>::<identity>" in:body`.
+   query `is:issue is:open label:agent:doc-drift "finding-id: doc-drift::n-a::<doc-path>::<concise-identity>" in:body`.
 
 2. **If exactly one matching open issue exists**: emit `update-issue` with
    `issue_number=<n>` (the matched number — REQUIRED, the runtime is not in
