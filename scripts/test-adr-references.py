@@ -100,6 +100,7 @@ def strip_cross_repo_links(line: str) -> str:
     report them; functionally either is fine.
     """
     def repl(m: re.Match[str]) -> str:
+        """re.sub callback: blank out the link if it points to another repo."""
         url = m.group(2)
         if is_cross_repo_link(url):
             return " " * (m.end() - m.start())
@@ -145,6 +146,7 @@ def collect_sources(repo_root: Path) -> list[Path]:
     sources: list[Path] = []
 
     def add_glob(pattern: str, recursive: bool = False) -> None:
+        """Append every file matching pattern (relative to repo_root) to sources."""
         it = (repo_root.glob(pattern) if not recursive
               else repo_root.rglob(pattern))
         for p in sorted(it):
@@ -290,6 +292,7 @@ def find_dead_adrs(
 
 
 def main() -> int:
+    """CLI entry point. Discover ADRs, scan sources, validate, and exit."""
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument(
         "--repo-root",
