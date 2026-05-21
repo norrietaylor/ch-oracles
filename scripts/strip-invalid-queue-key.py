@@ -36,13 +36,42 @@ from pathlib import Path
 QUEUE_MAX_RE = re.compile(r"^[ \t]*queue:[ \t]+max[ \t]*$")
 
 
+CONCURRENCY_RE = re.compile(r"^([ \t]*)concurrency:[ \t]*$")
+
+
 def strip_file(path: Path, *, check: bool) -> tuple[int, bool]:
-    """Return (lines_removed, modified). In --check mode, never write."""
+    """Return (lines_removed, modified). In --check mode, never write.
+
+    Only strips `queue: max` lines that sit directly inside a `concurrency:`
+    block (indented strictly more than the `concurrency:` line itself). A line
+    whose indent falls back to or below the concurrency-line's indent ends
+    the block.
+    """
     original = path.read_text(encoding="utf-8")
     new_lines: list[str] = []
     removed = 0
+    concurrency_indent: int | None = None
     for line in original.splitlines(keepends=True):
-        if QUEUE_MAX_RE.match(line.rstrip("\n")):
+        raw = line.rstrip("\n")
+        stripped = raw.lstrip(" \t")
+        indent = len(raw) - len(stripped)
+        if not stripped:
+            # Blank line — preserve block context (YAML allows blanks in maps).
+            new_lines.append(line)
+            continue
+        m = CONCURRENCY_RE.match(raw)
+        if m:
+            concurrency_indent = len(m.group(1))
+            new_lines.append(line)
+            continue
+        if concurrency_indent is not None and indent <= concurrency_indent:
+            # Block ended.
+            concurrency_indent = None
+        if (
+            concurrency_indent is not None
+            and indent > concurrency_indent
+            and QUEUE_MAX_RE.match(raw)
+        ):
             removed += 1
             continue
         new_lines.append(line)
