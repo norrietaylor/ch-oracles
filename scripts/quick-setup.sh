@@ -60,7 +60,11 @@ while [ $# -gt 0 ]; do
     --no-templates) NO_TEMPLATES=1; shift ;;
     --source-ref) SOURCE_REF="$2"; shift 2 ;;
     --update) UPDATE=1; shift ;;
-    --target) TARGET_OVERRIDE="$2"; shift 2 ;;
+    --target)
+      [ $# -ge 2 ] || die "--target requires a directory argument"
+      TARGET_OVERRIDE="$2"
+      shift 2
+      ;;
     --dry-run) DRY_RUN=1; shift ;;
     -h|--help) usage ;;
     *) die "unknown flag: $1 (use --help)" ;;
@@ -74,8 +78,9 @@ if [ -n "${TARGET_OVERRIDE}" ]; then
   REPO_ROOT="$(cd "${TARGET_OVERRIDE}" && pwd)"
 fi
 
-if [ "${DRY_RUN}" -eq 1 ]; then
-  # In dry-run we don't require the target to be a git repo (fixture dirs aren't).
+if [ "${DRY_RUN}" -eq 1 ] || [ -n "${TARGET_OVERRIDE}" ]; then
+  # In dry-run or with an explicit --target, we don't require the destination to
+  # be a git repo (fixture dirs aren't; --target is documented as repo-optional).
   # Default the language list when detection finds nothing, so the smoke is hermetic.
   :
 else
