@@ -568,7 +568,6 @@ jobs:
           | `GITHUB_TOKEN` | Secrets | Read/write token for GitHub API calls within the repo. |
           | `APP_PRIVATE_KEY` | Secrets | Private key for the bot GitHub App; mints installation tokens for safe-output writes. |
           | `COPILOT_GITHUB_TOKEN` | Secrets | Fine-grained PAT with Copilot Requests:Read; auth credential for `engine: copilot` inference calls. |
-          | `ANTHROPIC_API_KEY` | Org secret | API key for Claude-backed workflows (workers only). |
           
           Set these in the workflow frontmatter or wrapper `secrets:` block, not
           inside the agent prompt.
