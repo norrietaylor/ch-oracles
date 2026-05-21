@@ -39,6 +39,17 @@ safe-outputs:
     private-key: ${{ secrets.APP_PRIVATE_KEY }}
     repositories:
       - ${{ github.event.repository.name }}
+  # Note (issue #30): both create-issue and create-pull-request are listed
+  # so the agent has the right tool available in either mode. The agent
+  # MUST select the tool that matches inputs.mode — see the prose contract
+  # below. Gating via templated `max` was attempted but rejected: every
+  # available gh-aw expression form for a ternary (`cond && '0' || '1'`,
+  # `fromJSON('{"k":"v"}')[inputs.x]`) renders into the safe-outputs JSON
+  # env var with characters that actionlint cannot lex (`&&` → `&&`;
+  # nested `\"` inside `fromJSON()`). The prose contract is the primary
+  # defense; if the agent calls create_issue in autofix anyway, the
+  # safe-output allowlist will still create the issue but the chore
+  # behaviour is wrong and visible from the run log.
   create-issue:
     max: 1
     labels:
@@ -81,6 +92,30 @@ Behavior summary:
 
 You are the Nickel style agent. Read `inputs.mode` and act accordingly.
 
+## Mode → safe-output contract (READ FIRST)
+
+The safe-output tool you call MUST match `inputs.mode`. Picking the wrong
+tool is the defect tracked in issue #30 and is the single most important
+rule in this prompt.
+
+- `mode == report`:
+  - You MUST call `create_issue` (or `update_issue` on dedup hit).
+  - You MUST NOT call `create_pull_request`. Report mode does not modify
+    files; opening a PR is a contract violation.
+- `mode == autofix`:
+  - You MUST call `create_pull_request`.
+  - You MUST NOT call `create_issue` or `update_issue` under any
+    circumstances — not as a fallback, not to "also notify", not because
+    the verification gate failed. If the verification gate fails, emit
+    `report_incomplete` and stop; do not file a new issue.
+  - Even though `create_issue` appears in the safe-outputs allowlist
+    (so report mode can use it), calling it from autofix is a contract
+    violation tracked by issue #30. The wrong-tool behaviour is visible
+    in the run log and treated as a defect.
+
+If you find yourself about to call `create_issue` while `inputs.mode ==
+autofix`, stop and re-read this section.
+
 ## Scope
 
 Every `*.ncl` file under the repo root, excluding paths in `.gitignore` and
@@ -117,7 +152,9 @@ Apply dedup before emitting.
    - `nickel format --check` on each file — must exit 0.
    - `nickel typecheck` on each file — must exit 0. **If typecheck fails,
      do not open the PR**; type errors are reported, not auto-fixed.
-3. Open one PR via `create-pull-request`:
+3. Open one PR via `create-pull-request` (safe-output tool
+   `create_pull_request`). **Do not call `create_issue` in this mode** —
+   see the contract above.
    - Title: `[lint:ncl] auto-applied nickel format`.
    - Body: summary of files touched, `Closes #<n>` if applicable.
    - Labels: `agent:lint:ncl`, `agent:autofix`.
@@ -135,3 +172,5 @@ Apply dedup before emitting.
 - Do not auto-apply typecheck fixes.
 - Do not open more than one PR or issue per run.
 - Do not modify files outside the in-scope set.
+- Do not call `create_issue` or `update_issue` when `inputs.mode == autofix`.
+- Do not call `create_pull_request` when `inputs.mode == report`.
