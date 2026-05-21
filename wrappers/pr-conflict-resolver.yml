@@ -45,10 +45,14 @@ jobs:
             const open = await github.paginate(github.rest.pulls.list, {
               owner, repo, state: 'open', per_page: 100,
             });
-            // Worker PRs only: ch-oracles bot author + `[worker:` title prefix.
+            // Worker PRs only, identified by the `[worker:` title prefix.
+            // The author login varies per consumer (each installs its own
+            // GitHub App, so the `*-bot[bot]` slug differs); the title
+            // prefix is the contractual, App-slug-agnostic signal (see
+            // workflows/worker-fix.md and wrappers/worker-iterate.yml,
+            // which uses the same title-only gate).
             const workers = open.filter(p =>
-              p.user && p.user.login === 'ch-oracles-bot[bot]' &&
-              p.title.startsWith('[worker:')
+              p.title && p.title.startsWith('[worker:')
             );
             let hasWork = false;
             for (const pr of workers) {

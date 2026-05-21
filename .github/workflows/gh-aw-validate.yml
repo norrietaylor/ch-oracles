@@ -59,5 +59,7 @@ jobs:
           python-version: '3.12'
       - name: Install PyYAML
         run: pip install pyyaml
+      - name: Unit-test wrapper-permission audit
+        run: python scripts/test-wrapper-permissions.py
       - name: Audit wrapper permissions
         run: python scripts/audit-wrapper-permissions.py wrappers/*.yml

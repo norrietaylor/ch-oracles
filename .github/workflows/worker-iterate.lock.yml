@@ -1,5 +1,5 @@
-# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"7f839f4eb564fb4c9006e42766d0baacfa01175ddb5985ad115786a3973fe6a1","compiler_version":"v0.74.3","agent_id":"copilot"}
-# gh-aw-manifest: {"version":1,"secrets":["APP_PRIVATE_KEY","COPILOT_GITHUB_TOKEN","GH_AW_CI_TRIGGER_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"Swatinem/rust-cache","sha":"v2","version":"v2"},{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/checkout","sha":"v4","version":"v4"},{"repo":"actions/create-github-app-token","sha":"bcd2ba49218906704ab6c1aa796996da409d3eb1","version":"v3.2.0"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-go","sha":"v5","version":"v5"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"astral-sh/setup-uv","sha":"v3","version":"v3"},{"repo":"dtolnay/rust-toolchain","sha":"stable","version":"stable"},{"repo":"github/gh-aw-actions/setup","sha":"8a9a52673cb8f97ebb43b344618af2d6f2c9ac7f","version":"v0.74.3"},{"repo":"taiki-e/install-action","sha":"v2","version":"v2"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.46"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.9","digest":"sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.3.9@sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388"},{"image":"ghcr.io/github/github-mcp-server:v1.0.4"},{"image":"node:lts-alpine","digest":"sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f","pinned_image":"node:lts-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f"}]}
+# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"dd68c6d3257377e1853277e24dfb8c9998df4482e92bb2ad5d0cc8a8c72a0d06","compiler_version":"v0.74.3","agent_id":"copilot"}
+# gh-aw-manifest: {"version":1,"secrets":["APP_PRIVATE_KEY","COPILOT_GITHUB_TOKEN","GH_AW_CI_TRIGGER_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/create-github-app-token","sha":"bcd2ba49218906704ab6c1aa796996da409d3eb1","version":"v3.2.0"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"8a9a52673cb8f97ebb43b344618af2d6f2c9ac7f","version":"v0.74.3"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.46"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.46"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.9","digest":"sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388","pinned_image":"ghcr.io/github/gh-aw-mcpg:v0.3.9@sha256:64828b42a4482f58fab16509d7f8f495a6d97c972a98a68aff20543531ac0388"},{"image":"ghcr.io/github/github-mcp-server:v1.0.4"},{"image":"node:lts-alpine","digest":"sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f","pinned_image":"node:lts-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f"}]}
 #    ___                   _   _      
 #   / _ \                 | | (_)     
 #  | |_| | __ _  ___ _ __ | |_ _  ___ 
@@ -60,20 +60,14 @@
 #   - GITHUB_TOKEN
 #
 # Custom actions used:
-#   - Swatinem/rust-cache@v2
 #   - actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-#   - actions/checkout@v4
 #   - actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
 #   - actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 #   - actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
 #   - actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0 (source v9)
-#   - actions/setup-go@v5
 #   - actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
 #   - actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-#   - astral-sh/setup-uv@v3
-#   - dtolnay/rust-toolchain@stable
 #   - github/gh-aw-actions/setup@8a9a52673cb8f97ebb43b344618af2d6f2c9ac7f # v0.74.3
-#   - taiki-e/install-action@v2
 #
 # Container images used:
 #   - ghcr.io/github/gh-aw-firewall/agent:0.25.46
@@ -248,7 +242,6 @@ jobs:
           GH_AW_EXPR_463A214A: ${{ github.event.pull_request.number || (fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_type == 'pull_request' && fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_number) }}
           GH_AW_EXPR_802A9F6A: ${{ github.event.issue.number || (fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_type == 'issue' && fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_number) }}
           GH_AW_EXPR_FF1D34CE: ${{ github.event.comment.id || fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').comment_id }}
-          GH_AW_EXPR_FFDECA10: ${{ github.ref == 'refs/heads/main' }}
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
           GH_AW_GITHUB_RUN_ID: ${{ github.run_id }}
@@ -257,23 +250,23 @@ jobs:
         run: |
           bash "${RUNNER_TEMP}/gh-aw/actions/create_prompt_first.sh"
           {
-          cat << 'GH_AW_PROMPT_d8fb3a304902f0fd_EOF'
+          cat << 'GH_AW_PROMPT_5669ddc8c32be0dd_EOF'
           <system>
-          GH_AW_PROMPT_d8fb3a304902f0fd_EOF
+          GH_AW_PROMPT_5669ddc8c32be0dd_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/xpia.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/temp_folder_prompt.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/markdown.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/safe_outputs_prompt.md"
-          cat << 'GH_AW_PROMPT_d8fb3a304902f0fd_EOF'
+          cat << 'GH_AW_PROMPT_5669ddc8c32be0dd_EOF'
           <safe-output-tools>
           Tools: create_issue, reply_to_pull_request_review_comment(max:10), push_to_pull_request_branch, missing_tool, missing_data, noop
-          GH_AW_PROMPT_d8fb3a304902f0fd_EOF
+          GH_AW_PROMPT_5669ddc8c32be0dd_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/safe_outputs_push_to_pr_branch.md"
-          cat << 'GH_AW_PROMPT_d8fb3a304902f0fd_EOF'
+          cat << 'GH_AW_PROMPT_5669ddc8c32be0dd_EOF'
           </safe-output-tools>
-          GH_AW_PROMPT_d8fb3a304902f0fd_EOF
+          GH_AW_PROMPT_5669ddc8c32be0dd_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/mcp_cli_tools_prompt.md"
-          cat << 'GH_AW_PROMPT_d8fb3a304902f0fd_EOF'
+          cat << 'GH_AW_PROMPT_5669ddc8c32be0dd_EOF'
           <github-context>
           The following GitHub context information is available for this workflow:
           {{#if github.actor}}
@@ -302,876 +295,26 @@ jobs:
           {{/if}}
           </github-context>
           
-          GH_AW_PROMPT_d8fb3a304902f0fd_EOF
+          GH_AW_PROMPT_5669ddc8c32be0dd_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/github_mcp_tools_with_safeoutputs_prompt.md"
-          cat << 'GH_AW_PROMPT_d8fb3a304902f0fd_EOF'
+          cat << 'GH_AW_PROMPT_5669ddc8c32be0dd_EOF'
           </system>
-          
-          
-          # Core principles
-          
-          Every ch-oracles agent imports this fragment. These behavioral principles
-          reduce the common failure modes of LLM coding agents. They are derived from
-          Andrej Karpathy's observations on LLM coding pitfalls, by way of
-          [andrej-karpathy-skills](https://github.com/norrietaylor/andrej-karpathy-skills).
-          
-          They bias toward caution over speed. For a trivial change, use judgment.
-          
-          ## 1. Think before acting
-          
-          Do not assume. Do not hide confusion. Surface tradeoffs.
-          
-          - State assumptions explicitly. If uncertain, ask. In ch-oracles, asking means
-            a comment plus the `needs-human` label, never a silent guess.
-          - If multiple interpretations exist, present them; do not pick one silently.
-          - If a simpler approach exists, say so. Push back when warranted.
-          - If something is unclear, stop, name what is confusing, and ask.
-          
-          ## 2. Simplicity first
-          
-          Write the minimum that solves the problem. Nothing speculative.
-          
-          - No features, abstractions, or configurability beyond what was asked.
-          - No error handling for impossible scenarios.
-          - If 200 lines could be 50, rewrite it.
-          - Ask: would a senior engineer call this overcomplicated? If yes, simplify.
-          
-          ## 3. Surgical changes
-          
-          Touch only what you must. Clean up only your own mess.
-          
-          - Do not improve adjacent code, comments, or formatting.
-          - Do not refactor what is not broken. Match the existing style.
-          - Remove imports, variables, and functions that your own change orphaned;
-            leave pre-existing dead code alone, but mention it.
-          - The test: every changed line traces directly to the task.
-          
-          ## 4. Goal-driven execution
-          
-          Define success criteria, then loop until verified.
-          
-          - Turn a task into a verifiable goal: "add validation" becomes "write tests
-            for invalid inputs, then make them pass".
-          - For multi-step work, state a brief plan with a verify step for each step.
-          - In ch-oracles this is the verification gate: a change is not done until
-            the per-language build/test/lint commands have been executed and pass.
-          
-          Strong success criteria let an agent loop on its own; weak criteria such as
-          "make it work" force constant clarification.
-          
-          ---
-          
-          These principles are working when diffs carry fewer unnecessary changes, fewer
-          rewrites follow from overcomplication, and clarifying questions come before
-          implementation rather than after a mistake.
-          
-          
-          
-          # Evidence standards for agent findings
-          
-          Every ch-oracles agent imports this fragment. Before an agent reports a
-          finding, a problem, or a proposed change, it applies this checklist.
-          
-          ## Required before filing an issue, comment, or PR
-          
-          1. **Reproduce the finding.** Confirm the problem exists in the current state
-             of the default branch. Do not file findings that appear only in history or
-             in a stale branch.
-          2. **Rule out false positives.** Check whether a suppression, a known
-             exception, or an existing issue already accounts for the case. If so,
-             update the existing item instead of filing a new one.
-          3. **Cite evidence.** Every finding includes at least one of: a file path and
-             line number, a command and its output, or a direct quote from the
-             codebase.
-          4. **Bound the scope.** State what is affected and what is not. Do not make
-             broad claims without enumerated examples.
-          5. **One finding per issue.** Do not bundle unrelated findings. Each distinct
-             problem gets its own issue so it can be triaged and closed independently.
-          
-          ## Confidence threshold
-          
-          Do not report a finding when confidence is below 80%. An uncertain pattern is
-          raised as a note on an existing item, not as a standalone finding.
-          
-          ## Avoiding noise
-          
-          - Ignore whitespace-only differences unless the file is generated.
-          - Do not report a TODO comment as a finding unless it blocks a merge.
-          - Do not report style that the repository linter already covers; it is caught
-            automatically.
-          
-          ## Per-repo conventions
-          
-          Every ch-oracles chore imports this fragment so it can reference repo-specific
-          conventions without repeating them in every workflow prompt.
-          
-          ### Canonical doc surface
-          
-          If the repository contains an `AGENTS.md` file under `.github/`, treat its
-          content as authoritative for:
-          
-          - Build, test, and lint commands (see the `## Build Commands (ch-oracles
-            override)` section, if present).
-          - Code style and linting rules beyond what the language defaults specify.
-          - PR conventions (commit format, branch naming).
-          - Domain-specific constraints.
-          
-          Read `.github/AGENTS.md` before beginning any analysis or change. If it
-          contradicts the code, flag the discrepancy rather than silently preferring
-          one over the other.
-          
-          If no `.github/AGENTS.md` is present, fall back to `README.md` for
-          project-level conventions, then to language defaults from
-          `shared/build-matrix.md`.
-          
-          ### Branch and commit conventions
-          
-          Unless `AGENTS.md` specifies otherwise:
-          
-          - Branch names: `chore/<short-description>` for maintenance work,
-            `fix/<short-description>` for bug fixes, `worker/<label>/<issue-num>` for
-            worker-emitted fix branches.
-          - Commit messages: imperative mood, present tense, 72-character limit on the
-            subject line.
-          - PR titles: same format as commit messages, with the chore prefix where
-            applicable (e.g., `chore(deps): patch-level bumps`, `[worker:doc-drift] ...`).
-          - Do not force-push to any branch that has an open PR.
-          
-          ### Label conventions
-          
-          ch-oracles owns the following label namespaces:
-          
-          | Label | Meaning |
-          |---|---|
-          | `agent:lint:<lang>` | Lint/style finding for the named language (rust, python, go, toml, ncl). |
-          | `agent:tidy:<lang>` | Reserved for future deeper static-analysis chores. |
-          | `agent:doc-drift` | Documentation is out of sync with code. |
-          | `agent:coverage` | Test coverage gap detected. |
-          | `agent:dep-drift` | Dependency needs review or update. |
-          | `agent:auto-merge` | Informational. Applied to trivial-dep-bump PRs alongside the gh-aw declarative auto-merge. |
-          | `agent:autofix` | Applied to PRs from `chore-style-*.md` in `mode: autofix`. |
-          | `agent:conflict` | Applied by `pr-conflict-resolver` to PRs it has rebased. |
-          
-          ch-oracles honors but does not own:
-          
-          | Label | Meaning |
-          |---|---|
-          | `needs-human` | Cross-suite hand-off label. When set, ch-oracles workers decline to act on the item. Owned by `gominimal/spectacles` when co-installed. |
-          
-          Apply the most specific label that matches the finding. If none match, do not
-          apply an agent label.
-          
-          ### Issue and PR hygiene
-          
-          - Search for an existing open issue before creating a new one (see
-            `safe-output-create-issue.md`).
-          - Close the corresponding issue when opening a fix PR, using `Closes #<n>` in
-            the PR description.
-          - Do not assign issues or PRs to individuals unless `AGENTS.md` specifies an
-            assignment policy.
-          - Do not request reviews from individuals unless `AGENTS.md` specifies a
-            review policy.
-          
-          ### Language-specific notes
-          
-          Per-language toolchain conventions (Rust edition, Python interpreter, Go
-          version, Nickel binary version) are sourced from `shared/build-matrix.md`
-          with `AGENTS.md` overrides taking precedence. See the individual
-          `shared/<lang>-runtime-setup.md` fragments for runner provisioning details.
-          
-          ## Safe-output guardrails: create / update issue
-          
-          Apply the following caps when using the `create-issue` and `update-issue`
-          safe outputs:
-          
-          - **max: 1** — Open at most one issue per workflow run unless the chore
-            overrides it. If a matching open issue already exists for the same finding
-            identity, emit `update-issue` against it instead of `create-issue`.
-          - **max-mentions: 10** — Include at most 10 `@`-mentions across the issue
-            title and body combined.
-          - **max-links: 50** — Include at most 50 hyperlinks in the issue body.
-          - **No `close-older-issues`.** Do not set this to `true`. The gh-aw runtime
-            keys close-older only on the workflow-id marker, not on per-finding
-            identity; enabling it causes cross-finding cascades where two distinct
-            findings from the same chore mutually close each other. Per-finding dedup
-            is implemented agent-side via the idempotency contract below. This applies
-            to `close-older-key` as well: a per-workflow static value cannot replace
-            per-finding dedup.
-          
-          ### HTML tag allowlist
-          
-          Only the following HTML tags are permitted in issue bodies:
-          
-          ```text
-          <details>, <summary>, <code>, <pre>, <br>, <ul>, <ol>, <li>,
-          <strong>, <em>, <b>, <i>
-          ```
-          
-          Strip all other HTML tags before emitting the issue body.
-          
-          ### Idempotency contract (per-finding dedup)
-          
-          Every chore-emitted issue body MUST include a structured finding-identity
-          marker as the FIRST line of the body, on its own line:
-          
-          ```html
-          <!-- finding-id: <chore>::<lang>::<identity> -->
-          ```
-          
-          - `<chore>` — the chore name (e.g., `lint`, `tidy`, `doc-drift`, `coverage`,
-            `dep-drift`).
-          - `<lang>` — the language scope (`rust`, `python`, `go`, `toml`, `ncl`), or
-            `n-a` if not applicable (e.g., `doc-drift::n-a::README.md::link-404`).
-          - `<identity>` — the per-chore identity field defined in each chore's
-            Reporting section (e.g., `src/lib.rs::42::E0599` for clippy, `tokio::CVE-2024-0001`
-            for dep-drift).
-          
-          The marker is normalized lowercase, alphanumeric plus `,:_/.-`.
-          
-          Before emitting any safe-output, run this dedup procedure:
-          
-          1. Search open issues with the chore's `agent:*` label and a body containing
-             `` for the current
-             finding's identity:
-          
-             ```bash
-             gh issue list --search "in:body \"finding-id: <chore>::<lang>::<identity>\""
-             ```
-          
-          2. **If a matching open issue exists**: emit `update-issue` with
-             `issue_number=<n>` and `operation=replace`, posting the fresh body. Do
-             not call `create-issue`. Do not call `close-older-issues`-style closures;
-             mutating fixes should land via the worker chore, not this audit.
-          3. **If no matching open issue exists**: emit `create-issue` with the marker
-             as the first body line.
-          
-          This contract is the only source of dedup. The runtime no longer auto-closes
-          prior issues, so an obsolete issue (drift that has been fixed) stays open
-          until either an operator closes it or a future janitor chore reaps stale
-          entries. The trade is intentional: false-cascades are far more harmful than
-          slightly-stale-open entries an operator can close.
-          
-          ### Severity labeling
-          
-          Attach exactly one severity label from the set declared in this repo's
-          `labels.yml`. Do not create new labels at runtime.
-          
-          ## Runtime environment setup
-          
-          Apply the following setup steps at the start of any agent workflow step that
-          reads from or writes to the repository.
-          
-          ### 1. Verify checkout
-          
-          Confirm the repository has been checked out before the agent step runs:
-          
-          ```yaml
-          - uses: actions/checkout@v4
-            with:
-              fetch-depth: 0
-          ```
-          
-          Use `fetch-depth: 0` for workflows that traverse commit history (doc-drift,
-          test-coverage detector). Use `fetch-depth: 1` for workflows that only need
-          the current HEAD (lint, dep-bump).
-          
-          ### 2. Set up git identity
-          
-          Configure a non-interactive git identity so the agent can commit changes
-          without prompts:
-          
-          ```bash
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          ```
-          
-          ### 3. Confirm tool availability
-          
-          Before the agent step begins, confirm the expected tools are on PATH:
-          
-          ```bash
-          command -v gh >/dev/null 2>&1 || { echo "gh CLI not found" >&2; exit 1; }
-          command -v jq >/dev/null 2>&1 || { echo "jq not found" >&2; exit 1; }
-          gh aw --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | awk -F. '
-            ($1 > 0) || ($1 == 0 && $2 > 72) || ($1 == 0 && $2 == 72 && $3 >= 0) { found=1 }
-            END { if (!found) { print "gh aw v0.72.0 or newer required" > "/dev/stderr"; exit 1 } }
-          '
-          ```
-          
-          ### 4. Export required environment variables
-          
-          Agent steps expect the following variables in their environment:
-          
-          | Variable | Source | Description |
-          |---|---|---|
-          | `GITHUB_TOKEN` | Secrets | Read/write token for GitHub API calls within the repo. |
-          | `APP_PRIVATE_KEY` | Secrets | Private key for the bot GitHub App; mints installation tokens for safe-output writes. |
-          | `COPILOT_GITHUB_TOKEN` | Secrets | Fine-grained PAT with Copilot Requests:Read; auth credential for `engine: copilot` inference calls. |
-          
-          Set these in the workflow frontmatter or wrapper `secrets:` block, not
-          inside the agent prompt.
-          
-          ### 5. Failure behavior
-          
-          If any setup step fails:
-          
-          - Exit with a non-zero status code and a descriptive message to stderr.
-          - Do not attempt to run the agent step. A partially initialized environment
-            produces unreliable agent output.
-          - The workflow surfaces the failure as a failed Actions check so the
-            operator is alerted.
-          
-          ## Rust runtime setup
-          
-          For workflows that operate on a Rust workspace, provision the toolchain before
-          the agent step begins.
-          
-          ### Install rustup with the workspace toolchain
-          
-          ```yaml
-          - uses: dtolnay/rust-toolchain@stable
-            with:
-              components: rustfmt, clippy
-          
-          - uses: Swatinem/rust-cache@v2
-            with:
-              save-if: __GH_AW_EXPR_FFDECA10__
-          ```
-          
-          If `rust-toolchain.toml` is present at the repo root, `dtolnay/rust-toolchain`
-          honors its channel and components. Always install `rustfmt` and `clippy`;
-          both lint and worker chores require them.
-          
-          ### Network egress
-          
-          This workflow's lock file MUST declare:
-          
-          ```yaml
-          network:
-            allowed: [defaults, rust]
-          ```
-          
-          The `rust` ecosystem id unions in `crates.io`, `static.crates.io`, and
-          `index.crates.io`. `defaults` covers GitHub API endpoints.
-          
-          ### Tool checks
-          
-          ```bash
-          command -v cargo >/dev/null 2>&1 || { echo "cargo not found" >&2; exit 1; }
-          command -v rustfmt >/dev/null 2>&1 || { echo "rustfmt not found" >&2; exit 1; }
-          cargo --version
-          rustc --version
-          ```
-          
-          ### Optional: cargo-llvm-cov for coverage chores
-          
-          Only the `test-coverage-detector` chore needs this binary:
-          
-          ```yaml
-          - uses: taiki-e/install-action@v2
-            with:
-              tool: cargo-llvm-cov
-          ```
-          
-          ## Rust build commands
-          
-          Default verification commands for Rust workspaces. Workers and lint chores
-          invoke these unless `AGENTS.md` overrides them.
-          
-          ### Verification gate
-          
-          Every command exits 0 before a PR opens:
-          
-          ```bash
-          cargo build --workspace --all-targets
-          cargo fmt --all --check
-          cargo clippy --workspace --all-targets -- -D warnings
-          cargo test --workspace --all-targets
-          ```
-          
-          `--workspace` walks every member crate. `--all-targets` covers lib, bins,
-          tests, examples, and benches. Both flags are required: `--all-targets` alone
-          only builds the root package's targets, so on a workspace root with both
-          `[workspace]` and `[package]` it misses every member crate.
-          
-          Do not invoke `cargo test <pattern>` for verification: a filtered run only
-          compiles matching tests and masks compile errors in adjacent test files.
-          
-          ### Lint commands
-          
-          `mode: report`:
-          
-          ```bash
-          cargo fmt --all --check
-          cargo clippy --workspace --all-targets -- -D warnings
-          ```
-          
-          `mode: autofix`:
-          
-          ```bash
-          cargo fmt --all
-          cargo clippy --workspace --all-targets --fix --allow-dirty -- -D warnings
-          ```
-          
-          ### Dep-bump commands
-          
-          ```bash
-          cargo update --workspace --dry-run > /tmp/cargo-update-dry-run.log 2>&1
-          cargo metadata --format-version 1 --locked | jq -r '.packages[].name' | sort -u > /tmp/crates-before.txt
-          cargo update --workspace
-          cargo metadata --format-version 1 --locked | jq -r '.packages[].name' | sort -u > /tmp/crates-after.txt
-          comm -3 /tmp/crates-before.txt /tmp/crates-after.txt  # empty output ⇒ transitive set unchanged
-          ```
-          
-          A patch-level bump is rejected if the dry-run log contains `warning: yanked`
-          or if `comm -3` returns non-empty output (transitive crate added or removed).
-          
-          ## Python runtime setup
-          
-          For workflows that operate on a Python repo, provision the toolchain before
-          the agent step begins. ch-oracles standardizes on `uv` for environment and
-          dependency management.
-          
-          ### Install uv and the project's interpreter
-          
-          ```yaml
-          - uses: astral-sh/setup-uv@v3
-            with:
-              enable-cache: true
-          
-          - name: Install Python interpreter
-            run: uv python install
-          ```
-          
-          If `pyproject.toml` declares a `requires-python` constraint, `uv python
-          install` honors it. Otherwise the latest stable cpython is installed.
-          
-          ### Project sync
-          
-          ```yaml
-          - name: Sync project
-            run: uv sync --frozen
-          ```
-          
-          `--frozen` fails the run if `uv.lock` is missing or stale, which surfaces
-          dep drift as a chore signal rather than a silent recompute.
-          
-          ### Network egress
-          
-          This workflow's lock file MUST declare:
-          
-          ```yaml
-          network:
-            allowed: [defaults, python]
-          ```
-          
-          The `python` ecosystem id covers `pypi.org` and `files.pythonhosted.org`.
-          `defaults` covers GitHub API endpoints.
-          
-          ### Tool checks
-          
-          ```bash
-          command -v uv >/dev/null 2>&1 || { echo "uv not found" >&2; exit 1; }
-          uv --version
-          uv run python --version
-          ```
-          
-          ### Optional: ruff, mypy, pytest, pip-audit
-          
-          These are dev dependencies declared in `pyproject.toml` and installed via
-          `uv sync`. Lint and worker chores invoke them via `uv run`:
-          
-          ```bash
-          uv run ruff format --check
-          uv run ruff check
-          uv run mypy
-          uv run pytest
-          uv run pip-audit  # dep-bump chore only
-          ```
-          
-          ## Python build commands
-          
-          Default verification commands for Python projects. Workers and lint chores
-          invoke these unless `AGENTS.md` overrides them.
-          
-          ### Verification gate
-          
-          Every command exits 0 before a PR opens:
-          
-          ```bash
-          uv sync --frozen
-          uv run ruff format --check
-          uv run ruff check
-          uv run mypy
-          uv run pytest
-          ```
-          
-          `--frozen` ensures the lockfile matches the manifest. Drop it only when the
-          PR's purpose is to update the lockfile (e.g., `trivial-dep-bump-python`).
-          
-          ### Lint commands
-          
-          `mode: report`:
-          
-          ```bash
-          uv run ruff format --check
-          uv run ruff check
-          uv run mypy
-          ```
-          
-          `mode: autofix`:
-          
-          ```bash
-          uv run ruff format
-          uv run ruff check --fix
-          # mypy has no --fix mode; type errors stay reported, never auto-applied.
-          ```
-          
-          ### Dep-bump commands
-          
-          ```bash
-          uv lock --upgrade
-          uv sync --frozen
-          uv run pip-audit --strict  # reject if any vulnerability remains
-          ```
-          
-          A patch-level bump is rejected if:
-          
-          - `pyproject.toml` was mutated (only `uv.lock` may change).
-          - `pip-audit --strict` reports any vulnerability of severity `high` or
-            `critical` after the upgrade.
-          - The Python interpreter version constraint changed.
-          
-          ## Go runtime setup
-          
-          For workflows that operate on a Go module, provision the toolchain before
-          the agent step begins.
-          
-          ### Install the toolchain
-          
-          ```yaml
-          - uses: actions/setup-go@v5
-            with:
-              go-version-file: go.mod
-              cache: true
-          ```
-          
-          `go-version-file: go.mod` honors the module's declared Go version.
-          
-          ### Network egress
-          
-          This workflow's lock file MUST declare:
-          
-          ```yaml
-          network:
-            allowed: [defaults, go]
-          ```
-          
-          The `go` ecosystem id covers `proxy.golang.org`, `sum.golang.org`,
-          `storage.googleapis.com` (module mirror), and `vuln.go.dev`.
-          
-          ### Tool checks
-          
-          ```bash
-          command -v go >/dev/null 2>&1 || { echo "go not found" >&2; exit 1; }
-          go version
-          ```
-          
-          ### Optional: staticcheck, govulncheck
-          
-          Lint and dep-bump chores install these via `go install`:
-          
-          ```bash
-          go install honnef.co/go/tools/cmd/staticcheck@latest
-          go install golang.org/x/vuln/cmd/govulncheck@latest
-          ```
-          
-          Cache the Go build cache (typically `~/.cache/go-build` on Linux) and
-          `~/go/pkg/mod` to avoid reinstalling on every run. Use `actions/cache@v4`
-          with a key derived from `hashFiles('go.sum')`.
-          
-          ## Go build commands
-          
-          Default verification commands for Go modules. Workers and lint chores
-          invoke these unless `AGENTS.md` overrides them.
-          
-          ### Verification gate
-          
-          Every command exits 0 before a PR opens:
-          
-          ```bash
-          go build ./...
-          test -z "$(gofmt -l .)"
-          go vet ./...
-          staticcheck ./...
-          go test ./...
-          ```
-          
-          `test -z "$(gofmt -l .)"` exits non-zero if any file needs formatting; the
-          empty-output check is the canonical Go formatting gate.
-          
-          ### Lint commands
-          
-          `mode: report`:
-          
-          ```bash
-          gofmt -l .             # lists files needing format
-          go vet ./...
-          staticcheck ./...
-          ```
-          
-          `mode: autofix`:
-          
-          ```bash
-          gofmt -w .
-          goimports -w .         # if goimports is installed
-          # go vet and staticcheck have no --fix mode; findings stay reported.
-          ```
-          
-          ### Dep-bump commands
-          
-          ```bash
-          go get -u=patch ./...
-          go mod tidy
-          govulncheck ./...      # reject if any vulnerability surfaces after upgrade
-          ```
-          
-          A patch-level bump is rejected if:
-          
-          - `go.mod` major or minor version changed (only patch transitions are
-            allowed for any direct or indirect dependency).
-          - `govulncheck` reports any vulnerability with severity `high` or `critical`
-            after the upgrade.
-          - The Go toolchain directive in `go.mod` changed.
-          
-          ## TOML runtime setup
-          
-          For workflows that lint or format TOML files, install `taplo`.
-          
-          ### Install taplo
-          
-          ```yaml
-          - name: Install taplo
-            run: |
-              curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz \
-                | gunzip > /usr/local/bin/taplo
-              chmod +x /usr/local/bin/taplo
-          ```
-          
-          ### Network egress
-          
-          This workflow's lock file MUST declare:
-          
-          ```yaml
-          network:
-            allowed: [defaults]
-          ```
-          
-          `defaults` is sufficient: taplo itself does not fetch dependencies. The
-          release binary download host (`github.com/tamasfe/taplo`) is included in
-          `defaults`.
-          
-          ### Tool checks
-          
-          ```bash
-          command -v taplo >/dev/null 2>&1 || { echo "taplo not found" >&2; exit 1; }
-          taplo --version
-          ```
-          
-          ### Optional: `.taplo.toml` configuration
-          
-          If the consumer repo has `.taplo.toml` at the root, taplo honors it.
-          Otherwise the default schema and rules apply.
-          
-          ## TOML build commands
-          
-          Default lint commands for TOML files. There is no "build" or "test" step for
-          TOML on its own — the language has no execution model — so these reduce to
-          lint.
-          
-          ### Verification gate
-          
-          ```bash
-          taplo fmt --check
-          taplo lint
-          ```
-          
-          `taplo fmt --check` exits non-zero if any file needs reformatting.
-          `taplo lint` validates schema and key conventions.
-          
-          ### Lint commands
-          
-          `mode: report`:
-          
-          ```bash
-          taplo fmt --check
-          taplo lint
-          ```
-          
-          `mode: autofix`:
-          
-          ```bash
-          taplo fmt              # rewrites files in place
-          taplo lint             # lint findings stay reported, never auto-applied.
-          ```
-          
-          ### Scope
-          
-          ch-oracles' TOML chore covers every `*.toml` file under the repo root,
-          excluding `target/`, `node_modules/`, and any path in `.gitignore`.
-          
-          Note: `Cargo.toml` files in a Rust workspace are also covered by
-          `chore-style-rust.md` via `cargo fmt`. The two chores produce overlapping
-          findings when both are installed. Prefer `chore-style-rust.md` for Rust
-          repos and skip `chore-style-toml.md` there; install `chore-style-toml.md`
-          only when the repo uses TOML outside a Cargo context (config files, Hugo,
-          etc.).
-          
-          ## Nickel runtime setup
-          
-          For workflows that lint or typecheck Nickel (`.ncl`) files, install the
-          `nickel` binary.
-          
-          ### Install nickel
-          
-          ```yaml
-          - name: Install nickel
-            run: |
-              curl -fsSL https://github.com/tweag/nickel/releases/latest/download/nickel-x86_64-linux \
-                -o /usr/local/bin/nickel
-              chmod +x /usr/local/bin/nickel
-          ```
-          
-          ### Network egress
-          
-          This workflow's lock file MUST declare:
-          
-          ```yaml
-          network:
-            allowed: [defaults]
-          ```
-          
-          `defaults` covers the GitHub release host on `github.com/tweag/nickel`,
-          which is sufficient to install the binary. The Nickel language does not
-          have a dedicated gh-aw ecosystem identifier. If your Nickel files import
-          contracts from `nickel-lang.org` or another host, add the host as an
-          explicit domain entry:
-          
-          ```yaml
-          network:
-            allowed: [defaults, "nickel-lang.org"]
-          ```
-          
-          ### Tool checks
-          
-          ```bash
-          command -v nickel >/dev/null 2>&1 || { echo "nickel not found" >&2; exit 1; }
-          nickel --version
-          ```
-          
-          ### Optional: imported contracts
-          
-          If the repo imports contracts via `import "..."` Nickel directives, the
-          agent must have network access to the import sources. Limit the network
-          egress block to the specific hosts declared in the consumer's `AGENTS.md`
-          under `## Nickel Imports`.
-          
-          ## Nickel build commands
-          
-          Default lint commands for Nickel files. As with TOML, there is no separate
-          "build" or "test" surface in ch-oracles' scope — these reduce to lint and
-          typecheck.
-          
-          ### Verification gate
-          
-          ```bash
-          nickel format --check **/*.ncl
-          nickel typecheck **/*.ncl
-          ```
-          
-          Both commands must exit 0. `**/*.ncl` is expanded by the shell (globstar).
-          For shells without globstar, fall back to `find . -name '*.ncl' -print0 |
-          xargs -0 nickel typecheck`.
-          
-          ### Lint commands
-          
-          `mode: report`:
-          
-          ```bash
-          nickel format --check **/*.ncl
-          nickel typecheck **/*.ncl
-          ```
-          
-          `mode: autofix`:
-          
-          ```bash
-          nickel format **/*.ncl  # rewrites files in place
-          nickel typecheck **/*.ncl  # type errors stay reported, never auto-applied.
-          ```
-          
-          ### Scope
-          
-          Every `*.ncl` file under the repo root, excluding any path in `.gitignore`
-          and any `target/`, `node_modules/`, or `_artifacts/` directory.
-          
-          ## Build matrix
-          
-          This fragment is the canonical source for default per-language verification
-          commands. Workers and lint chores import it to know how to build, test, and
-          lint a consumer repo without baking the commands into the workflow body.
-          
-          ### Resolution order
-          
-          1. **`AGENTS.md` override.** If the consumer repo's `.github/AGENTS.md` has
-             a `## Build Commands (ch-oracles override)` section, treat it as
-             authoritative. Parse its YAML-ish key:value lines.
-          2. **`vars.CH_ORACLES_LANGUAGE` repository variable.** If set, restrict the
-             language to the named value. Valid: `rust | python | go | toml | ncl | polyglot`.
-          3. **Manifest sniff.** If neither override is present, detect language(s)
-             from the repo root:
-             - `Cargo.toml` → rust
-             - `pyproject.toml` → python
-             - `go.mod` → go
-             - Presence of `*.toml` files (and no other primary language) → toml
-             - Presence of `*.ncl` files → ncl
-             - Multiple matches → polyglot
-          4. **Defaults below.** Apply the row matching the resolved language.
-          
-          ### Defaults
-          
-          | Language | build | test | lint |
-          |---|---|---|---|
-          | rust | `cargo build --workspace --all-targets` | `cargo test --workspace --all-targets` | `cargo fmt --all --check && cargo clippy --workspace --all-targets` |
-          | python | `uv sync` | `uv run pytest` | `uv run ruff format --check && uv run ruff check && uv run mypy` |
-          | go | `go build ./...` | `go test ./...` | `gofmt -l . && go vet ./... && staticcheck ./...` |
-          | toml | _(no-op)_ | _(no-op)_ | `taplo fmt --check && taplo lint` |
-          | ncl | _(no-op)_ | _(no-op)_ | `nickel format --check && nickel typecheck` |
-          
-          For `polyglot`, run the union of every matched language's commands in order
-          (rust → python → go → toml → ncl). Any non-zero exit fails the gate.
-          
-          ### AGENTS.md override schema
-          
-          ```markdown
-          ## Build Commands (ch-oracles override)
-          
-          language: rust          # rust | python | go | toml | ncl | polyglot
-          build: just verify
-          test: just test
-          lint: just lint
-          ```
-          
-          Keys are required: `language`, `build`, `test`, `lint`. Values are shell
-          commands evaluated in the repo root. The agent does not invoke a separate
-          parser — it reads the section as text and substitutes the listed commands
-          verbatim into its verification gate.
-          
-          ### Verification gate behavior
-          
-          Before opening any PR, the worker runs `build && test && lint` (resolved per
-          above) and confirms each command exits 0. Any non-zero exit means do not
-          open the PR; emit `report_incomplete` naming the failing step and stop.
-          
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_principles.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_rigor.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_repo-conventions.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_safe-output-create-issue.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_runtime-setup.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_rust-runtime-setup.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_rust-build-commands.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_python-runtime-setup.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_python-build-commands.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_go-runtime-setup.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_go-build-commands.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_toml-runtime-setup.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_toml-build-commands.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_nickel-runtime-setup.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_nickel-build-commands.md}}
+          {{#runtime-import .github/aw/imports/gominimal/ch-oracles/a11ddcf2e800616a79fbdbe8e194101d7aa1bedc/shared_build-matrix.md}}
           
           
           # Worker iterator
@@ -1204,15 +347,42 @@ jobs:
           
           ## Procedure
           
-          1. Fetch unresolved review comments on the PR via the GitHub API; write to
-             `/tmp/review-comments.json`.
-          2. Classify each comment: `actionable` (concrete code change requested),
-             `clarification` (information request), `style-preference` (opinion not
-             tied to the rigor checklist), `out-of-scope` (touches files outside the
-             PR's scope).
+          1. Enumerate human feedback on the PR from ALL THREE GitHub API surfaces
+             and merge them into `/tmp/review-comments.json`. A single surface is
+             never sufficient — reviewers post feedback at any of these layers and
+             missing one produces false noops:
+             - **Review summaries**: `gh api repos/<owner>/<repo>/pulls/<n>/reviews`
+               — the body of `COMMENTED` and `CHANGES_REQUESTED` reviews. This is
+               the surface that `gh pr review --comment "<body>"` writes to, and the
+               most common form of human feedback on a worker PR. `APPROVED` reviews
+               with empty bodies are not actionable and may be skipped.
+             - **Review-thread (inline) comments**: `gh api repos/<owner>/<repo>/pulls/<n>/comments`
+               — comments anchored to a specific diff hunk. These carry a
+               `pull_request_review_id` and `path`/`line` fields.
+             - **PR issue-comments**: `gh api repos/<owner>/<repo>/issues/<n>/comments`
+               — top-level conversation comments on the PR (the same surface used by
+               `gh pr comment`).
+          
+             For each entry, retain at minimum: source surface, comment/review id,
+             author login, author type (`User` vs `Bot`), body, and (for inline
+             comments) `path`/`line`. Filter out entries where `user.type == "Bot"`
+             or whose login matches a known bot suffix (`[bot]`) or known automation
+             accounts (e.g. `coderabbitai`, `dependabot`, `github-actions`,
+             `gominimal-aw-bot`, the ch-oracles bot app itself). If after filtering
+             no human feedback remains, emit `noop` with a message that explicitly
+             lists how many entries each surface returned and how many survived the
+             bot filter — never claim "no human review comments" without enumerating
+             all three surfaces first.
+          2. Classify each surviving comment: `actionable` (concrete code change
+             requested), `clarification` (information request), `style-preference`
+             (opinion not tied to the rigor checklist), `out-of-scope` (touches
+             files outside the PR's scope).
           3. Pick up to 3 `actionable` comments. For each:
              - Apply the requested change.
-             - Append `` to a reply comment.
+             - Append `` to a reply comment. For
+               inline review-thread comments use
+               `reply_to_pull_request_review_comment`; for review summaries and PR
+               issue-comments post a top-level PR comment.
           4. For each non-actionable comment, post a ``
              reply with a one-sentence explanation.
           5. **Verification gate** (per detected language; from `build-matrix.md`).
@@ -1240,14 +410,13 @@ jobs:
           - Touch protected files unless `protected-files: 'fallback-to-issue'`
             routes the change to an issue (then file the issue rather than push).
           
-          GH_AW_PROMPT_d8fb3a304902f0fd_EOF
+          GH_AW_PROMPT_5669ddc8c32be0dd_EOF
           } > "$GH_AW_PROMPT"
       - name: Interpolate variables and render templates
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
           GH_AW_ENGINE_ID: "copilot"
-          GH_AW_EXPR_FFDECA10: ${{ github.ref == 'refs/heads/main' }}
         with:
           script: |
             const { setupGlobals } = require('${{ runner.temp }}/gh-aw/actions/setup_globals.cjs');
@@ -1262,7 +431,6 @@ jobs:
           GH_AW_EXPR_463A214A: ${{ github.event.pull_request.number || (fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_type == 'pull_request' && fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_number) }}
           GH_AW_EXPR_802A9F6A: ${{ github.event.issue.number || (fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_type == 'issue' && fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').item_number) }}
           GH_AW_EXPR_FF1D34CE: ${{ github.event.comment.id || fromJSON(github.event.inputs.aw_context || github.event.client_payload.aw_context || '{}').comment_id }}
-          GH_AW_EXPR_FFDECA10: ${{ github.ref == 'refs/heads/main' }}
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
           GH_AW_GITHUB_RUN_ID: ${{ github.run_id }}
@@ -1283,7 +451,6 @@ jobs:
                 GH_AW_EXPR_463A214A: process.env.GH_AW_EXPR_463A214A,
                 GH_AW_EXPR_802A9F6A: process.env.GH_AW_EXPR_802A9F6A,
                 GH_AW_EXPR_FF1D34CE: process.env.GH_AW_EXPR_FF1D34CE,
-                GH_AW_EXPR_FFDECA10: process.env.GH_AW_EXPR_FFDECA10,
                 GH_AW_GITHUB_ACTOR: process.env.GH_AW_GITHUB_ACTOR,
                 GH_AW_GITHUB_REPOSITORY: process.env.GH_AW_GITHUB_REPOSITORY,
                 GH_AW_GITHUB_RUN_ID: process.env.GH_AW_GITHUB_RUN_ID,
@@ -1448,9 +615,9 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/gh-aw/safeoutputs"
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
-          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_c265127411d26f8d_EOF'
+          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_9fddedabfbf9f05e_EOF'
           {"create_issue":{"labels":["agent:worker-tuning"],"max":1},"create_report_incomplete_issue":{"labels":["agent:worker-tuning"],"title-prefix":"[incomplete]"},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"push_to_pull_request_branch":{"if_no_changes":"ignore","max":1,"max_patch_size":1024,"protect_top_level_dot_folders":true,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","CODEOWNERS","DESIGN.md","README.md","CONTRIBUTING.md","CHANGELOG.md","SECURITY.md","CODE_OF_CONDUCT.md","AGENTS.md","CLAUDE.md","GEMINI.md"],"protected_files_policy":"fallback-to-issue","title_prefix":"[worker:"},"reply_to_pull_request_review_comment":{"max":10,"target":"triggering"},"report_incomplete":{}}
-          GH_AW_SAFE_OUTPUTS_CONFIG_c265127411d26f8d_EOF
+          GH_AW_SAFE_OUTPUTS_CONFIG_9fddedabfbf9f05e_EOF
       - name: Generate Safe Outputs Tools
         env:
           GH_AW_TOOLS_META_JSON: |
@@ -1702,7 +869,7 @@ jobs:
           
           mkdir -p /home/runner/.copilot
           GH_AW_NODE=$(which node 2>/dev/null || command -v node 2>/dev/null || echo node)
-          cat << GH_AW_MCP_CONFIG_52afa5f64df22e48_EOF | "$GH_AW_NODE" "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.cjs"
+          cat << GH_AW_MCP_CONFIG_5a4b3de2f0f20ff0_EOF | "$GH_AW_NODE" "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.cjs"
           {
             "mcpServers": {
               "github": {
@@ -1743,7 +910,7 @@ jobs:
               "payloadDir": "${MCP_GATEWAY_PAYLOAD_DIR}"
             }
           }
-          GH_AW_MCP_CONFIG_52afa5f64df22e48_EOF
+          GH_AW_MCP_CONFIG_5a4b3de2f0f20ff0_EOF
       - name: Mount MCP servers as CLIs
         id: mount-mcp-clis
         continue-on-error: true
@@ -1780,7 +947,9 @@ jobs:
         # --allow-tool shell(cat)
         # --allow-tool shell(date)
         # --allow-tool shell(echo)
+        # --allow-tool shell(gh api repos/*/issues/*/comments)
         # --allow-tool shell(gh api repos/*/pulls/*/comments)
+        # --allow-tool shell(gh api repos/*/pulls/*/reviews)
         # --allow-tool shell(gh pr diff)
         # --allow-tool shell(gh pr view)
         # --allow-tool shell(git add:*)
@@ -1829,7 +998,7 @@ jobs:
           fi
           # shellcheck disable=SC1003
           sudo -E awf --config "${RUNNER_TEMP}/gh-aw/awf-config.json" --container-workdir "${GITHUB_WORKSPACE}" --mount "${RUNNER_TEMP}/gh-aw:${RUNNER_TEMP}/gh-aw:ro" --mount "${RUNNER_TEMP}/gh-aw:/host${RUNNER_TEMP}/gh-aw:ro" ${GH_AW_DOCKER_HOST_PATH_PREFIX_ARGS} --env-all --exclude-env COPILOT_GITHUB_TOKEN --exclude-env GITHUB_MCP_SERVER_TOKEN --exclude-env MCP_GATEWAY_API_KEY --log-level info --proxy-logs-dir /tmp/gh-aw/sandbox/firewall/logs --audit-dir /tmp/gh-aw/sandbox/firewall/audit --enable-host-access --allow-host-ports 80,443,8080 --skip-pull \
-            -- /bin/bash -c 'export PATH="${RUNNER_TEMP}/gh-aw/mcp-cli/bin:$PATH" && export PATH="$(find /opt/hostedtoolcache /home/runner/work/_tool -maxdepth 5 -type d -name bin 2>/dev/null | tr '\''\n'\'' '\'':'\'')$PATH"; [ -n "$GOROOT" ] && export PATH="$GOROOT/bin:$PATH" || true && GH_AW_NODE_EXEC="${GH_AW_NODE_BIN:-}"; if [ -z "$GH_AW_NODE_EXEC" ] || [ ! -x "$GH_AW_NODE_EXEC" ]; then GH_AW_NODE_EXEC="$(command -v node 2>/dev/null || true)"; fi; if [ -z "$GH_AW_NODE_EXEC" ]; then echo "node runtime missing on this runner — check runtimes.node in workflow YAML" >&2; exit 127; fi; "$GH_AW_NODE_EXEC" ${RUNNER_TEMP}/gh-aw/actions/copilot_harness.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --no-ask-user --allow-tool '\''github(create_issue_comment)'\'' --allow-tool '\''github(get_pull_request)'\'' --allow-tool '\''github(get_pull_request_review_comments)'\'' --allow-tool '\''github(list_pull_requests)'\'' --allow-tool '\''github(pull_request_read)'\'' --allow-tool safeoutputs --allow-tool '\''shell(cargo:*)'\'' --allow-tool '\''shell(cat .github/AGENTS.md)'\'' --allow-tool '\''shell(cat /tmp/review-comments.json)'\'' --allow-tool '\''shell(cat)'\'' --allow-tool '\''shell(date)'\'' --allow-tool '\''shell(echo)'\'' --allow-tool '\''shell(gh api repos/*/pulls/*/comments)'\'' --allow-tool '\''shell(gh pr diff)'\'' --allow-tool '\''shell(gh pr view)'\'' --allow-tool '\''shell(git add:*)'\'' --allow-tool '\''shell(git branch:*)'\'' --allow-tool '\''shell(git checkout:*)'\'' --allow-tool '\''shell(git commit:*)'\'' --allow-tool '\''shell(git diff)'\'' --allow-tool '\''shell(git log)'\'' --allow-tool '\''shell(git merge:*)'\'' --allow-tool '\''shell(git rm:*)'\'' --allow-tool '\''shell(git status)'\'' --allow-tool '\''shell(git switch:*)'\'' --allow-tool '\''shell(go:*)'\'' --allow-tool '\''shell(gofmt)'\'' --allow-tool '\''shell(goimports)'\'' --allow-tool '\''shell(grep)'\'' --allow-tool '\''shell(head)'\'' --allow-tool '\''shell(jq)'\'' --allow-tool '\''shell(just)'\'' --allow-tool '\''shell(ls)'\'' --allow-tool '\''shell(nickel)'\'' --allow-tool '\''shell(printf)'\'' --allow-tool '\''shell(pwd)'\'' --allow-tool '\''shell(safeoutputs:*)'\'' --allow-tool '\''shell(sort)'\'' --allow-tool '\''shell(staticcheck)'\'' --allow-tool '\''shell(tail)'\'' --allow-tool '\''shell(taplo)'\'' --allow-tool '\''shell(uniq)'\'' --allow-tool '\''shell(uv)'\'' --allow-tool '\''shell(wc)'\'' --allow-tool '\''shell(yq)'\'' --allow-tool write --allow-all-paths --add-dir "${GITHUB_WORKSPACE}" --prompt-file /tmp/gh-aw/aw-prompts/prompt.txt' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log
+            -- /bin/bash -c 'export PATH="${RUNNER_TEMP}/gh-aw/mcp-cli/bin:$PATH" && export PATH="$(find /opt/hostedtoolcache /home/runner/work/_tool -maxdepth 5 -type d -name bin 2>/dev/null | tr '\''\n'\'' '\'':'\'')$PATH"; [ -n "$GOROOT" ] && export PATH="$GOROOT/bin:$PATH" || true && GH_AW_NODE_EXEC="${GH_AW_NODE_BIN:-}"; if [ -z "$GH_AW_NODE_EXEC" ] || [ ! -x "$GH_AW_NODE_EXEC" ]; then GH_AW_NODE_EXEC="$(command -v node 2>/dev/null || true)"; fi; if [ -z "$GH_AW_NODE_EXEC" ]; then echo "node runtime missing on this runner — check runtimes.node in workflow YAML" >&2; exit 127; fi; "$GH_AW_NODE_EXEC" ${RUNNER_TEMP}/gh-aw/actions/copilot_harness.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --no-ask-user --allow-tool '\''github(create_issue_comment)'\'' --allow-tool '\''github(get_pull_request)'\'' --allow-tool '\''github(get_pull_request_review_comments)'\'' --allow-tool '\''github(list_pull_requests)'\'' --allow-tool '\''github(pull_request_read)'\'' --allow-tool safeoutputs --allow-tool '\''shell(cargo:*)'\'' --allow-tool '\''shell(cat .github/AGENTS.md)'\'' --allow-tool '\''shell(cat /tmp/review-comments.json)'\'' --allow-tool '\''shell(cat)'\'' --allow-tool '\''shell(date)'\'' --allow-tool '\''shell(echo)'\'' --allow-tool '\''shell(gh api repos/*/issues/*/comments)'\'' --allow-tool '\''shell(gh api repos/*/pulls/*/comments)'\'' --allow-tool '\''shell(gh api repos/*/pulls/*/reviews)'\'' --allow-tool '\''shell(gh pr diff)'\'' --allow-tool '\''shell(gh pr view)'\'' --allow-tool '\''shell(git add:*)'\'' --allow-tool '\''shell(git branch:*)'\'' --allow-tool '\''shell(git checkout:*)'\'' --allow-tool '\''shell(git commit:*)'\'' --allow-tool '\''shell(git diff)'\'' --allow-tool '\''shell(git log)'\'' --allow-tool '\''shell(git merge:*)'\'' --allow-tool '\''shell(git rm:*)'\'' --allow-tool '\''shell(git status)'\'' --allow-tool '\''shell(git switch:*)'\'' --allow-tool '\''shell(go:*)'\'' --allow-tool '\''shell(gofmt)'\'' --allow-tool '\''shell(goimports)'\'' --allow-tool '\''shell(grep)'\'' --allow-tool '\''shell(head)'\'' --allow-tool '\''shell(jq)'\'' --allow-tool '\''shell(just)'\'' --allow-tool '\''shell(ls)'\'' --allow-tool '\''shell(nickel)'\'' --allow-tool '\''shell(printf)'\'' --allow-tool '\''shell(pwd)'\'' --allow-tool '\''shell(safeoutputs:*)'\'' --allow-tool '\''shell(sort)'\'' --allow-tool '\''shell(staticcheck)'\'' --allow-tool '\''shell(tail)'\'' --allow-tool '\''shell(taplo)'\'' --allow-tool '\''shell(uniq)'\'' --allow-tool '\''shell(uv)'\'' --allow-tool '\''shell(wc)'\'' --allow-tool '\''shell(yq)'\'' --allow-tool write --allow-all-paths --add-dir "${GITHUB_WORKSPACE}" --prompt-file /tmp/gh-aw/aw-prompts/prompt.txt' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log
         env:
           AWF_REFLECT_ENABLED: 1
           COPILOT_AGENT_RUNNER_TYPE: STANDALONE
