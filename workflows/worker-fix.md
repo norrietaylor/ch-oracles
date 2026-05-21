@@ -70,6 +70,9 @@ safe-outputs:
     max: 1
     discussions: false
     pull-requests: false
+  report-incomplete:
+    labels:
+      - agent:worker-tuning
 
 tools:
   github:

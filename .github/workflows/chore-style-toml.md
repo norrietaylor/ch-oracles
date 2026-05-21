@@ -51,6 +51,9 @@ safe-outputs:
     labels:
       - agent:lint:toml
       - agent:autofix
+  report-incomplete:
+    labels:
+      - agent:lint:toml
 
 tools:
   github:

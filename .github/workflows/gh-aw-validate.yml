@@ -34,10 +34,17 @@ jobs:
             echo "::endgroup::"
           done
 
+      # gh-aw emits an invalid `queue: max` key under `concurrency:` in every
+      # lock file (see ch-oracles issue #28). Strip it after compile so the
+      # committed lock files match what GitHub Actions actually accepts.
+      - name: Strip invalid queue:max keys from lock files
+        run: |
+          python scripts/strip-invalid-queue-key.py .github/workflows/*.lock.yml
+
       - name: Assert lock files are current
         run: |
           if ! git diff --quiet -- .github/workflows; then
-            echo "::error::Compiled lock files are stale. Run 'gh aw compile workflows/*.md' locally and commit." >&2
+            echo "::error::Compiled lock files are stale. Run 'gh aw compile workflows/*.md && python scripts/strip-invalid-queue-key.py .github/workflows/*.lock.yml' locally and commit." >&2
             git --no-pager diff -- .github/workflows
             exit 1
           fi

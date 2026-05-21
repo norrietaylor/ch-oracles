@@ -51,6 +51,9 @@ safe-outputs:
     labels:
       - agent:lint:ncl
       - agent:autofix
+  report-incomplete:
+    labels:
+      - agent:lint:ncl
 
 tools:
   github:
