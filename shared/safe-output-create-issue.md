@@ -57,10 +57,15 @@ Before emitting any safe-output, run this dedup procedure:
    gh issue list --search "in:body \"finding-id: <chore>::<lang>::<identity>\""
    ```
 
-2. **If a matching open issue exists**: emit `update-issue` with
-   `issue_number=<n>` and `operation=replace`, posting the fresh body. Do
-   not call `create-issue`. Do not call `close-older-issues`-style closures;
-   mutating fixes should land via the worker chore, not this audit.
+2. **If a matching open issue exists**: emit `update-issue` with the
+   matched `issue_number=<n>` and `operation=replace`, posting the fresh
+   body. The `issue_number` parameter is **required** and MUST be the number
+   returned by step 1's search — the audit chores run on `schedule` and
+   `workflow_dispatch`, so the safe-output runtime is not in an issue-event
+   context and will reject any `update_issue` call that omits an explicit
+   `issue_number`. Do not call `create-issue`. Do not call
+   `close-older-issues`-style closures; mutating fixes should land via the
+   worker chore, not this audit.
 3. **If no matching open issue exists**: emit `create-issue` with the marker
    as the first body line.
 
