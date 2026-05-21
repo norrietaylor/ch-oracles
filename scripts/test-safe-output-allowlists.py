@@ -211,9 +211,9 @@ def extract_allowlist(frontmatter: dict, workflow_name: str) -> tuple[dict[str, 
 
     Walks `safe-outputs:` and pulls per-action label lists. Also returns the
     set of declared safe-output action keys (e.g. {create-issue,
-    update-issue, create-pull-request, add-labels, add-comment,
-    push-to-pull-request-branch, reply-to-pull-request-review-comment,
-    update-issue}). The action-key set powers the action-level audit.
+    update-issue, create-pull-request, push-to-pull-request-branch,
+    add-comment, add-labels, reply-to-pull-request-review-comment}).
+    The action-key set powers the action-level audit.
     """
     safe_outputs = frontmatter.get("safe-outputs") or {}
     if not isinstance(safe_outputs, dict):
