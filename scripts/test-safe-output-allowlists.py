@@ -349,13 +349,21 @@ def extract_prose_actions(combined_prose: str) -> set[str]:
     A reference is one of:
       - a backticked action token (`create-issue`, `add-comment`, ...)
       - a natural-language anchor declared in `ACTION_PROSE_ANCHORS`.
+
+    Lines under negative-section headings (e.g. "What you must not do")
+    are skipped: a mention there is a prohibition, not an invocation, and
+    must not satisfy direction 1 (invoked-but-not-allowlisted) nor keep a
+    direction-2 (allowlisted-but-not-invoked) entry alive.
     """
     actions: set[str] = set()
-    for token in BACKTICK_ACTION_PATTERN.findall(combined_prose):
-        actions.add(token)
-    for action, pattern in ACTION_PROSE_ANCHORS.items():
-        if pattern.search(combined_prose):
-            actions.add(action)
+    for line, section in iter_body_lines_with_section(combined_prose):
+        if is_negative_section(section):
+            continue
+        for token in BACKTICK_ACTION_PATTERN.findall(line):
+            actions.add(token)
+        for action, pattern in ACTION_PROSE_ANCHORS.items():
+            if pattern.search(line):
+                actions.add(action)
     return actions
 
 
@@ -372,6 +380,20 @@ def check_workflow(source_path: Path, shared_dir: Path) -> list[str]:
         frontmatter = yaml.safe_load(fm_text) or {}
     except yaml.YAMLError as exc:
         return [f"{name}: invalid YAML frontmatter ({exc})"]
+    if not isinstance(frontmatter, dict):
+        return [
+            f"{name}: invalid YAML frontmatter "
+            f"(top-level frontmatter must be a mapping)"
+        ]
+
+    # Missing safe-outputs is a contract violation. Checked here against
+    # the parsed YAML key — not raw file text — so a literal
+    # `safe-outputs:` inside a code fence cannot satisfy the guard.
+    if "safe-outputs" not in frontmatter:
+        return [
+            f"{name}: missing safe-outputs block "
+            f"(every chore workflow must declare a safe-outputs: contract)"
+        ]
 
     action_labels, declared_actions = extract_allowlist(frontmatter, name)
     all_allowed: set[str] = set()
@@ -477,25 +499,16 @@ def main() -> int:
 
     shared_dir = Path(args.shared_dir)
 
+    # The missing-`safe-outputs:` contract check lives inside
+    # `check_workflow()` so it inspects the parsed YAML key rather than
+    # any literal `safe-outputs:` mention in a code fence or prose.
     all_violations: list[str] = []
     checked = 0
     for src in sources:
         if not src.exists():
             sys.stderr.write(f"warn: {src} does not exist; skipping\n")
             continue
-        # A workflow source missing the `safe-outputs:` block is treated
-        # as a contract violation rather than silently skipped: every
-        # chore in this repo emits at least one safe-output, so an
-        # accidental removal of the block (e.g., during a refactor) must
-        # fail CI rather than slip through.
-        text = src.read_text(encoding="utf-8")
         checked += 1
-        if "safe-outputs:" not in text:
-            all_violations.append(
-                f"{src.stem}: missing safe-outputs block "
-                f"(every chore workflow must declare a safe-outputs: contract)"
-            )
-            continue
         all_violations.extend(check_workflow(src, shared_dir))
 
     if all_violations:
@@ -503,6 +516,13 @@ def main() -> int:
         for v in all_violations:
             sys.stderr.write(f"  - {v}\n")
         return 1
+
+    # If every requested source was missing (e.g. a CLI typo), exit
+    # non-zero so CI signals failure rather than reporting a clean run
+    # over zero files.
+    if checked == 0:
+        sys.stderr.write("no readable workflow sources were checked\n")
+        return 2
 
     print(f"checked {checked} workflow sources; safe-output allowlists match prose.")
     return 0
